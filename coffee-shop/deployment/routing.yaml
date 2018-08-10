@@ -30,6 +30,7 @@ spec:
         port:
           number: 9080
         subset: v1
+    timeout: 1s
 ---
 
 apiVersion: networking.istio.io/v1alpha3
