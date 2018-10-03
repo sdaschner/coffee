@@ -3,12 +3,17 @@
 
 
 
-            Service Meshes: Key Takeaways
 
-
-            • Transparently add technical cross-cutting concerns to microservices
-            • Think “AOP for applications”
-            • Routing, load-balancing, resiliency, telemetry, auth
-            • Integrates well with Java Enterprise approach:
-              • Business logic is responsibility of the applications
-              • Technical concerns are part of the environment
+                ^ |
+                | |
+            ┌───|─|───────────┐           ┌─────────────────┐
+            │ c | | -shop     │           │ barista         │
+            │┌──|─|──────────┐│           │┌───────────────┐│
+            ││  | v          ││           ││ POD           ││
+            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
+            │││proxy│->│main│││           │││proxy│->│main│││
+            ││└─────┘<-└────┘││           ││└─────┘<-└────┘││
+            │└──^─|──────────┘│           │└──^─|──────────┘│
+            └───|─|───────────┘           └───|─|───────────┘
+                | └---------------------------┘ |
+                └-------------------------------┘

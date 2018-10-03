@@ -7,7 +7,7 @@ endif
 "syn match azul "i-craft-shop\|aft-shop\|t-shop\|maker-bot\|i\s"
 syn match green "orderCoffee()\|startCoffeeBrew()"
 syn keyword blue main
-syn keyword azul POD PO
+syn keyword azul POD PO Pilot
 syn keyword red proxy
 
 hi def link red String
