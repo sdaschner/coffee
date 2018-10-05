@@ -1,11 +1,9 @@
 
 
 
+      Retries
 
-                 |
-                 | orderCoffee()
-                 | 
-                 | 
-            ┌────v────────┐                       ┌─────────────┐
-            │ coffee-shop │                       │   barista   │
-            └─────────────┘                       └─────────────┘
+      • Ironing-out temporary failures by immediately* retrying
+      • Avoiding unnecessary error responses
+      • Retries need to be a concious business decision
+

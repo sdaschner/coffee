@@ -1,15 +1,7 @@
 
 
 
+      Timeouts
 
-                  
-            Enterprise Coffee:
-                   
-                   
-            ┌─────────────┐                       ┌─────────────┐
-            │ coffee-shop │                       │   barista   │
-            └─────────────┘                       └─────────────┘
-
-
-
-
+      • Avoiding dead locks
+      • Liveness vs. progress

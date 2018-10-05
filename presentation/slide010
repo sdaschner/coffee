@@ -1,17 +1,8 @@
 
 
 
+      Backpressure
 
-
-
-                ^ | 
-                | | 
-            ┌───|─|───────┐           ┌─────────────┐
-            │ c | | -shop │           │ barista     │
-            │┌──|─|──────┐│           │┌───────────┐│
-            ││  | v      ││           ││ POD       ││
-            ││┌─────────┐││           ││┌─────────┐││
-            │││ main    ----------------> main    │││
-            ││└─────────<---------------└─────────┘││
-            │└───────────┘│           │└───────────┘│
-            └─────────────┘           └─────────────┘
+      • Notifying clients about heavy load or failures
+      • Eagerly failing
+      • Meeting response times (SLAs) vs. progress

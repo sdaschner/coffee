@@ -1,17 +1,8 @@
 
 
 
+      Calculating queue sizes
 
-
-
-                  |
-                  |
-            ┌─────|───────────┐           ┌─────────────────┐
-            │ cof | -shop     │           │ barista         │
-            │┌────|──────────┐│           │┌───────────────┐│
-            ││ PO v          ││           ││ POD           ││
-            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
-            │││proxy│->│main│││           │││proxy│  │main│││
-            ││└─────┘  └────┘││           ││└─────┘  └────┘││
-            │└───────────────┘│           │└───────────────┘│
-            └─────────────────┘           └─────────────────┘
+      • Little's Law
+      • Starting from maximum latency (SLA)
+      • queue_length = maximum_latency / (transaction_time / number_threads)

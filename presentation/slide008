@@ -1,19 +1,9 @@
 
 
 
+      Bulkheads
 
+      • Partition functionality in sections that will fail individually
+      • Prevent cascading errors
+      • Rest of the application stays functional
 
-            In Container Orchestration (Kubernetes)
-                   
-                   
-            ┌──────────────┐          ┌─────────────┐
-            │ coffee-shop  │          │ barista     │
-            │┌───────────┐ │          │┌───────────┐│
-            ││ POD       │┐│          ││ POD       ││
-            ││┌─────────┐│││          ││┌─────────┐││
-            │││ main    ││││          │││ main    │││
-            ││└─────────┘│││          ││└─────────┘││
-            │└───────────┘││          │└───────────┘│
-            │ └───────────┘│          └─────────────┘
-            │  ...         │          
-            └──────────────┘         

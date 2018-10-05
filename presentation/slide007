@@ -1,11 +1,10 @@
 
 
 
+      Circuit Breakers
 
-                ^|
-                || orderCoffee()
-                || 
-                || 
-            ┌───|v────────┐   startCoffeeBrew()   ┌─────────────┐
-            │ coffee-shop │---------------------->│   barista   │
-            └─────────────┘<----------------------└─────────────┘
+      • Detect failure or slow responses
+      • Prevents actions that are doomed to fail
+      • Deliberately interrupt execution to avoid further damage
+      • Might specify fallback behavior
+

@@ -1,17 +1,10 @@
 
 
 
+      Java EE Threading: What to be aware of
 
-
-            In Service Mesh (Istio)
-
-                   
-            ┌─────────────────┐           ┌─────────────────┐
-            │ coffee-shop     │           │ barista         │
-            │┌───────────────┐│           │┌───────────────┐│
-            ││ POD           ││           ││ POD           ││
-            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
-            │││proxy│  │main│││           │││proxy│  │main│││
-            ││└─────┘  └────┘││           ││└─────┘  └────┘││
-            │└───────────────┘│           │└───────────────┘│
-            └─────────────────┘           └─────────────────┘
+      • Threads must be managed by container
+      • Thread pool & queue sizes
+      • Rejected execution handlers
+      • Handling rejected executions
+      • (HTTP) request thread pools
