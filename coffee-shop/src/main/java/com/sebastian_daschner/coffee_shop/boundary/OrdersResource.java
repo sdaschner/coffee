@@ -16,7 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -55,7 +54,7 @@ public class OrdersResource {
         return Json.createObjectBuilder()
                 .add("type", order.getType().name())
                 .add("status", order.getStatus().name())
-                .add("_self", buildUri(order).toString())
+                .add("id", order.getId().toString())
                 .build();
     }
 
@@ -68,19 +67,10 @@ public class OrdersResource {
     @POST
     public CompletionStage<Response> orderCoffee(@Valid @NotNull CoffeeOrder order) {
         return CompletableFuture.supplyAsync(() -> coffeeShop.orderCoffee(order), writeExecutor)
-                .thenApply(o -> Response.created(buildUri(o)).build())
+                .thenApply(c -> Response.noContent().build())
                 .exceptionally(e -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .header("X-Error", e.getMessage())
                         .build());
-    }
-
-    private URI buildUri(CoffeeOrder order) {
-        return uriInfo.getBaseUriBuilder()
-                .host(request.getServerName())
-                .port(-1)
-                .path(OrdersResource.class)
-                .path(OrdersResource.class, "getOrder")
-                .build(order.getId());
     }
 
 }

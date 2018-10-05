@@ -43,3 +43,21 @@ spec:
     labels:
       version: v1
 ---
+
+# to self
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: coffee-shop
+spec:
+  hosts:
+  - "coffee-shop.example.com"
+  addresses:
+  - "35.204.78.17"
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: NONE
+  location: MESH_EXTERNAL
+---
