@@ -1,6 +1,6 @@
 == Enterprise Coffee
 
-The example project of my _Cloud Native, Service-Meshed Java Enterprise With Istio_ and _Bulletproof Java Enterprise For The Hard Production Life_ presentations.
+The example project of my _Bulletproof Java Enterprise For The Hard Production Life_ presentation.
 
 Comprises two applications, _coffee-shop_ and _barista_, which are deployed to a Kubernetes and Istio cluster.
 
