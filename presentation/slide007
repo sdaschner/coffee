@@ -7,4 +7,3 @@
       • Prevents actions that are doomed to fail
       • Deliberately interrupt execution to avoid further damage
       • Might specify fallback behavior
-

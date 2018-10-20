@@ -1,0 +1,8 @@
+// when to use which approach (EE, or service mesh based)
+- mention thread pools
+- connections are a nice extra feature, but e.g. HTTP timeouts shouldn't rely on environment
+- retries, it depends
+
+When to Use Which
+
+• service mesh resiliency as a fallback

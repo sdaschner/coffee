@@ -1,8 +1,10 @@
 
 
 
-      Calculating queue sizes
+      Java EE Threading: What to be aware of
 
-      • Little's Law
-      • Starting from maximum latency (SLA)
-      • queue_length = maximum_latency / (transaction_time / number_threads)
+      • Threads must be managed by container
+      • Thread pool & queue sizes
+      • Rejected execution handlers
+      • Handling rejected executions
+      • (HTTP) request thread pools
