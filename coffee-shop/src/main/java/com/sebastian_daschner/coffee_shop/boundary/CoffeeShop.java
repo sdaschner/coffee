@@ -19,6 +19,11 @@ public class CoffeeShop {
     Barista barista;
 
     public List<CoffeeOrder> getOrders() {
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return orders.retrieveAll();
     }
 
