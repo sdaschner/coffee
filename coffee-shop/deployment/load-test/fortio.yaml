@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: fortio
-        image: istio/fortio:latest_release
+        image: istio/fortio:1.1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

@@ -38,6 +38,13 @@ metadata:
   name: coffee-shop
 spec:
   host: coffee-shop
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 4
+      http:
+        http1MaxPendingRequests: 4
+        maxRequestsPerConnection: 2
   subsets:
   - name: v1
     labels:
@@ -53,7 +60,7 @@ spec:
   hosts:
   - "coffee-shop.example.com"
   addresses:
-  - "35.204.78.17"
+  - "169.46.11.42"
   ports:
   - number: 80
     name: http
