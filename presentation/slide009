@@ -1,31 +1,10 @@
 
 
 
-      Threading
 
 
-      ┌───┐┌───┐┌───┐┌───┐
-      │ T ││ ⭮ ││ ⭮ ││ ⭮ │ Thread pool
-      └───┘└───┘└───┘└───┘
-        ^    ^    ^    ^
-         \   |    |   /
-           \ \    / /
-              \   /
-              ┌───┐ 
-              │ - │ Queue
-              │ - │
-              │ - │
-               ...
+            Backpressure
 
-                ^
-                |
-
-
-
-
-
-
-
-
-
-
+            • Notifying clients about heavy load or failures
+            • Eagerly failing
+            • Meeting response times (SLAs) vs. progress

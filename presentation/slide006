@@ -1,8 +1,11 @@
 
 
 
-      Retries
 
-      • Ironing-out temporary failures by immediately* retrying
-      • Avoiding unnecessary error responses
-      • Retries need to be a concious business decision
+
+            Circuit Breakers
+
+            • Detect failure or slow responses
+            • Prevents actions that are doomed to fail
+            • Deliberately interrupt execution to avoid further damage
+            • Might specify fallback behavior

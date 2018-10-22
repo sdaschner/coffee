@@ -1,10 +1,26 @@
 
 
 
-      Java EE Threading: What to be aware of
 
-      • Threads must be managed by container
-      • Thread pool & queue sizes
-      • Rejected execution handlers
-      • Handling rejected executions
-      • (HTTP) request thread pools
+
+
+
+
+
+                     _____                 _              __  ___          __  
+                    / ___/___  ______   __(_)_______     /  |/  /__  _____/ /_ 
+                    \__ \/ _ \/ ___/ | / / / ___/ _ \   / /|_/ / _ \/ ___/ __ \
+                   ___/ /  __/ /   | |/ / / /__/  __/  / /  / /  __(__  ) / / /
+                  /____/\___/_/    |___/_/\___/\___/  /_/  /_/\___/____/_/ /_/ 
+                                                                               
+
+
+
+
+
+
+
+
+
+
+

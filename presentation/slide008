@@ -1,8 +1,32 @@
 
 
 
-      Bulkheads
 
-      • Partition functionality in sections that will fail individually
-      • Prevent cascading errors
-      • Rest of the application stays functional
+                                  Threading
+
+
+                                  ┌───┐┌───┐┌───┐┌───┐
+                                  │ T ││ ⭮ ││ ⭮ ││ ⭮ │ Thread pool
+                                  └───┘└───┘└───┘└───┘
+                                    ^    ^    ^    ^
+                                     \   |    |   /
+                                       \ \    / /
+                                          \   /
+                                          ┌───┐ 
+                                          │ - │ Queue
+                                          │ - │
+                                          │ - │
+                                           ...
+
+                                            ^
+                                            |
+
+
+
+
+
+
+
+
+
+

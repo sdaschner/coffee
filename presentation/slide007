@@ -1,9 +1,10 @@
 
 
 
-      Circuit Breakers
 
-      • Detect failure or slow responses
-      • Prevents actions that are doomed to fail
-      • Deliberately interrupt execution to avoid further damage
-      • Might specify fallback behavior
+
+            Bulkheads
+
+            • Partition functionality in sections that will fail individually
+            • Prevent cascading errors
+            • Rest of the application stays functional

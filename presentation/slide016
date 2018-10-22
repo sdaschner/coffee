@@ -1,8 +1,14 @@
-// when to use which approach (EE, or service mesh based)
-- mention thread pools
-- connections are a nice extra feature, but e.g. HTTP timeouts shouldn't rely on environment
-- retries, it depends
 
-When to Use Which
 
-• service mesh resiliency as a fallback
+
+
+
+            Thank You For Your attention!
+
+            • sebastian-daschner.com
+            • @DaschnerS
+            • Book: Architecting Modern Java EE Applications
+
+            • jakarta.ee
+            • microprofile.io
+            • istio.io

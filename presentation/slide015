@@ -1,14 +1,13 @@
-// show some slide from service-meshed talk, what istio provides us
--> refer to other talk, invite folks to join
-
-            Service Meshes
-
-            • Transparently add technical cross-cutting concerns to microservices
-            • Think “AOP for applications”
-            • Routing, load-balancing, resiliency, telemetry, auth
-            • Integrates well with Java Enterprise approach:
-              • Business logic is a responsibility of the applications
-              • Technical concerns are part of the environment
 
 
-// then, short demo, e.g. bulkheads
+
+
+
+            Bulletproof Enterprise Java: Key Takeaways
+
+            • Consider timeouts, circuit breakers, retries, bulkheads
+            • Mind the application server (request) thread pools
+            • Know your implementation
+            • Always test worst case scenarios
+            • There's no substitute for observability
+            • Service mesh resiliency can act as fallback

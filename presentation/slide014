@@ -3,36 +3,11 @@
 
 
 
-                          ┌───────────┐               ┌──────────────┐
-                          │Istio Pilot│ <--watches--> │Kubernetes API│
-                          └───────────┘               └──────────────┘
-                                 |
-                                 |
-                                 |
-                             configures
-                                 |
-                                 |
-                       Pod       |
-                      ┌──────────v───┐   connection-based        Pod
-                      │┌────┐ ┌─────┐│      resiliency          ┌───────────┐
-                      ││main│ │proxy│-------------------------> │coffee-shop│
-                      │└────┘ └─────┘│   outlier detection,     └───────────┘
-                      └──────────────┘   timeouts, retries,      
-                                          health checking
+            Service Meshes
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            • Transparently add technical cross-cutting concerns to microservices
+            • Think “AOP for applications”
+            • Routing, load-balancing, resiliency, telemetry, auth
+            • Integrates well with Java Enterprise approach:
+              • Business logic is a responsibility of the applications
+              • Technical concerns are part of the environment
