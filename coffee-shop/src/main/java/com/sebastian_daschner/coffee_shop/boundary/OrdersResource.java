@@ -1,5 +1,6 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
+import com.airhacks.porcupine.execution.boundary.Dedicated;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
 
 import javax.inject.Inject;
@@ -15,8 +16,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutorService;
 
 @Path("orders")
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,40 +35,42 @@ public class OrdersResource {
     @Context
     HttpServletRequest request;
 
+    @Inject
+    @Dedicated("coffee-read")
+    ExecutorService readExecutor;
+
+    @Inject
+    @Dedicated("coffee-order")
+    ExecutorService writeExecutor;
+
     @GET
-    public JsonArray getOrders() {
-        return coffeeShop.getOrders().stream()
+    public CompletionStage<JsonArray> getOrders() {
+        return CompletableFuture.supplyAsync(() -> coffeeShop.getOrders().stream()
                 .map(this::buildOrder)
-                .collect(JsonCollectors.toJsonArray());
+                .collect(JsonCollectors.toJsonArray()), readExecutor);
     }
 
     private JsonObject buildOrder(CoffeeOrder order) {
         return Json.createObjectBuilder()
                 .add("type", order.getType().name())
                 .add("status", order.getStatus().name())
-                .add("_self", buildUri(order).toString())
+                .add("id", order.getId().toString())
                 .build();
     }
 
     @GET
     @Path("{id}")
-    public CoffeeOrder getOrder(@PathParam("id") UUID id) {
-        return coffeeShop.getOrder(id);
+    public CompletionStage<CoffeeOrder> getOrder(@PathParam("id") UUID id) {
+        return CompletableFuture.supplyAsync(() -> coffeeShop.getOrder(id), readExecutor);
     }
 
     @POST
-    public Response orderCoffee(@Valid @NotNull CoffeeOrder order) {
-        final CoffeeOrder storedOrder = coffeeShop.orderCoffee(order);
-        return Response.created(buildUri(storedOrder)).build();
-    }
-
-    private URI buildUri(CoffeeOrder order) {
-        return uriInfo.getBaseUriBuilder()
-                .host(request.getServerName())
-                .port(-1)
-                .path(OrdersResource.class)
-                .path(OrdersResource.class, "getOrder")
-                .build(order.getId());
+    public CompletionStage<Response> orderCoffee(@Valid @NotNull CoffeeOrder order) {
+        return CompletableFuture.supplyAsync(() -> coffeeShop.orderCoffee(order), writeExecutor)
+                .thenApply(c -> Response.noContent().build())
+                .exceptionally(e -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .header("X-Error", e.getMessage())
+                        .build());
     }
 
 }
