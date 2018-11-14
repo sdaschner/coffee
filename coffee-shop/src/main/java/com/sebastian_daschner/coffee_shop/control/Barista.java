@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee_shop.control;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeType;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -25,6 +26,7 @@ public class Barista {
         target = client.target("http://barista:9080/barista/resources/brews");
     }
 
+    @CircuitBreaker
     public void startCoffeeBrew(CoffeeType type) {
         JsonObject requestBody = createRequestBody(type);
         Response response = sendRequest(requestBody);
