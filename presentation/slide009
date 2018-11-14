@@ -3,15 +3,9 @@
 
 
 
+            Development option: Java EE 8 / Jakarta EE plus MicroProfile additions
 
-                  | 
-                  | 
-            ┌─────|───────┐           ┌─────────────┐
-            │ cof | -shop │           │ barista     │
-            │┌────|──────┐│           │┌───────────┐│
-            ││ PO v      ││           ││ POD       ││
-            ││┌─────────┐││           ││┌─────────┐││
-            │││ main    │││           │││ main    │││
-            ││└─────────┘││           ││└─────────┘││
-            │└───────────┘│           │└───────────┘│
-            └─────────────┘           └─────────────┘
+            • Proven technology, known APIs
+            • MicroProfile projects fills the gaps
+            • E.g. Java EE plus MP Config, Fault Tolerance, Metrics, OpenTracing
+

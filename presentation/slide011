@@ -3,15 +3,9 @@
 
 
 
-            In Service Mesh (Istio)
+            Customizing The Runtime
 
-                   
-            ┌─────────────────┐           ┌─────────────────┐
-            │ coffee-shop     │           │ barista         │
-            │┌───────────────┐│           │┌───────────────┐│
-            ││ POD           ││           ││ POD           ││
-            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
-            │││proxy│  │main│││           │││proxy│  │main│││
-            ││└─────┘  └────┘││           ││└─────┘  └────┘││
-            │└───────────────┘│           │└───────────────┘│
-            └─────────────────┘           └─────────────────┘
+            • Required?
+            • Only including the required standards & runtime features
+            • Trade-off between time & material spent on either development or runtime
+            • Optimize the moving parts (deployment artifacts) first

@@ -3,15 +3,9 @@
 
 
 
+            Other EE Additions
 
-                ^ | 
-                | | 
-            ┌───|─|───────┐           ┌─────────────┐
-            │ c | | -shop │           │ barista     │
-            │┌──|─|──────┐│           │┌───────────┐│
-            ││  | v      ││           ││ POD       ││
-            ││┌─────────┐││           ││┌─────────┐││
-            │││ main    ----------------> main    │││
-            ││└─────────<---------------└─────────┘││
-            │└───────────┘│           │└───────────┘│
-            └─────────────┘           └─────────────┘
+            • Standards that not-quite-made-it-into umbrella Java EE
+              • JSR 371, MVC
+              • JSR 103, JCache
+            • Community additions (e.g. Porcupine, Breakr, Porcupine-Metrics)

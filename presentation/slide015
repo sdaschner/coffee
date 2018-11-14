@@ -2,23 +2,12 @@
 
 
 
-                   
-            ┌─────────────────┐           ┌─────────────────┐
-            │ coffee-shop     │           │ barista         │
-            │┌───────────────┐│           │┌───────────────┐│
-            ││ POD           ││           ││ POD           ││
-            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
-            │││proxy│  │main│││           │││proxy│  │main│││
-            ││└─────┘  └────┘││           ││└─────┘  └────┘││
-            │└───^───────────┘│           │└───^───────────┘│
-            └────|────────────┘           └────|────────────┘
-                 └----------------┐  ┌---------┘
-                                  |  |          
-                    Configuration |  |
-                    Routing Rules |  |  
-                    Policy checks |  |
-                        Telemetry |  |
-                                  v  v            
-                               ┌─────────┐    
-                               │  Pilot  │   
-                               └─────────┘
+
+            Thank You For Your Attention!
+
+            • sebastian-daschner.com/talks/jee-mp
+            • @DaschnerS
+            • Book: Architecting Modern Java EE Applications
+
+            • jakarta.ee
+            • microprofile.io

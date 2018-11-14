@@ -3,17 +3,9 @@
 
 
 
-            In Container Orchestration (Kubernetes)
-                   
-                   
-            ┌──────────────┐          ┌─────────────┐
-            │ coffee-shop  │          │ barista     │
-            │┌───────────┐ │          │┌───────────┐│
-            ││ POD       │┐│          ││ POD       ││
-            ││┌─────────┐│││          ││┌─────────┐││
-            │││ main    ││││          │││ main    │││
-            ││└─────────┘│││          ││└─────────┘││
-            │└───────────┘││          │└───────────┘│
-            │ └───────────┘│          └─────────────┘
-            │  ...         │          
-            └──────────────┘         
+            Development option: MicroProfile 2.0 alone
+
+            • Slim, lightweight, only modern APIs
+            • Hardly enough for production
+            • E.g. lacking JPA, JTA, Concurrency Utils, EJB (Timers, Asynchronous)
+

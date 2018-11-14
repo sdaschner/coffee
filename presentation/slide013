@@ -3,16 +3,10 @@
 
 
 
+            Key Takeaways
 
-                  |
-                  |  
-            ┌─────|───────────┐           ┌─────────────────┐
-            │ cof | -shop     │           │ barista         │
-            │┌────|──────────┐│           │┌───────────────┐│
-            ││ PO v          ││           ││ POD           ││
-            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
-            │││proxy│->│main│││           │││proxy│->│main│││
-            ││└─────┘<-└────┘││           ││└─────┘  └────┘││
-            │└────|──────────┘│           │└──^────────────┘│
-            └─────|───────────┘           └───|─────────────┘
-                  └---------------------------┘
+            • Use known APIs
+            • Think of MicroProfile as extensions for Java EE
+            • Development model that fits your need on application side
+            • Optimize deployment artifacts before runtime
+
