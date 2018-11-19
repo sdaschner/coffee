@@ -31,18 +31,14 @@ spec:
         ports:
         - containerPort: 9080
         livenessProbe:
-          exec:
-            command:
-            - /bin/bash
-            - -c
-            - curl -f localhost:9080/
+          httpGet:
+            path: /
+            port: 9080
           initialDelaySeconds: 40
         readinessProbe:
-          exec:
-            command:
-            - /bin/bash
-            - -c
-            - curl -f localhost:9080/barista/resources/health
+          httpGet:
+            path: /barista/resources/health
+            port: 9080
           initialDelaySeconds: 60
       imagePullSecrets:
       - name: regsecret

@@ -31,18 +31,14 @@ spec:
         ports:
         - containerPort: 9080
         livenessProbe:
-          exec:
-            command:
-            - /bin/bash
-            - -c
-            - curl -f localhost:9080/
+          httpGet:
+            path: /
+            port: 9080
           initialDelaySeconds: 40
         readinessProbe:
-          exec:
-            command:
-            - /bin/bash
-            - -c
-            - curl -f localhost:9080/coffee-shop/resources/health
+          httpGet:
+            path: /coffee-shop/resources/health
+            port: 9080
           initialDelaySeconds: 60
         env:
         - name: DEVELOPMENT
@@ -50,8 +46,6 @@ spec:
             configMapKeyRef:
               name: coffee-shop-config
               key: developmentMode
-      imagePullSecrets:
-      - name: regsecret
       restartPolicy: Always
 ---
 
@@ -62,4 +56,3 @@ metadata:
 data:
   developmentMode: "true"
 ---
-
