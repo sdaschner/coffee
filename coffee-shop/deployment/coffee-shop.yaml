@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: docker.sebastian-daschner.com/coffee-shop:service-mesh-build-1
+        image: sdaschner/coffee-shop:12factor-1
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
@@ -44,7 +44,22 @@ spec:
             - -c
             - curl -f localhost:9080/coffee-shop/resources/health
           initialDelaySeconds: 60
+        env:
+        - name: DEVELOPMENT
+          valueFrom:
+            configMapKeyRef:
+              name: coffee-shop-config
+              key: developmentMode
       imagePullSecrets:
       - name: regsecret
       restartPolicy: Always
 ---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: coffee-shop-config
+data:
+  developmentMode: "true"
+---
+

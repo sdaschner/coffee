@@ -11,12 +11,19 @@ import javax.ws.rs.core.Response;
 public class HealthResource {
 
     @Inject
-    @ConfigProperty(name = "version")
+    @ConfigProperty(name = "version", defaultValue = "N/A")
     String appServerVersion;
+
+    @Inject
+    @ConfigProperty(name = "development", defaultValue = "false")
+    boolean developmentMode;
 
     @GET
     public Response health() {
-        return Response.ok("OK").header("X-Open-Liberty", appServerVersion).build();
+        Response.ResponseBuilder builder = Response.ok("OK");
+        if (developmentMode)
+            builder.header("X-Open-Liberty", appServerVersion);
+        return builder.build();
     }
 
 }

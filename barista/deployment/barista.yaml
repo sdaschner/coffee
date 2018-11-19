@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: barista
-        image: docker.sebastian-daschner.com/barista:1
+        image: sdaschner/barista:12factor-1
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
