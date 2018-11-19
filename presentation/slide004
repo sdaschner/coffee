@@ -3,9 +3,8 @@
 
 
 
-            Java EE: What's Missing
+            Cloud Native
 
             • Resiliency
-            • Monitoring
-            • Injectable configuration
-            • Distributed tracing
+            • Observability
+            • Service discovery, traffic routing

@@ -2,10 +2,10 @@
 
 
 
-
-            Development option: Java EE 8 / Jakarta EE only
-
-            • Proven technology, includes a lot of required things
-            • Known standards & APIs
-            • Missing parts
-
+                 |
+  orderCoffee()  |
+                 | 
+                 | 
+            ┌────v────────┐                       ┌─────────────┐
+            │ coffee-shop │                       │   barista   │
+            └─────────────┘                       └─────────────┘

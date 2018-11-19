@@ -3,9 +3,10 @@
 
 
 
-            Customizing The Runtime
+            Key Takeaways
 
-            • Only including the required standards & runtime features
-            • Required?
-            • Trade-off between time & material spent on either development or runtime
-            • Optimize the moving parts (deployment artifacts) first
+            • 12-factor, cloud-native concerns for modern enterprise applications
+            • Containers & orchestration enable 12-factor, cloud-native apps
+            • Enterprise Java: Java EE plus MicroProfile to fill the gaps
+            • Service meshes enable resiliency, observability, traffic routing
+

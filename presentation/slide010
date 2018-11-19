@@ -3,9 +3,10 @@
 
 
 
-            Other EE Additions
+            MicroProfile as Java EE extension
 
-            • Standards that not-quite-made-it-into umbrella Java EE
-              • JSR 371, MVC
-              • JSR 107, JCache
-            • Community additions (e.g. Porcupine, Breakr, Porcupine-Metrics)
+            • Config
+            • Fault Tolerance
+            • Metrics
+            • Health Check
+            • Open Tracing

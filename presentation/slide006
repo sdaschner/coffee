@@ -2,17 +2,14 @@
 
 
 
-
-            MicroProfile: The Good Parts *
-
-            • CDI
-            • JAX-RS
-            • JSON-P / JSON-B
-            • Config
-            • Fault Tolerance
-            • Metrics
-            • Health Check
-            • Open Tracing
+                  
+            Enterprise Coffee:
+                   
+                   
+            ┌─────────────┐                       ┌─────────────┐
+            │ coffee-shop │                       │   barista   │
+            └─────────────┘                       └─────────────┘
 
 
-            * according to Sebastian Daschner
+
+
