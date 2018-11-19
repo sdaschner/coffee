@@ -1,15 +1,7 @@
 = Enterprise Coffee
 
-The example project of my _Java EE, Jakarta EE, MicroProfile, or maybe all of them?_ presentation.
+The example project of my _12-factor, Cloud Native Enterprise Java Applications_ presentation.
 
 Comprises two applications, _coffee-shop_ and _barista_, which can be deployed locally, or to a Kubernetes and Istio cluster.
-
-== Local Docker
-
-In order to run the Docker containers locally, execute `./docker-run-local.sh`.
-As a prerequisite, you need to create a Docker network first: + 
-`docker network create --subnet=192.168.42.0/24 dkrnet`
-
-== Istio
 
 Uses the Istio v1alpha3 networking API and requires Istio version ≥ `1.0`.
