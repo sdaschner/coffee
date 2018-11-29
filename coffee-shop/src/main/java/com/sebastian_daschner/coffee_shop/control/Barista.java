@@ -23,8 +23,8 @@ public class Barista {
     @PostConstruct
     private void initClient() {
         client = ClientBuilder.newBuilder()
-                .readTimeout(1, TimeUnit.SECONDS)
                 .connectTimeout(1, TimeUnit.SECONDS)
+                .readTimeout(1, TimeUnit.SECONDS)
                 .build();
         target = client.target("http://barista:9080/barista/resources/brews");
     }
