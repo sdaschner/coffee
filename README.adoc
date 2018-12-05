@@ -1,6 +1,6 @@
 = Enterprise Coffee
 
-The example project of my _Java EE, Jakarta EE, MicroProfile, or maybe all of them?_ presentation.
+The example project of my _Facing the Challenges of Microservice Development in the Cloud_ webinar.
 
 Comprises two applications, _coffee-shop_ and _barista_, which can be deployed locally, or to a Kubernetes and Istio cluster.
 
