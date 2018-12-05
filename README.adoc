@@ -13,3 +13,10 @@ As a prerequisite, you need to create a Docker network first: +
 == Istio
 
 Uses the Istio v1alpha3 networking API and requires Istio version ≥ `1.0`.
+
+== Further resources
+
+https://https://speakerdeck.com/sdaschner/facing-the-challenges-of-microservice-development-in-the-cloud[Presentation slides^]
+https://jakarta.ee[Jakarta EE^]
+https://microprofile.io[MicroProfile^]
+https://openliberty.io[Open Liberty^]
