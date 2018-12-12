@@ -8,4 +8,4 @@ docker run --rm -d \
   -p 9443:9443 \
   --name coffee-shop \
   --network dkrnet \
-  sdaschner/coffee-shop:microservices-webinar-1
+  sdaschner/coffee-shop:jakarta-ee-microprofile-1

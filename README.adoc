@@ -1,6 +1,6 @@
 = Enterprise Coffee
 
-The example project of my _Facing the Challenges of Microservice Development in the Cloud_ webinar.
+The example project of my _Java EE, Jakarta EE, MicroProfile, or maybe all of them?_ presentation.
 
 Comprises two applications, _coffee-shop_ and _barista_, which can be deployed locally, or to a Kubernetes and Istio cluster.
 
@@ -13,10 +13,3 @@ As a prerequisite, you need to create a Docker network first: +
 == Istio
 
 Uses the Istio v1alpha3 networking API and requires Istio version ≥ `1.0`.
-
-== Further resources
-
-- https://speakerdeck.com/sdaschner/facing-the-challenges-of-microservice-development-in-the-cloud[Presentation slides^]
-- https://jakarta.ee[Jakarta EE^]
-- https://microprofile.io[MicroProfile^]
-- https://openliberty.io[Open Liberty^]
