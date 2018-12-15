@@ -13,6 +13,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
 public class Barista {
@@ -22,7 +23,10 @@ public class Barista {
 
     @PostConstruct
     private void initClient() {
-        client = ClientBuilder.newClient();
+        client = ClientBuilder.newBuilder()
+                .connectTimeout(1, TimeUnit.SECONDS)
+                .readTimeout(2, TimeUnit.SECONDS)
+                .build();
         target = client.target("http://barista:9080/barista/resources/brews");
     }
 
