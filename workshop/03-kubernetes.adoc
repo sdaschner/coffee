@@ -1,0 +1,13 @@
+== Kubernetes
+
+
+- services, pods, deployments
+
+- code these resources
+
+- deploy
+  - config
+
+- mention Kubernetes ingresses
+
+- mention 12 factors

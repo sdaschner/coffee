@@ -1,0 +1,11 @@
+== Resiliency
+
+=== Istio
+
+- resiliency, add timeout
+- testing behavior, add fault and/or delay
+
+
+=== Application level
+
+- ...

@@ -1,0 +1,12 @@
+== Prerequisites
+
+.installed
+- Java 8+
+- Maven 3
+- Docker
+- kubectl
+- ibmcloud
+- curl
+
+.setup
+- `docker network create --subnet=192.168.42.0/24 dkrnet`, if you want to run the Docker containers locally

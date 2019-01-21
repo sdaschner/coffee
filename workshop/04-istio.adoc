@@ -1,0 +1,7 @@
+== Istio
+
+- explain concepts / sidecars
+
+- show default routes (diagram)
+- code default routes & gateways
+- deploy, show

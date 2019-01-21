@@ -1,0 +1,5 @@
+== Observability with Istio
+
+- monitoring
+- service graph (Kiali)
+- tracing, explain MicroProfile OpenTracing

@@ -1,0 +1,9 @@
+== Traffic management
+
+- explain default routes & gateways
+
+- Istio networking API
+
+- more advanced routing e.g. define multiple subsets & then balance or reroute to one or another
+
+- have another version of the application that will be deployed as subset v2

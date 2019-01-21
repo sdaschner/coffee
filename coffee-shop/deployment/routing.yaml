@@ -30,6 +30,7 @@ spec:
         port:
           number: 9080
         subset: v1
+# goal: add timeout to route
     timeout: 1s
 ---
 
