@@ -1,12 +1,30 @@
 == Prerequisites
 
-.installed
-- Java 8+
+As prerequisites to perform the workshop, you need to have the following tools installed on your laptop:
+
+- JDK 8+
 - Maven 3
 - Docker
-- kubectl
-- ibmcloud
-- curl
+- `kubectl`
+- https://cloud.ibm.com/docs/home/tools[IBM Cloud CLI^] (`ibmcloud`)
+// Emily, try out (Mac OS & Win (colleagues))
+- `curl`
 
-.setup
-- `docker network create --subnet=192.168.42.0/24 dkrnet`, if you want to run the Docker containers locally
+
+=== IBM Cloud account
+
+TODO
+
+- ibmcloud login
+- create Kubernetes cluster
+- install Istio
+- connect to cluster
+- test with `kubectl cluster-info`, `kubectl get nodes`, `kubectl get pods --all-namespaces`
+
+=== Local Docker setup
+
+If you want to try out the example locally, you have to create a Docker network similar to the following:
+
+----
+docker network create --subnet=192.168.42.0/24 dkrnet
+----

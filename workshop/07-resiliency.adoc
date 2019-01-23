@@ -8,4 +8,11 @@
 
 === Application level
 
-- ...
+- MicroProfile Fault Tolerance
+  - show timeouts, circuit breakers, and (maybe) bulkheads
+
+- differences b/w MicroProfile & Istio
+  - application-level, and service mesh-level
+  - timeouts
+  - circuit breakers (handling situations)
+  - ...

@@ -1,5 +1,10 @@
 == Observability with Istio
 
 - monitoring
+  - show default Grafana, technical related metrics
+
 - service graph (Kiali)
+
 - tracing, explain MicroProfile OpenTracing
+  esp. with Open Liberty
+  Jaeger

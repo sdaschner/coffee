@@ -31,7 +31,6 @@ Since we deploy only a single applications to each running server and thus runni
 
 Take a moment to have a brief look at the `openliberty/server.xml` file.
 We'll come back to it later.
-
 Now, we create a similar `Dockerfile` for the barista application, under `barista/`:
 
 [source,Dockerfile]

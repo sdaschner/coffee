@@ -1,0 +1,7 @@
+== Conclusion
+
+- benefits of cloud native technology
+
+- service meshes
+  - adding required cross-cutting concerns in a transparent way
+  - improving testability of applications (orchestration, service-lookup, fault-injection)
