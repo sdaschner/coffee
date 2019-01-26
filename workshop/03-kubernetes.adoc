@@ -208,11 +208,16 @@ kubectl get services
 
 === Ingresses
 
+TODO
+
 - show ingress resources
+- access service
 - IBM Cloud hello-world example (using generated DNS name)
 
 
 === Configuration
+
+TODO
 
 - show MicroProfile Config
   - enhance one application with injection of env
@@ -239,6 +244,10 @@ data:
 
 === 12 factors
 
+TODO
+
 - mention 12 factors
 - have a look at the https://12factor.net/[12 factors^]
 - try to comprehend how the combination of Jakarta EE / MicroProfile applications, Docker, and Kubernetes already fulfil the 12 factors of modern software-as-a-service applications.
+
+Now, we've setup a Kubernetes environment that orchestrates our microservices. Let's see how we can integrate Istio in the link:04-istio.adoc[next section].

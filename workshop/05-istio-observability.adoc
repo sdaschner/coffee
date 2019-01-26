@@ -1,5 +1,11 @@
 == Observability with Istio
 
+The fact that the sidecar proxy containers intercept all traffic enables them to inspect the information and attributes of HTTP connections.
+Istio adds observability to our microservices via this technique without requiring us to change the applications.
+It ships with monitoring, service graph dependency information, logging, and distributed tracing out of the box.
+
+TODO
+
 - monitoring
   - show default Grafana, technical related metrics
 
