@@ -1,11 +1,95 @@
 == Traffic management
 
-TODO
+In a previous part, we've examined how the basic building blocks of the Istio Networking API, virtual services, destination rules, and gateways work.
+In this section, we'll have a look at some more advanced traffic routing performed by Istio, rather than by standard Kubernetes means.
 
-- explain default routes & gateways
 
-- Istio networking API
+=== Updated coffee-shop
 
-- more advanced routing e.g. define multiple subsets & then balance or reroute to one or another
+In order to make some changes visible, we introduce a second version of our coffee-shop.
+So far we've used the base version (`version: v1`) only.
+For the following we add a second version of our microservice example which behaves slightly differently.
 
-- have another version of the application that will be deployed as subset v2
+However, this version is not simply a new version of the same application, which could be updated and deployed in a zero-downtime manner (i.e. transition `v1` -> `v2`).
+Rather, we specificly want two distinct versions to be available for a longer period of time, for example to perform A/B testing or canary releases.
+
+TODO change something in the application, deploy `version: v2`
+
+
+=== A/B testing with Istio
+
+A/B testing is a method of running tests against two separate service versions in order to determine which performs better according to a set of defined metrics.
+To add a second version of our coffee-shop service we enhance the coffee-shop destination rule and add a second subset:
+
+[source,yaml]
+----
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: coffee-shop
+spec:
+  host: coffee-shop
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+----
+
+We then apply the updated destination rule to the cluster.
+As you will notice, this will have no effect on the current scenario.
+
+If you have a look at the current coffee-shop virtual service, you'll notice that we route all incoming traffic to `v1` subset:
+
+----
+kubectl get virtualservice coffee-shop --output yaml
+----
+
+We enhance the routing rule to route to subset `v2` as well, but only for traffic which matches the HTTP header of a Firefox user agent:
+
+[source,yaml]
+----
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: coffee-shop
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - coffee-shop-gateway
+  http:
+  - match:
+    - headers:
+      user-agent:
+        regex: '.*Firefox.*'
+    route:
+    - destination:
+      host: coffee-shop
+        port:
+          number: 9080
+      subset: v2
+  - route:
+    - destination:
+        host: coffee-shop
+        port:
+          number: 9080
+        subset: v1
+---
+----
+
+The newly introduce rule will route the traffic from Firefox browsers to all instances that are contained in the `v2` service subset and leave the rest untouched, that is, everything else still routes to the `v1` subset.
+In Istio `VirtualService` rules, there can be only one rule for each service and therefore when defining multiple https://istio.io/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute[HTTPRoute^] blocks, the order in which they are defined in the YAML file matters.
+
+If we apply these changes to the cluster, we can now see a different behavior for requests that originate from a Firefox browser.
+Similarly, we can simulate that behavior from the command line, if we pass a corresponding header to `curl`:
+
+----
+curl -H ... ...
+----
+
+.other approaches
+- blue/green (version v1 / v2)
+- percentage routing, both at the same time (v1 / v2)

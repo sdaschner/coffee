@@ -35,7 +35,7 @@ spec:
 ---
 ----
 
-A virtual service defines the routing for a service that is part of the mesh.
+A virtual service defines the routing rules for a service that is part of the mesh.
 By default, all Kubernetes services are part of the service mesh.
 
 The routing to the barista service specifies that all requests that access the barista service are routed to the barista instances with the subset (i.e. additional label) `v1`.

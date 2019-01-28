@@ -4,13 +4,109 @@ The fact that the sidecar proxy containers intercept all traffic enables them to
 Istio adds observability to our microservices via this technique without requiring us to change the applications.
 It ships with monitoring, service graph dependency information, logging, and distributed tracing out of the box.
 
-TODO
+We can have a look at the pods and services that have been created under the `istio-system` namespace:
 
-- monitoring
-  - show default Grafana, technical related metrics
+----
+kubectl get pods -n istio-system
+kubectl get services -n istio-system
+----
 
-- service graph (Kiali)
+TODO generate traffic
 
-- tracing, explain MicroProfile OpenTracing
-  esp. with Open Liberty
-  Jaeger
+Now we have to create new coffee orders in the coffee-shop application, that is we connect to the application through the gateway, again:
+
+curl...
+
+=== Monitoring
+
+Our Istio installation comes with default monitoring and Grafana dashboards out of the box.
+In order to access the monitoring dashboards, we have to establish a connection to the Grafana pod.
+
+We could either create a dedicated service, and gateway that route to the pod, but for testing purposes, we establish a port forwarding from local port `3000` to the Grafana pod:
+
+----
+kubectl -n istio-system port-forward \
+  $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') \
+  3000:3000 &
+----
+
+Once that forwarding is established, we browse to http://localhost:3000 and navigate to the Istio Mesh Dashboard by clicking on the Home menu on the top left.
+
+You can explore all technical metrics that have been made available in Istio by default.
+
+
+=== Service Graph
+
+Our Istio installation also ships with a service graph which shows the dependencies and interactions between the individual services.
+
+We establish a port forwarding from local port `8088` to the service graph pod:
+
+----
+kubectl -n istio-system port-forward \
+  $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') \
+  8088:8088 &
+----
+
+TODO Kiali
+
+We browse to http://localhost:8088/ and explore the service graph instances.
+
+
+=== Tracing
+
+Our Istio installation also ships with distributed tracing which allows to trace down individual requests that occurred between our microservice instances.
+
+Distributed tracing is the only out-of-the-box observability feature that we look at that doesn't work without any involvement on our side.
+By default, Istio would have no chance to know that the two individual HTTP requests, the one between the ingress gateway and the coffee-shop service, and the one between the coffee-shop application and barista, are in fact correlated.
+
+TODO list headers (x-b3-...)
+
+What has to happen internally is that the coffee-shop application must retrieve and pass certain tracing header, that is HTTP headers.
+The sidecar containers can then observe and correlate this additional information.
+
+Initially, this would mean that our coffee-shop application would have to get the tracing headers from the incoming HTTP request, keep the information in the local request (thread) scope and add it to the outgoing HTTP request in the client that connects to the barista service, again.
+Luckily, with the help of MicroProfile OpenTracing, we don't have to do that manually.
+
+Our running application can be configured to use MicroProfile OpenTracing that passes this kind of information through all incoming and outgoing HTTP requests, if tracing headers have been available on the first request.
+
+In order to do that, we only have to instruct our Open Liberty servers to activate the corresponding feature.
+We don't have to change our Java code, nor the application build.
+This is solely a change on the infrastructure layer.
+
+TODO remove features initially
+
+We add the `mpOpenTracing-1.0` and `usr:opentracingZipkin-0.30` features to the `server.xml` configuration of our coffee-shop application:
+
+[source,xml]
+----
+...
+
+<featureManager>
+    <feature>javaee-8.0</feature>
+    <feature>mpMetrics-1.0</feature>
+    <feature>mpOpenTracing-1.0</feature>
+    <feature>usr:opentracingZipkin-0.30</feature>
+</featureManager>
+
+...
+----
+
+We could also enhance the barista service, however since these instances currently don't connect to any other services, that step is not necessarily required.
+
+We now build a new version of our coffee-shop Docker image, push that version to our image repository, update the coffee-shop deployment, and apply that deployment definition to the cluster, accordingly.
+
+While the change is rolling out, and our new coffee-shop version is starting up, we establish a port forwarding from local port 16686 to the tracing, i.e. Jaeger pod:
+
+----
+kubectl port-forward -n istio-system \
+  $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') \
+  16686:16686 &
+----
+
+We navigate our browser to http://localhost:16686 and scroll to the bottom and click on the '`Find Traces`' button to see the recent traces.
+
+TODO select ingress gateway in Jaeger
+
+If we examine the correct traces, we can see that our coffee-shop application synchronously connects to the barista backend.
+
+In the link:06-istio-routing.adoc[next section] we'll see how we instruct Istio to route our mesh traffic according to certain criteria.
