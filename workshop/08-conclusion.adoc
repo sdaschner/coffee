@@ -7,3 +7,5 @@ TODO
 - service meshes
   - adding required cross-cutting concerns in a transparent way
   - improving testability of applications (orchestration, service-lookup, fault-injection)
+
+Similarly, as an outlook, you could perform the steps of introducing a new subset, gradually switching the traffic in the routing rules until all traffic is routed to the new version as automated steps that are part of a deployment pipeline. TODO refer to some example or documentation

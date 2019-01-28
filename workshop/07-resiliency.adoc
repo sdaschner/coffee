@@ -1,11 +1,96 @@
 == Resiliency
 
+In this section we'll discuss resiliency in the world of microservices.
+First we'll have a look at what solutions Istio offers us already, transparent to the application, and afterwards we'll see what can be implemented with MicroProfile.
+
 === Istio
 
 TODO
 
-- resiliency, add timeout
-- testing behavior, add fault and/or delay
+Istio ships with some resiliency features, such as timeouts, circuit breakers, or retries.
+Since the sidecar proxy containers intercept all connection from and to the application containers, they have full control over HTTP traffic.
+
+That means, if our applications do not include for example connection timeouts, Istio can, as a last resort, ensure that a timeout will be triggered on a slow connection.
+This enables us to add at least certain resiliency patterns without changing applications.
+
+=== Timeouts
+
+Istio enables us to add simple timeout definitions on rules.
+For this to work, we need to ensure that the traffic is actually routed through virtual service rules, and not just uses the default rules, that is, the instances' labels need to match the specific subsets.
+
+We'll enhance our coffee-shop virtual service rules with a timeout of 1 second:
+
+[source,yaml]
+----
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: coffee-shop
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - coffee-shop-gateway
+  http:
+  - route:
+    - destination:
+        host: coffee-shop
+        port:
+          number: 9080
+        subset: v1
+    timeout: 1s
+---
+----
+
+NOTE: The `timeout` definition is contained in a specific route YAML object and will only be taken into account on that very rule.
+
+We update the virtual service to our cluster.
+Now, the overall time of the coffee order requests will not exceed one second.
+If the coffee-shop application, or any backend with which we communicate synchronously takes longer than that the sidecar proxy will respond with an HTTP error instead.
+
+==== Testing resiliency
+
+The challenge, however, is now to see whether our changes took effect as desired.
+We'd expect our applications to respond in much less than one second, therefore we would not see that error situation until it's in production.
+Luckily, Istio ships with functionality that purposely produces error situations, in order to test the resiliency of our services.
+
+The sidecars have two main means to do that: adding artficial delays, and failing requests.
+We can instruct the routing rules to add these fault scenarios, if required only on a given percentage of the requests.
+
+We modify the barista virtual service to add a 3 seconds delay for 50% of the requests:
+
+[source,yaml]
+----
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: barista
+spec:
+  hosts:
+  - barista
+  http:
+  - route:
+    - destination:
+        host: barista
+        subset: v1
+    fault:
+      delay:
+        fixedDelay: 3s
+        percent: 50
+---
+----
+
+If we apply this updated resource to the cluster, we will notice that some of the connections will in fact fail, after roughly 1 second.
+We don't see any request taking the whole 3 seconds, due to the timeout on the coffee-shop routing rules:
+
+TODO include curl, grep and log
+
+NOTE: The `fault` property is only meant for testing purposes. Please don't apply this to any other environment where you don't want connections to be slowed down or to randomly fail.
+
+Besides the obvious responses, we can also use our observability tools to inspect what is happening.
+Have a look at the Grafana dashboards and the Jaeger traces again, to see how the failing requests are made visible.
+
+TODO add further resources for retries, and bulkhead circuit breakers
 
 
 === Application level

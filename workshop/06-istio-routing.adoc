@@ -67,10 +67,10 @@ spec:
         regex: '.*Firefox.*'
     route:
     - destination:
-      host: coffee-shop
-        port:
-          number: 9080
-      subset: v2
+        host: coffee-shop
+          port:
+            number: 9080
+        subset: v2
   - route:
     - destination:
         host: coffee-shop
@@ -90,6 +90,46 @@ Similarly, we can simulate that behavior from the command line, if we pass a cor
 curl -H ... ...
 ----
 
-.other approaches
-- blue/green (version v1 / v2)
-- percentage routing, both at the same time (v1 / v2)
+=== Canary Deployments
+
+In canary deployments, newer versions of services are incrementally rolled out to users to minimize the risk and impact of any bugs introduced by the newer version.
+To begin incrementally routing traffic to the newer version of the coffee-shop service, we modify its virtual service:
+
+[source,yaml]
+----
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: coffee-shop
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - coffee-shop-gateway
+  http:
+  - route:
+    - destination:
+        host: coffee-shop
+          port:
+            number: 9080
+        subset: v2
+      weight: 20
+    - destination:
+        host: coffee-shop
+        port:
+          number: 9080
+        subset: v1
+      weight: 80
+---
+----
+
+In this modified rule, the routed traffic is split between the two subsets of the coffee-shop service.
+Traffic to the modernized version of our service is controlled on a percentage basis to limit the impact of any unforeseen bugs.
+This rule can be modified over time until eventually all traffic is directed to the newer version of the service.
+This would be part of an automated process, typically realized by a Continuous Deployment pipeline.
+
+We can see this rule in action by accessing our application again.
+If you're accessing the example through a browser, make sure that you're performing a hard refresh to remove any browser IP address caching.
+You should notice that the coffee-shop should swap between the first and second version at roughly the weight you specified.
+
+Now that we've managed some traffic with Istio, let's have a closer look how to make our microservices more resilient in the link:07-resiliency.adoc[next section].
