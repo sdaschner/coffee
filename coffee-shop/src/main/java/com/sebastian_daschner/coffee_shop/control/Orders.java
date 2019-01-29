@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee_shop.control;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
 
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
@@ -30,4 +31,11 @@ public class Orders {
     public void store(UUID id, CoffeeOrder order) {
         orders.put(id, order);
     }
+
+    public List<CoffeeOrder> getUnfinishedOrders() {
+        return orders.values().stream()
+                .filter(o -> o.getStatus() != OrderStatus.FINISHED)
+                .collect(Collectors.toList());
+    }
+
 }

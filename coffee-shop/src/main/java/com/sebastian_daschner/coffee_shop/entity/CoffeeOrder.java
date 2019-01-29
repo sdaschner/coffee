@@ -10,20 +10,16 @@ import java.util.UUID;
 public class CoffeeOrder {
 
     @JsonbTransient
-    private UUID id;
+    private final UUID id = UUID.randomUUID();
 
     @NotNull
     @JsonbTypeAdapter(CoffeeTypeDeserializer.class)
     private CoffeeType type;
 
-    private OrderStatus status = OrderStatus.PREPARING;
+    private OrderStatus status;
 
     public UUID getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public CoffeeType getType() {
