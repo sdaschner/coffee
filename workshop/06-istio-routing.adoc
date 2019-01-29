@@ -11,9 +11,62 @@ So far we've used the base version (`version: v1`) only.
 For the following we add a second version of our microservice example which behaves slightly differently.
 
 However, this version is not simply a new version of the same application, which could be updated and deployed in a zero-downtime manner (i.e. transition `v1` -> `v2`).
-Rather, we specificly want two distinct versions to be available for a longer period of time, for example to perform A/B testing or canary releases.
+Rather, we specifically want two distinct versions to be available for a longer period of time, for example to perform A/B testing or canary releases.
 
-TODO change something in the application, deploy `version: v2`
+Therefore, we make a change in the coffee-shop application to create a new version.
+The orders resource currently returns the coffee type in all-caps, since that is the name of the `CoffeeType` enum.
+We now change the Java code in the `OrdersResource` class to output the coffee type in lower case.
+Once we've re-built the Maven project, we build the coffee-shop Docker image, now with name `coffee-shop:2`.
+
+We create a new deployment definition that will deploy our new coffee-shop application, with and leave the previous one untouched:
+
+[source,yaml]
+----
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: coffee-shop-v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: coffee-shop
+        version: v2
+    spec:
+      containers:
+      - name: coffee-shop
+        image: TODO/coffee-shop:2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9080
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl -f localhost:9080/
+          initialDelaySeconds: 40
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - curl -f localhost:9080/coffee-shop/resources/health
+          initialDelaySeconds: 60
+      restartPolicy: Always
+---
+----
+
+Pods managed by this deployment will receive the labels `app: coffee-shop` and `version: v2`.
+The coffee-shop service would simply forward requests to this pod as well, however, since our traffic is routed by the Istio proxies, only the previous instances will receive traffic for now.
+
+We ensure that our new deployment and pods have been created:
+
+----
+kubectl get deployments
+kubectl get pods
+----
 
 
 === A/B testing with Istio

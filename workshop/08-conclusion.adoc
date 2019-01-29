@@ -1,11 +1,16 @@
 == Conclusion
 
-TODO
+We've now seen some of the benefits of cloud native technologies in action.
 
-- benefits of cloud native technology
+Containers and Docker simplifies and unifies the way how we build and ship our application binaries.
+Orchestration and Kubernetes organizes our workloads across large cluster environments and provides abstractions for our microservices.
+Services meshes and Istio enables us to enhance our services and add required cross-cutting concerns in a transparent way, without much change on our side.
+They also improve the testability of applications, by making it possible to inject failures and delays to provoke error situations.
 
-- service meshes
-  - adding required cross-cutting concerns in a transparent way
-  - improving testability of applications (orchestration, service-lookup, fault-injection)
+You've seen how to integrate our Enterprise Java applications into cloud native technologies.
+You have access to all code examples and infrastructure-as-code snippets.
+Now, take your learnings further and go build something cool!
 
-Similarly, as an outlook, you could perform the steps of introducing a new subset, gradually switching the traffic in the routing rules until all traffic is routed to the new version as automated steps that are part of a deployment pipeline. TODO refer to some example or documentation
+
+// Similarly, as an outlook, you could perform the steps of introducing a new subset, gradually switching the traffic in the routing rules until all traffic is routed to the new version as automated steps that are part of a deployment pipeline.
+// TODO refer to some example or documentation
