@@ -26,7 +26,7 @@ metadata:
 spec:
   containers:
   - name: coffee-shop
-    image: TODO/coffee-shop:1
+    image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
     ports:
     - containerPort: 9080
   restartPolicy: Always
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: TODO/coffee-shop:1
+        image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
       restartPolicy: Always
@@ -106,7 +106,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: TODO/coffee-shop:1
+        image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
         livenessProbe:
@@ -126,8 +126,7 @@ spec:
       restartPolicy: Always
 ----
 
-We create a YAML file with this content under the `deployment/` folders of both microservice projects.
-
+We create YAML files with this content under the `deployment/` folders of both microservice projects.
 One deployment will be called `coffee-shop`, like the one displayed, and the other one `barista`.
 Make sure that all names, labels, image, and URL declarations are correct.
 
