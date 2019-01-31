@@ -13,7 +13,7 @@ Under `coffee-shop/`, we create a `Dockerfile` with the following contents:
 ----
 FROM sdaschner/open-liberty:javaee8-tracing-jdk11-b2
 
-COPY openliberty/server.xml $CONFIG_DIR
+COPY liberty/server.xml $CONFIG_DIR
 
 COPY target/coffee-shop.war $DEPLOYMENT_DIR
 ----
@@ -26,10 +26,10 @@ For now, we can assume that this base image already includes an application serv
 This facilitates to add files to directories inside the container, whose location we don't have to manually specify.
 
 The `COPY` command copies resources from the host to the container, that is, they will end up in the resulting image.
-The `openliberty/server.xml` file contains the application-specific server configuration including the server features that we want to use in our service.
+The `liberty/server.xml` file contains the application-specific server configuration including the server features that we want to use in our service.
 Since we deploy only a single applications to each running server and thus running container, the server configuration is exclusively used for the individual applications.
 
-Take a moment to have a brief look at the `openliberty/server.xml` file.
+Take a moment to have a brief look at the `liberty/server.xml` file.
 We'll come back to it later.
 Now, we create a similar `Dockerfile` for the barista application, under `barista/`:
 
@@ -37,7 +37,7 @@ Now, we create a similar `Dockerfile` for the barista application, under `barist
 ----
 FROM sdaschner/open-liberty:javaee8-tracing-jdk11-b2
 
-COPY openliberty/server.xml $CONFIG_DIR
+COPY liberty/server.xml $CONFIG_DIR
 
 COPY target/barista.war $DEPLOYMENT_DIR
 ----

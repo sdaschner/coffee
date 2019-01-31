@@ -40,11 +40,9 @@ ibmcloud cr namespaces
 
 In order to test our new registry namespace, we pull a public image, re-tag it for our own registry, and push it:
 
-TODO change to actual Open Liberty image
-
 ----
-docker pull open-liberty:javaee8
-docker tag open-liberty:javaee8 registry.eu-de.bluemix.net/istio-workshop/open-liberty:1
+docker pull sdaschner/open-liberty:javaee8-tracing-b1
+docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-de.bluemix.net/istio-workshop/open-liberty:1
 docker push registry.eu-de.bluemix.net/istio-workshop/open-liberty:1
 ----
 
