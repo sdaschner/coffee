@@ -34,7 +34,7 @@ public class Orders {
 
     public List<CoffeeOrder> getUnfinishedOrders() {
         return orders.values().stream()
-                .filter(o -> o.getStatus() != OrderStatus.FINISHED)
+                .filter(o -> o.getStatus() != OrderStatus.COLLECTED)
                 .collect(Collectors.toList());
     }
 
