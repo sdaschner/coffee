@@ -26,8 +26,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: sdaschner/coffee-shop:service-mesh-build-1
-        imagePullPolicy: Always
+        image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
         livenessProbe:
@@ -46,4 +45,3 @@ spec:
           initialDelaySeconds: 60
       restartPolicy: Always
 ---
-

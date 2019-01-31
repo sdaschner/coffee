@@ -26,8 +26,7 @@ spec:
     spec:
       containers:
       - name: barista
-        image: sdaschner/barista:service-mesh-build-1
-        imagePullPolicy: Always
+        image: registry.eu-de.bluemix.net/istio-workshop/barista:1
         ports:
         - containerPort: 9080
         livenessProbe:

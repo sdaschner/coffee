@@ -10,10 +10,6 @@ spec:
     - destination:
         host: barista
         subset: v1
-    fault:
-      delay:
-        fixedDelay: 3s
-        percent: 50
 ---
 
 apiVersion: networking.istio.io/v1alpha3
