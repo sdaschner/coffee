@@ -71,6 +71,7 @@ In order to make this example work, our pods have to include the label.
 Therefore, we have to change and re-apply both deployment definitions.
 
 We will add the `version: v1` label to the labels section of the pod template metadata, again, to both our application deployments (the YAML files).
+Then, we update the deployment definitions against our cluster again (`kubectl apply`).
 
 
 === Gateway

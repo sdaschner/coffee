@@ -9,6 +9,7 @@ As prerequisites to perform the workshop, you need to have the following tools i
 - https://cloud.ibm.com/docs/home/tools[IBM Cloud CLI^] (`ibmcloud`)
 // Emily, try out (Mac OS & Win (colleagues))
 - `curl`
+- on Windows, access to a Unix shell (Babun, Cygwin, etc.)
 
 
 === IBM Cloud account

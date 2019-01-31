@@ -91,9 +91,8 @@ spec:
       version: v2
 ----
 
-We then apply the updated destination rule to the cluster.
+We apply the updated destination rule to the cluster.
 As you will notice, this will have no effect on the current scenario.
-
 If you have a look at the current coffee-shop virtual service, you'll notice that we route all incoming traffic to `v1` subset:
 
 ----
@@ -116,13 +115,13 @@ spec:
   http:
   - match:
     - headers:
-      user-agent:
-        regex: '.*Firefox.*'
+        user-agent:
+          regex: '.*Firefox.*'
     route:
     - destination:
         host: coffee-shop
-          port:
-            number: 9080
+        port:
+          number: 9080
         subset: v2
   - route:
     - destination:
@@ -140,8 +139,10 @@ If we apply these changes to the cluster, we can now see a different behavior fo
 Similarly, we can simulate that behavior from the command line, if we pass a corresponding header to `curl`:
 
 ----
-curl -H ... ...
+curl <IP address>/coffee-shop/resources/orders -H 'User-agent: Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0' -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}' 
+curl <IP address>/coffee-shop/resources/orders -H 'User-agent: Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0'
 ----
+
 
 === Canary Deployments
 
@@ -163,20 +164,20 @@ spec:
   - route:
     - destination:
         host: coffee-shop
-          port:
-            number: 9080
+        port:
+          number: 9080
         subset: v2
-      weight: 20
+      weight: 30
     - destination:
         host: coffee-shop
         port:
           number: 9080
         subset: v1
-      weight: 80
+      weight: 70
 ---
 ----
 
-In this modified rule, the routed traffic is split between the two subsets of the coffee-shop service.
+In this modified rule, the routed traffic is split between the two subsets of the coffee-shop service (70% to `v1` and 30% to `v2`).
 Traffic to the modernized version of our service is controlled on a percentage basis to limit the impact of any unforeseen bugs.
 This rule can be modified over time until eventually all traffic is directed to the newer version of the service.
 This would be part of an automated process, typically realized by a Continuous Deployment pipeline.

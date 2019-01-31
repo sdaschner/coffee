@@ -3,9 +3,15 @@
 In this section we'll discuss resiliency in the world of microservices.
 First we'll have a look at what solutions Istio offers us already, transparent to the application, and afterwards we'll see what can be implemented with MicroProfile.
 
-=== Istio
+In order to not get confused by different behavior of coffee-shop `v1` and `v2`, let's first revert the changes of the last section, and only have a single subset `v1`.
+This means, we change the coffee-shop virtual service, destination rule to the original one (`kubectl apply`), and remove the deployment `coffee-shop-v2` (`kubectl delete deployment coffee-shop-v2`).
+After the deployment has been deleted, the pods with version 2 will also be terminated.
 
-TODO
+NOTE: Although we can always change infrastructure-as-code files and apply them via `kubectl apply`, deletions of resources in files won't be detected by Kubernetes, since it only re-applies and updates the currently provided resources.
+Thus we need to explicitly `kubectl delete` obsolete resources.
+
+
+=== Istio
 
 Istio ships with some resiliency features, such as timeouts, circuit breakers, or retries.
 Since the sidecar proxy containers intercept all connection from and to the application containers, they have full control over HTTP traffic.
@@ -83,14 +89,21 @@ spec:
 If we apply this updated resource to the cluster, we will notice that some of the connections will in fact fail, after roughly 1 second.
 We don't see any request taking the whole 3 seconds, due to the timeout on the coffee-shop routing rules:
 
-TODO include curl, grep and log
+----
+while true; do
+curl <IP address>/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}' | grep HTTP
+sleep 1
+done
+----
 
 NOTE: The `fault` property is only meant for testing purposes. Please don't apply this to any other environment where you don't want connections to be slowed down or to randomly fail.
 
 Besides the obvious responses, we can also use our observability tools to inspect what is happening.
 Have a look at the Grafana dashboards and the Jaeger traces again, to see how the failing requests are made visible.
 
-TODO add further resources for retries, and bulkhead circuit breakers
+This lab only covers timeouts and basic faults.
+Istio also offers functionality for retries and circuit breakers which are also applied and configured declaratively via Istio resources.
+Have a look at the further resources to learn more.
 
 
 === Application level
@@ -105,3 +118,12 @@ TODO
   - timeouts
   - circuit breakers (handling situations)
   - ...
+
+
+=== Further resources
+
+TODO
+
+- resiliency (link docs)
+- circuit breaker
+- retries
