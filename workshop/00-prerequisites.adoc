@@ -7,14 +7,26 @@ As prerequisites to perform the workshop, you need to have the following tools i
 - Docker
 - `kubectl`
 - `helm` (Tiller not required)
-- https://cloud.ibm.com/docs/home/tools[IBM Cloud CLI^] (`ibmcloud`)
+- <<ibm-cloud-cli,IBM Cloud CLI>> (`ibmcloud`)
 - `curl`
 - on Windows, access to a Unix shell (Babun, Cygwin, etc.)
 
 
-=== IBM Cloud account
+=== IBM Cloud access
 
-==== Register IBM Cloud Account
+[[ibm-cloud-cli]]
+==== Installing IBM Cloud CLI
+
+Follow the steps listed under the https://console.bluemix.net/docs/cli/reference/bluemix_cli/download_cli.html#shell_install[Install from shell^] section to download and install the IBM Cloud CLI.
+
+- MacOS: `curl -fsSL https://clis.ng.bluemix.net/install/osx | sh`
+- Linux: `curl -fsSL https://clis.ng.bluemix.net/install/linux | sh`
+- Windows (Powershell): `iex(New-Object Net.WebClient).DownloadString('https://clis.ng.bluemix.net/install/powershell')`
+
+image::images/docs.gif[Documentation install CLI]
+
+
+==== Registering IBM Cloud Account
 
 Open a browser window and navigate to https://cloud.ibm.com/registration.
 
@@ -22,7 +34,7 @@ image::images/registration.png[Registration page]
 
 Fill in the registration form and follow the link in the validation email when it arrives.
 
-image::images/email.png[Registration page]
+image::images/email.png[Validation email]
 
 https://console.bluemix.net/login[Login into IBM Cloud^] using the account credentials you have registered.
 
@@ -30,6 +42,7 @@ NOTE: New IBM Cloud accounts default to a https://www.ibm.com/cloud/pricing[new 
 This account type provides free access to a subset of IBM Cloud resources.
 Lite accounts do not need a credit-card to sign up or expire after a set time period, i.e. 30 days.
 Developers using lite accounts are restricted to use Kubernetes lite / free cluster for which they can use the provided promo codes.
+
 
 ==== IBM Cloud CLI
 
@@ -64,6 +77,7 @@ Enter a number> 3
 
 https://console.bluemix.net/docs/containers/cs_clusters.html#clusters_ui[Create a Kubernetes cluster^] (lite or standard) using the https://cloud.ibm.com/containers-kubernetes/catalog/cluster/create[Cloud Console^] or CLI in region `eu-central` (Frankfurt).
 A lite / free cluster is sufficient for this workshop but feel free to create a standard cluster with your desired configuration.
+
 
 ==== Accessing the cluster
 
