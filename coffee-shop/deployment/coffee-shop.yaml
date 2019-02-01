@@ -10,6 +10,7 @@ spec:
   ports:
     - port: 9080
       name: http
+  type: NodePort
 ---
 
 kind: Deployment
