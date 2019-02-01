@@ -18,15 +18,15 @@ As prerequisites to perform the workshop, you need to have the following tools i
 
 Open a browser window and navigate to https://cloud.ibm.com/registration.
 
-image::images/registration.png[title="Registration page"]
+image::images/registration.png[Registration page]
 
 Fill in the registration form and follow the link in the validation email when it arrives.
 
-image::images/email.png[title="Registration page"]
+image::images/email.png[Registration page]
 
 https://console.bluemix.net/login[Login into IBM Cloud^] using the account credentials you have registered.
 
-INFO: New IBM Cloud accounts default to a https://www.ibm.com/cloud/pricing[new "`lite`" account version^].
+NOTE: New IBM Cloud accounts default to a https://www.ibm.com/cloud/pricing[new "`lite`" account version^].
 This account type provides free access to a subset of IBM Cloud resources.
 Lite accounts do not need a credit-card to sign up or expire after a set time period, i.e. 30 days.
 Developers using lite accounts are restricted to use Kubernetes lite / free cluster for which they can use the provided promo codes.
