@@ -205,13 +205,35 @@ kubectl get services
 ----
 
 
-=== Ingresses
+=== Accessing our applications
 
-TODO
+Now, we will connect to our coffee-shop application from outside the cluster.
 
-- show ingress resources
-- access service
-- IBM Cloud hello-world example (using generated DNS name)
+If we have created a lite cluster we have to connect to our application via the IP address of the (only) node and the node port of the service.
+Therefore, we retrieve the public IP address of our cluster:
+
+----
+ibmcloud cs workers <cluster-name>
+ID         Public IP       Private IP      Machine Type   State    Status   Zone    Version   
+kube-xxx   159.122.186.7   10.144.188.64   free           normal   Ready    mil01   1.10.12_1541   
+----
+
+And the node port of our coffee-shop application:
+
+----
+kubectl get service coffee-shop
+NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+coffee-shop   NodePort   172.21.23.149   <none>        9080:30995/TCP   2m
+----
+
+With the example details, we can access our coffee-shop application using the URL `159.122.186.7:30995`, by combining the public IP address and the node port of the service:
+
+----
+curl <ip-address>:<node-port>/coffee-shop/resources/health -i
+----
+
+NOTE: If you have created a standard cluster, you can use a Kubernetes ingress resources.
+However, in this workshop, we'll focus on Istio networking and thus will demonstrate Istio gateway resources instead (part of the next section).
 
 
 === Configuration
@@ -243,10 +265,9 @@ data:
 
 === 12 factors
 
-TODO
+The https://12factor.net/[12 factors^] of modern software-as-a-service applications describe what aspects developers should take into account.
+Have a look at the described factors and contemplate, where we've already covered these aspects by using Enterprise Java with cloud-native technologies.
+We'll discuss the impact of the 12 factors together.
 
-- mention 12 factors
-- have a look at the https://12factor.net/[12 factors^]
-- try to comprehend how the combination of Jakarta EE / MicroProfile applications, Docker, and Kubernetes already fulfil the 12 factors of modern software-as-a-service applications.
-
-Now, we've setup a Kubernetes environment that orchestrates our microservices. Let's see how we can integrate Istio in the link:04-istio.adoc[next section].
+Now, we've setup a Kubernetes environment that orchestrates our microservices.
+Let's see how we can integrate Istio in the link:04-istio.adoc[next section].

@@ -149,10 +149,12 @@ kubectl label namespace default istio-injection=enabled --overwrite
 kubectl create -f /tmp/istio.yaml
 ----
 
+This will install Istio 1.0.5 with distributed tracing, Grafana monitoring, Kiali, and automatic sidecar injection for the `default` namespace being enabled.
+
 Now, we ensure that the `istio-*` Kubernetes services have been deployed correctly.
 
 ----
-kubectl get svc -n istio-system
+kubectl get services -n istio-system
 ----
 
 ----

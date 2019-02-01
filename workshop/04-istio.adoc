@@ -149,21 +149,30 @@ spec:
 
 ==== Accesssing our applications
 
-If we now want to run our application and access it through the service mesh, we will call the gateway's IP address from outside of the cluster.
+If we now want to run our application and access it through the service mesh, we will access the gateway from outside the cluster.
 This requires, of course, that the gateway resource and all virtual service and destination rule resources have been applied to the mesh.
 
-We can acquire the gateway IP address through the CLI:
+If we have created a free cluster we, again, need to access the (gateway) service through the cluster's node IP address.
+Thus, we retrieve the node port of the `istio-ingressgateway` service, a service that's shipped by the Istio installation:
 
 ----
-kubectl get services -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+kubectl get services -n istio-system istio-ingressgateway
 ----
 
-If we access the service using this IP address, we should get successful responses for both the health check and order resources:
+We can get the HTTP/2 node port directly by using the following Go template:
 
 ----
-curl <IP address>/coffee-shop/resources/health -i
+kubectl get services -n istio-system istio-ingressgateway --template '{{range .spec.ports}}{{if eq .name "http2"}}{{.nodePort}}{{end}}{{end}}'
+----
+
+As a reminder, as seen in the last section, we'll retrieve the node IP address with the following command: `ibmcloud cs workers <cluster-name>`.
+
+We can then access the service using the node IP address and the node port of the `istio-ingressgateway` service:
+
+----
+curl <ip-address>:<node-port>/coffee-shop/resources/health -i
 ...
-curl <IP address>/coffee-shop/resources/orders -i
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i
 ----
 
 This scenario works completely without the Kubernetes ingress resource.
@@ -174,6 +183,21 @@ We can similarly use the `/orders` resource to create new coffee orders:
 ----
 curl <IP address>/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}'
 ----
+
+[NOTE]
+====================
+If we have a paid cluster, we can acquire the gateway IP address through the load balancer IP address of the `istio-ingressgateway` service:
+
+----
+kubectl get services -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+----
+
+We use this IP address and the default HTTP ports (`80` or `443`, respectively) to access the application from outside the cluster:
+
+----
+curl <gateway-ip-address>/coffee-shop/resources/health -i
+----
+====================
 
 In theory, this means that both of our services are working as expected and can communicate with each other.
 However, this assumption, or observation is hardly enough for a sytem that runs in production.
