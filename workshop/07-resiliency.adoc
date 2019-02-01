@@ -91,7 +91,10 @@ We don't see any request taking the whole 3 seconds, due to the timeout on the c
 
 ----
 while true; do
-curl <IP address>/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}' | grep HTTP
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}' \
+  | grep HTTP
 sleep 1
 done
 ----

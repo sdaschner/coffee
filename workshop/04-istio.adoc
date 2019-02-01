@@ -165,7 +165,20 @@ We can get the HTTP/2 node port directly by using the following Go template:
 kubectl get services -n istio-system istio-ingressgateway --template '{{range .spec.ports}}{{if eq .name "http2"}}{{.nodePort}}{{end}}{{end}}'
 ----
 
-As a reminder, as seen in the last section, we'll retrieve the node IP address with the following command: `ibmcloud cs workers <cluster-name>`.
+[NOTE]
+====================
+As a reminder, as seen in the last section, we'll retrieve the node IP address with one of the following commands.
+
+----
+ibmcloud cs workers <cluster-name>
+----
+
+If you have the `jq` CLI tool installed, you can also directly extract the IP address by invoking:
+
+----
+ibmcloud cs workers daschner-free-test --json | yq -r '.[0].publicIP'
+----
+====================
 
 We can then access the service using the node IP address and the node port of the `istio-ingressgateway` service:
 
@@ -181,7 +194,9 @@ Now, only the Istio resources would be required, besides the deployments and ser
 We can similarly use the `/orders` resource to create new coffee orders:
 
 ----
-curl <IP address>/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}'
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}'
 ----
 
 [NOTE]
@@ -189,7 +204,8 @@ curl <IP address>/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: appli
 If we have a paid cluster, we can acquire the gateway IP address through the load balancer IP address of the `istio-ingressgateway` service:
 
 ----
-kubectl get services -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+kubectl get services -n istio-system istio-ingressgateway \
+  -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ----
 
 We use this IP address and the default HTTP ports (`80` or `443`, respectively) to access the application from outside the cluster:

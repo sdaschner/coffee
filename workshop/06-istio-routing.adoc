@@ -139,8 +139,13 @@ If we apply these changes to the cluster, we can now see a different behavior fo
 Similarly, we can simulate that behavior from the command line, if we pass a corresponding header to `curl`:
 
 ----
-curl <IP address>/coffee-shop/resources/orders -H 'User-agent: Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0' -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}' 
-curl <IP address>/coffee-shop/resources/orders -H 'User-agent: Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0'
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i -XPOST \
+  -H 'User-agent: Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0' \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}'
+
+curl <ip-address>:<node-port>/coffee-shop/resources/orders \
+  -H 'User-agent: Mozilla/5.0 (X11; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0'
 ----
 
 

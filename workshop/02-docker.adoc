@@ -11,7 +11,7 @@ Under `coffee-shop/`, we create a `Dockerfile` with the following contents:
 
 [source,Dockerfile]
 ----
-FROM sdaschner/open-liberty:javaee8-tracing-jdk11-b2
+FROM sdaschner/open-liberty:javaee8-tracing-b1
 
 COPY liberty/server.xml $CONFIG_DIR
 
@@ -35,7 +35,7 @@ Now, we create a similar `Dockerfile` for the barista application, under `barist
 
 [source,Dockerfile]
 ----
-FROM sdaschner/open-liberty:javaee8-tracing-jdk11-b2
+FROM sdaschner/open-liberty:javaee8-tracing-b1
 
 COPY liberty/server.xml $CONFIG_DIR
 
@@ -131,7 +131,9 @@ If we have a look at the JAX-RS resource in the coffee-shop application, we can 
 Using `curl` this looks as follows:
 
 ----
-curl localhost:9080/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}'
+curl localhost:9080/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}'
 ----
 
 `-XPOST` specifies the `POST` HTTP method, `-H` the HTTP header, so the service knows that we're sending the JSON content type, and `-d` specifies the data that we send as HTTP request body.

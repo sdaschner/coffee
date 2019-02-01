@@ -15,7 +15,10 @@ Now we have to create new coffee orders in the coffee-shop application, that is 
 
 ----
 while true; do
-curl <IP address>/coffee-shop/resources/orders -i -XPOST -H 'Content-Type: application/json' -d '{"type":"Espresso"}' | grep HTTP
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}' \
+  | grep HTTP
 sleep 1
 done
 ----
