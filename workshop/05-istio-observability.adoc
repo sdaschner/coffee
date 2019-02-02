@@ -79,7 +79,7 @@ In order to do that, we only have to instruct our Open Liberty servers to activa
 We don't have to change our Java code, nor the application build.
 This is solely a change on the infrastructure layer.
 
-We add the `mpOpenTracing-1.2` and `usr:opentracingZipkin-0.31` features to the `server.xml` configuration of our coffee-shop application:
+We add the `microProfile-2.1` and `usr:opentracingZipkin-0.31` features to the `server.xml` configuration of our coffee-shop application:
 
 [source,xml]
 ----
@@ -87,8 +87,7 @@ We add the `mpOpenTracing-1.2` and `usr:opentracingZipkin-0.31` features to the 
 
 <featureManager>
     <feature>javaee-8.0</feature>
-    <feature>mpMetrics-1.0</feature>
-    <feature>mpOpenTracing-1.2</feature>
+    <feature>microProfile-2.1</feature>
     <feature>usr:opentracingZipkin-0.31</feature>
 </featureManager>
 

@@ -183,7 +183,7 @@ ibmcloud cs workers <cluster-name> --json | yq -r '.[0].publicIP'
 We can then access the service using the node IP address and the node port of the `istio-ingressgateway` service:
 
 ----
-curl <ip-address>:<node-port>/coffee-shop/resources/health -i
+curl <ip-address>:<node-port>/health -i
 ...
 curl <ip-address>:<node-port>/coffee-shop/resources/orders -i
 ----
@@ -211,7 +211,7 @@ kubectl get services -n istio-system istio-ingressgateway \
 We use this IP address and the default HTTP ports (`80` or `443`, respectively) to access the application from outside the cluster:
 
 ----
-curl <gateway-ip-address>/coffee-shop/resources/health -i
+curl <gateway-ip-address>/health -i
 ----
 ====================
 

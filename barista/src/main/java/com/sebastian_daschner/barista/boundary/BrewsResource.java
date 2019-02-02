@@ -8,7 +8,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("brews/{id}")
+@Path("/brews/{id}")
 public class BrewsResource {
 
     @Inject
