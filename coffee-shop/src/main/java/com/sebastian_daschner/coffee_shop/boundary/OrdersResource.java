@@ -1,6 +1,8 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -33,6 +35,8 @@ public class OrdersResource {
     HttpServletRequest request;
 
     @GET
+    @Fallback(fallbackMethod = "emptyOrders")
+    @Retry
     public JsonArray getOrders() {
         return coffeeShop.getOrders().stream()
                 .map(this::buildOrder)
@@ -45,6 +49,10 @@ public class OrdersResource {
                 .add("status", order.getStatus().name())
                 .add("_self", buildUri(order).toString())
                 .build();
+    }
+
+    public JsonArray emptyOrders() {
+        return Json.createArrayBuilder().build();
     }
 
     @GET
@@ -67,5 +75,4 @@ public class OrdersResource {
                 .path(OrdersResource.class, "getOrder")
                 .build(order.getId());
     }
-
 }
