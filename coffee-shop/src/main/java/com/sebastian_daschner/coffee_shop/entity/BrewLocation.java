@@ -7,7 +7,7 @@ public enum BrewLocation {
     JFOKUS,
     DEVNEXUS;
 
-    public static BrewLocation fromString(String string) {
+    public static BrewLocation of(String string) {
         return Stream.of(BrewLocation.values())
                 .filter(t -> t.name().equalsIgnoreCase(string))
                 .findAny().orElse(null);

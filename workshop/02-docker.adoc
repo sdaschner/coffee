@@ -51,19 +51,19 @@ For the coffee-shop application this looks as follows:
 
 ----
 cd coffee-shop/
-docker build -t registry.<region>.bluemix.net/istio-workshop/coffee-shop:1 .
+docker build -t registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1 .
 ----
 
-The image name, here `registry.<region>.bluemix.net/istio-workshop/coffee-shop:1`, implicitly contains the location of the image registry, image name, and version (or tag).
+The image name, here `registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1`, implicitly contains the location of the image registry, image name, and version (or tag).
 If an image with that name is being pulled or pushed, downloaded or uploaded, respectively, Docker thus already knows the destination.
 
-The `registry.<region>.bluemix.net/...` part indicates the used cloud service and our user name and namespace.
+The `registry.eu-gb.bluemix.net/...` part indicates the used cloud service and our user name and namespace.
 
 Again, we repeat this step for the barista application:
 
 ----
 cd ../barista/
-docker build -t registry.<region>.bluemix.net/istio-workshop/barista:1 .
+docker build -t registry.eu-gb.bluemix.net/istio-workshop/barista:1 .
 ----
 
 Congratulations, now we have two images stored locally, for the coffee-shop and barista applications that we can now run as Docker containers!
@@ -87,14 +87,13 @@ We start our containers as follows:
 docker run --rm -d \
   --name barista \
   --network dkrnet \
-  registry.<region>.bluemix.net/istio-workshop/barista:1
+  registry.eu-gb.bluemix.net/istio-workshop/barista:1
 
 docker run --rm -d \
   --name coffee-shop \
   --network dkrnet \
   -p 9080:9080 \
-  -p 9443:9443 \
-  registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
+  registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1
 ----
 
 These commands run our two applications as Docker containers.
@@ -153,8 +152,8 @@ Then we can later pull them from any environment, like a managed Kubernetes clus
 We push our Docker images with the following commands:
 
 ----
-docker push registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
-docker push registry.<region>.bluemix.net/istio-workshop/barista:1
+docker push registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1
+docker push registry.eu-gb.bluemix.net/istio-workshop/barista:1
 ----
 
 You will notice, that the second `push` commands runs much faster and outputs that almost all layers already exist in the remote repository.

@@ -58,25 +58,29 @@ ibmcloud plugin install container-service
 To verify that the plug-in is installed properly, run `ibmcloud plugin list`.
 The Container Service plug-in is displayed in the results as `container-service/kubernetes-service`.
 
-Initialize the Container Service plug-in and point the endpoint to your region.
-For example when prompted, enter `3` for `us-east`.
+Initialize the Container Service plug-in and point the endpoint to your region:
 
 ----
-ibmcloud cs region-set
-Choose a region:
-1. ap-north
-2. ap-south
-3. eu-central
-4. uk-south
-5. us-east
-6. us-south
-Enter a number> 3
+ibmcloud cs region-set eu-gb
 ----
+
+All subsequent CLI commands will operate in that region.
+
 
 === IBM Kubernetes Service
 
-https://console.bluemix.net/docs/containers/cs_clusters.html#clusters_ui[Create a Kubernetes cluster^] (lite or standard) using the https://cloud.ibm.com/containers-kubernetes/catalog/cluster/create[Cloud Console^] or CLI in region `eu-central` (Frankfurt).
+https://console.bluemix.net/docs/containers/cs_clusters.html#clusters_ui[Create a Kubernetes cluster^] (lite or standard) using the https://cloud.ibm.com/containers-kubernetes/catalog/cluster/create[Cloud Console^] or CLI in region `eu-gb` (London).
 A lite / free cluster is sufficient for this workshop but feel free to create a standard cluster with your desired configuration.
+
+NOTE: When you're using the CLI or the browser Cloud console, always make sure you're viewing the correct region, as your resources will only be visible in its region.
+
+==== Promo Codes
+
+In order that you can easily execute the workshop, we're providing promo codes to create lite clusters, even if you don't want to provide your credit card details.
+You apply the provided promo code under your https://cloud.ibm.com/account[Cloud Account^] ("`Manage`" -> "`Account`") by navigating to "`Account settings`".
+Apply your personal Feature (Promo) Code there.
+
+NOTE: Lite clusters expire after one month.
 
 
 ==== Accessing the cluster
@@ -223,6 +227,7 @@ We log into the Container Registry service via the `ibmcloud` CLI and obtain the
 
 ----
 ibmcloud cr login
+ibmcloud cr region-set eu-gb
 ibmcloud cr region
 You are targeting region 'uk-south', the registry is 'registry.eu-gb.bluemix.net'.
 ----
@@ -238,8 +243,8 @@ In order to test our new registry namespace, we pull a public image, re-tag it f
 
 ----
 docker pull sdaschner/open-liberty:javaee8-tracing-b1
-docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.<region>.bluemix.net/istio-workshop/open-liberty:1
-docker push registry.<region>.bluemix.net/istio-workshop/open-liberty:1
+docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-gb.bluemix.net/istio-workshop/open-liberty:1
+docker push registry.eu-gb.bluemix.net/istio-workshop/open-liberty:1
 ----
 
 Let's see whether our image is now in the private registry:

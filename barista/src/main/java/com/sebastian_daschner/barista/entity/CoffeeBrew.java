@@ -4,18 +4,13 @@ public class CoffeeBrew {
 
     private String status = "PREPARING";
     private String type;
-    private String location;
 
     public CoffeeBrew() {
     }
 
-    public CoffeeBrew(String type, String location) {
+    public CoffeeBrew(String type) {
         this.type = type;
-        this.location = location;
     }
-
-    public void setLocation(String location) {this.location= location;}
-    public String getLocation() {return this.location;}
 
     public String getStatus() {
         return status;

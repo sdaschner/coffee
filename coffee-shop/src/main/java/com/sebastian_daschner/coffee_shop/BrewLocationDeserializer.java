@@ -3,7 +3,6 @@ package com.sebastian_daschner.coffee_shop;
 
 import com.sebastian_daschner.coffee_shop.entity.BrewLocation;
 
-
 import javax.json.bind.adapter.JsonbAdapter;
 
 public class BrewLocationDeserializer implements JsonbAdapter<BrewLocation, String> {
@@ -15,6 +14,6 @@ public class BrewLocationDeserializer implements JsonbAdapter<BrewLocation, Stri
 
     @Override
     public BrewLocation adaptFromJson(String type) {
-        return BrewLocation.fromString(type);
+        return BrewLocation.of(type);
     }
 }

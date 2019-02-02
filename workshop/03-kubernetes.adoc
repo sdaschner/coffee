@@ -26,7 +26,7 @@ metadata:
 spec:
   containers:
   - name: coffee-shop
-    image: registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
+    image: registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1
     ports:
     - containerPort: 9080
   restartPolicy: Always
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
+        image: registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
       restartPolicy: Always
@@ -106,7 +106,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
+        image: registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
         livenessProbe:
@@ -176,6 +176,7 @@ spec:
   ports:
     - port: 9080
       name: http
+  type: NodePort
 ----
 
 The service resource only defines a name, some meta data labels, and where to route traffic to: all pods that match the given selector.

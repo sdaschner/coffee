@@ -3,6 +3,7 @@ package com.sebastian_daschner.coffee_shop.boundary;
 import com.sebastian_daschner.coffee_shop.control.Barista;
 import com.sebastian_daschner.coffee_shop.control.OrderProcessor;
 import com.sebastian_daschner.coffee_shop.control.Orders;
+import com.sebastian_daschner.coffee_shop.entity.BrewLocation;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
 import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
 
@@ -32,11 +33,17 @@ public class CoffeeShop {
     }
 
     public CoffeeOrder orderCoffee(CoffeeOrder order) {
+        setDefaultLocation(order);
         OrderStatus status = barista.brewCoffee(order);
         order.setStatus(status);
 
         orders.store(order.getId(), order);
         return order;
+    }
+
+    private void setDefaultLocation(CoffeeOrder order) {
+        if (order.getLocation() == null)
+            order.setLocation(BrewLocation.HOME);
     }
 
     public void processUnfinishedOrders() {

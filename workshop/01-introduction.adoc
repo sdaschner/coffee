@@ -17,8 +17,8 @@ The applications are deployed to Open Liberty, an open-source application server
 To get started, clone the Git repository and use the projects that are provided inside:
 
 ----
-git clone TODO/branch/-start
-cd TODO
+git clone https://github.com/sdaschner/coffee --branch=istio-workshop
+cd coffee/
 ----
 
 

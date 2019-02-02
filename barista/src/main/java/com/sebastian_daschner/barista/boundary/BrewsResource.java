@@ -45,7 +45,6 @@ public class BrewsResource {
         return Json.createObjectBuilder()
                 .add("status", brew.getStatus())
                 .add("type", brew.getType())
-                .add("location", brew.getLocation())
                 .build();
     }
 

@@ -13,13 +13,18 @@ public class CoffeeOrder {
     @JsonbTransient
     private final UUID id = UUID.randomUUID();
 
-    public UUID getId() {
-        return id;
-    }
-
     @NotNull
     @JsonbTypeAdapter(CoffeeTypeDeserializer.class)
     private CoffeeType type;
+
+    private OrderStatus status;
+
+    @JsonbTypeAdapter(BrewLocationDeserializer.class)
+    private BrewLocation location;
+
+    public UUID getId() {
+        return id;
+    }
 
     public CoffeeType getType() {
         return type;
@@ -29,24 +34,6 @@ public class CoffeeOrder {
         this.type = type;
     }
 
-    @JsonbTypeAdapter(BrewLocationDeserializer.class)
-    private BrewLocation location;
-
-    public BrewLocation getLocation() {
-        return location;
-    }
-
-    public void setLocation(BrewLocation location) {
-        this.location = location;
-    }
-
-
-
-    private OrderStatus status;
-
-
-
-
     public OrderStatus getStatus() {
         return status;
     }
@@ -55,7 +42,13 @@ public class CoffeeOrder {
         this.status = status;
     }
 
+    public BrewLocation getLocation() {
+        return location;
+    }
 
+    public void setLocation(BrewLocation location) {
+        this.location = location;
+    }
 
     @Override
     public String toString() {
@@ -66,5 +59,4 @@ public class CoffeeOrder {
                 ", location=" + location +
                 '}';
     }
-
 }

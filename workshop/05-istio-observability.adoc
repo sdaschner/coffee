@@ -77,9 +77,11 @@ Our running application can be configured to use MicroProfile OpenTracing that p
 
 In order to do that, we only have to instruct our Open Liberty servers to activate the corresponding feature.
 We don't have to change our Java code, nor the application build.
-This is solely a change on the infrastructure layer.
+This is solely configured on the infrastructure layer.
 
-We add the `mpOpenTracing-1.2` and `usr:opentracingZipkin-0.31` features to the `server.xml` configuration of our coffee-shop application:
+Have a look at the `server.xml` configuration of our coffee-shop application:
+Besides the `javaee-8.0` feature it already contains the features for `microProfile-2.1` and `usr:opentracingZipkin-0.31`.
+This will automatically pass the tracing HTTP headers.
 
 [source,xml]
 ----
@@ -87,19 +89,14 @@ We add the `mpOpenTracing-1.2` and `usr:opentracingZipkin-0.31` features to the 
 
 <featureManager>
     <feature>javaee-8.0</feature>
-    <feature>mpMetrics-1.0</feature>
-    <feature>mpOpenTracing-1.2</feature>
+    <feature>microProfile-2.1</feature>
     <feature>usr:opentracingZipkin-0.31</feature>
 </featureManager>
 
 ...
 ----
 
-We could also enhance the barista service, however since these instances currently don't connect to any other services, that step is not necessarily required.
-
-We now build a new version of our coffee-shop Docker image, push that version to our image repository, update the coffee-shop deployment, and apply that deployment definition to the cluster, accordingly.
-
-While the change is rolling out, and our new coffee-shop version is starting up, we establish a port forwarding from local port 16686 to the tracing, i.e. Jaeger pod:
+Now, we establish a port forwarding from local port 16686 to the tracing, i.e. Jaeger pod:
 
 ----
 kubectl port-forward -n istio-system \
