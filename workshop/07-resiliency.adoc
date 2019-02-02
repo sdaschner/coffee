@@ -60,7 +60,7 @@ The challenge, however, is now to see whether our changes took effect as desired
 We'd expect our applications to respond in much less than one second, therefore we would not see that error situation until it's in production.
 Luckily, Istio ships with functionality that purposely produces error situations, in order to test the resiliency of our services.
 
-The sidecars have two main means to do that: adding artficial delays, and failing requests.
+The sidecars have two main means to do that: adding artificial delays, and failing requests.
 We can instruct the routing rules to add these fault scenarios, if required only on a given percentage of the requests.
 
 We modify the barista virtual service to add a 3 seconds delay for 50% of the requests:

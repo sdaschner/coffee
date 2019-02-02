@@ -57,7 +57,7 @@ kubectl -n istio-system port-forward \
 ----
 
 We browse to http://localhost:20001/ and explore the service graph instances under "`Graph`".
-Explore the avilable options under "`Display`" and "`Graph Type`".
+Explore the available options under "`Display`" and "`Graph Type`".
 
 
 === Tracing (Jaeger)

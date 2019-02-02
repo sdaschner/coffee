@@ -143,7 +143,12 @@ export PATH=$PWD/istio-<version-number>/bin:$PATH
 We switch the directory into to the Istio file location: `cd istio-<version-number>` and we install Istio’s resource definitions via the following commands:
 
 ----
-helm template $PWD/install/kubernetes/helm/istio --name istio --namespace istio-system --set tracing.enabled=true --set grafana.enabled=true --set kiali.enabled=true > /tmp/istio.yaml
+helm template $PWD/install/kubernetes/helm/istio --name istio --namespace istio-system \
+  --set tracing.enabled=true \
+  --set grafana.enabled=true \
+  --set kiali.enabled=true \
+  --set pilot.traceSampling=100.0 \
+  > /tmp/istio.yaml
 kubectl create namespace istio-system
 kubectl label namespace default istio-injection=enabled --overwrite
 kubectl create -f /tmp/istio.yaml
@@ -214,26 +219,27 @@ Congratulations! We now successfully installed Istio into our cluster.
 In order to build and distribute Docker images, we need a Docker registry.
 We can use the IBM Container Registry which can be accessed right away from our Kubernetes cluster.
 
-We log into the Container Registry service via the `ibmcloud` CLI:
+We log into the Container Registry service via the `ibmcloud` CLI and obtain the information about our registry:
 
 ----
 ibmcloud cr login
+ibmcloud cr region
+You are targeting region 'uk-south', the registry is 'registry.eu-gb.bluemix.net'.
 ----
 
 We use the CLI to create a namespace in the Container Registry service (`cr`) for our workshop:
 
 ----
-ibmcloud cr region
 ibmcloud cr namespace-add istio-workshop
 ibmcloud cr namespaces
 ----
 
-In order to test our new registry namespace, we pull a public image, re-tag it for our own registry, and push it:
+In order to test our new registry namespace, we pull a public image, re-tag it for our own registry, for our region, and push it:
 
 ----
 docker pull sdaschner/open-liberty:javaee8-tracing-b1
-docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-de.bluemix.net/istio-workshop/open-liberty:1
-docker push registry.eu-de.bluemix.net/istio-workshop/open-liberty:1
+docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.<region>.bluemix.net/istio-workshop/open-liberty:1
+docker push registry.<region>.bluemix.net/istio-workshop/open-liberty:1
 ----
 
 Let's see whether our image is now in the private registry:
@@ -242,6 +248,8 @@ Let's see whether our image is now in the private registry:
 ibmcloud cr images
 ----
 
+NOTE: In all following examples, you will need to adapt the image / registry name, if your assigned region differs from the example (`eu-de`).
+This is important to take into consideration, otherwise the examples won't work since the images won't exist in your account.
 
 === Local Docker setup
 

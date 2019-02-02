@@ -26,7 +26,7 @@ metadata:
 spec:
   containers:
   - name: coffee-shop
-    image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
+    image: registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
     ports:
     - containerPort: 9080
   restartPolicy: Always
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
+        image: registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
       restartPolicy: Always
@@ -89,7 +89,7 @@ There are multiple types of https://kubernetes.io/docs/concepts/workloads/pods/p
 We use an exec action which can execute an arbitrary binary inside the container.
 The `curl` commands will connect to the application servers, and the health check resources, respectively.
 
-Now, have a look a the resulting deployment definition:
+Now, have a look at the resulting deployment definition:
 
 [source,yaml]
 ----
@@ -106,7 +106,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-de.bluemix.net/istio-workshop/coffee-shop:1
+        image: registry.<region>.bluemix.net/istio-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
         livenessProbe:

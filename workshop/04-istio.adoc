@@ -4,8 +4,8 @@ Istio is a service mesh technology which enables us to add cross-cutting concern
 Istio add sidecar containers to each running pod, that act as proxies to our applications.
 Every running pod will get a distinct proxy sidecar container which intercepts, inspects or enhances the connection.
 
-Istio adds default routes inbetween the Kubernetes services.
-However, it's a best practice to explicitly add Isto routes between the desired services.
+Istio adds default routes in between the Kubernetes services.
+However, it's a best practice to explicitly add Istio routes between the desired services.
 
 The way how Istio integrates with Kubernetes is that it enhances Kubernetes' API model to add Istio resource types.
 This enables developers to use Istio resources with the same experience as if they were included with Kubernetes, including the `kubectl` CLI.
@@ -147,7 +147,7 @@ spec:
 ---
 ----
 
-==== Accesssing our applications
+==== Accessing our applications
 
 If we now want to run our application and access it through the service mesh, we will access the gateway from outside the cluster.
 This requires, of course, that the gateway resource and all virtual service and destination rule resources have been applied to the mesh.
@@ -176,7 +176,7 @@ ibmcloud cs workers <cluster-name>
 If you have the `jq` CLI tool installed, you can also directly extract the IP address by invoking:
 
 ----
-ibmcloud cs workers daschner-free-test --json | yq -r '.[0].publicIP'
+ibmcloud cs workers <cluster-name> --json | yq -r '.[0].publicIP'
 ----
 ====================
 
@@ -216,6 +216,6 @@ curl <gateway-ip-address>/coffee-shop/resources/health -i
 ====================
 
 In theory, this means that both of our services are working as expected and can communicate with each other.
-However, this assumption, or observation is hardly enough for a sytem that runs in production.
+However, this assumption, or observation is hardly enough for a system that runs in production.
 
 Let's see how Istio improves our observability in the link:05-istio-observability.adoc[next section].
