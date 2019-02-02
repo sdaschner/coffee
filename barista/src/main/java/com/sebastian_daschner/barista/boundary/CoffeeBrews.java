@@ -2,6 +2,7 @@ package com.sebastian_daschner.barista.boundary;
 
 import com.sebastian_daschner.barista.control.RandomStatusProcessor;
 import com.sebastian_daschner.barista.entity.CoffeeBrew;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
