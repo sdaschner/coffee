@@ -8,7 +8,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("brews/{id}")
+@Path("/brews/{id}")
 public class BrewsResource {
 
     @Inject
@@ -45,6 +45,7 @@ public class BrewsResource {
         return Json.createObjectBuilder()
                 .add("status", brew.getStatus())
                 .add("type", brew.getType())
+                .add("location", brew.getLocation())
                 .build();
     }
 

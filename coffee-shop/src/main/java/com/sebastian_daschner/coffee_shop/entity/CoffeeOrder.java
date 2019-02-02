@@ -1,5 +1,6 @@
 package com.sebastian_daschner.coffee_shop.entity;
 
+import com.sebastian_daschner.coffee_shop.BrewLocationDeserializer;
 import com.sebastian_daschner.coffee_shop.CoffeeTypeDeserializer;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -12,15 +13,13 @@ public class CoffeeOrder {
     @JsonbTransient
     private final UUID id = UUID.randomUUID();
 
-    @NotNull
-    @JsonbTypeAdapter(CoffeeTypeDeserializer.class)
-    private CoffeeType type;
-
-    private OrderStatus status;
-
     public UUID getId() {
         return id;
     }
+
+    @NotNull
+    @JsonbTypeAdapter(CoffeeTypeDeserializer.class)
+    private CoffeeType type;
 
     public CoffeeType getType() {
         return type;
@@ -30,6 +29,24 @@ public class CoffeeOrder {
         this.type = type;
     }
 
+    @JsonbTypeAdapter(BrewLocationDeserializer.class)
+    private BrewLocation location;
+
+    public BrewLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(BrewLocation location) {
+        this.location = location;
+    }
+
+
+
+    private OrderStatus status;
+
+
+
+
     public OrderStatus getStatus() {
         return status;
     }
@@ -38,12 +55,15 @@ public class CoffeeOrder {
         this.status = status;
     }
 
+
+
     @Override
     public String toString() {
         return "CoffeeOrder{" +
                 "id=" + id +
                 ", type=" + type +
                 ", status=" + status +
+                ", location=" + location +
                 '}';
     }
 

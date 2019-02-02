@@ -19,7 +19,7 @@ public class CoffeeBrews {
     public CoffeeBrew startBrew(String id, String coffeeType) {
         System.out.println("starting to brew: " + coffeeType);
 
-        CoffeeBrew brew = new CoffeeBrew(coffeeType);
+        CoffeeBrew brew = new CoffeeBrew(coffeeType, "home");
         coffeeBrews.put(id, brew);
 
         return brew;

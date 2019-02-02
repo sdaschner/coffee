@@ -3,8 +3,7 @@
 
     <featureManager>
         <feature>javaee-8.0</feature>
-        <feature>mpMetrics-1.0</feature>
-        <feature>mpOpenTracing-1.2</feature>
+        <feature>microProfile-2.1</feature>
         <feature>usr:opentracingZipkin-0.31</feature>
     </featureManager>
 
