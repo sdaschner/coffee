@@ -1,10 +1,8 @@
 package com.sebastian_daschner.barista.entity;
-import javax.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 public class CoffeeBrew {
 
-    @Inject @ConfigProperty(name="coffeebrew.status", defaultValue =  "Preparing") String status;
-
+    private String status = "PREPARING";
     private String type;
 
     public CoffeeBrew() {
