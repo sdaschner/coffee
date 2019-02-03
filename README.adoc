@@ -1,7 +1,7 @@
 == Enterprise Coffee
 
-The coffee shop example project of my _Cloud Native, Service-Meshed Java Enterprise With Istio_ presentation.
+This is the coffee shop example project coffee shop of the workshop.
 
-Comprises two applications, _coffee-shop_ and _barista_, which are deployed to a Kubernetes and Istio cluster.
+It comprises two applications, _coffee-shop_ and _barista_, built by Java EE and MicroProfile, which are deployed to a Kubernetes and Istio cluster.
 
-Requires JDK 11 and Istio version ≥ `1.0`.
+The contents of the workshop start with the link:workshop/00-prerequisites.adoc[prerequisites].
