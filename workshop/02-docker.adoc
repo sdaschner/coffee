@@ -109,7 +109,7 @@ Since they communicate using HTTP we can use any REST client of our choice, for 
 In our scenario, the clients communicate with the coffee-shop application, so let's try this:
 
 ----
-curl localhost:9080/coffee-shop/resources/health -i
+curl localhost:9080/health -i
 ----
 
 This accesses the health check resource and will hopefully give you a successful HTTP response.
