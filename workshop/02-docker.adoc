@@ -106,7 +106,40 @@ The reason why we're doing this, is because Kubernetes will support a very simil
 
 Now we can access and test our running microservices for the first time!
 Since they communicate using HTTP we can use any REST client of our choice, for example `curl`.
-In our scenario, the clients communicate with the coffee-shop application, so let's try this:
+
+
+==== Health check resources
+
+We could simply ask the application for the coffee orders in the system but for our cloud-native environment we might want a more basic way to check whether our application is up and running.
+Therefore, we create health check resources.
+We could do so by using plain REST resources, for example implemented by JAX-RS.
+What's also possible, and done with minimal effort, is to use MicroProfile Health to create HTTP health checks.
+
+Therefore, we create a class with the name `HealthResource` or similar, in both the barista and coffee shop projects, for example under the `*.boundary` package:
+
+[source,java]
+----
+import org.eclipse.microprofile.health.*;
+import javax.enterprise.context.ApplicationScoped;
+
+@Health
+@ApplicationScoped
+public class HealthResource implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.named("barista").withData("barista", "ok").up().build();
+    }
+}
+----
+
+This shows the example for the barista application.
+For our coffee shop example please adjust the strings accordingly.
+
+That's it!
+However, if we want these changes to be included in our running containers, we need to re-build the Java applications and the Docker images again, of course.
+
+After the applications have been started, we should be able to access the coffee shop via the local port `9080` and the default MicroProfile health resource:
 
 ----
 curl localhost:9080/health -i
@@ -115,7 +148,10 @@ curl localhost:9080/health -i
 This accesses the health check resource and will hopefully give you a successful HTTP response.
 The `-i` flag causes the HTTP response headers to be printed.
 
-Then we can ask for the coffee orders:
+
+==== Ordering coffee
+
+Now, we can finally ask for the coffee orders:
 
 ----
 curl localhost:9080/coffee-shop/resources/orders

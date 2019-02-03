@@ -111,98 +111,109 @@ Have a look at the further resources to learn more.
 
 === Application level
 
-Building a resilient microservice is key for microservices design. Apart from infrastructure resilience, sometimes more fine-grained application level resilience is required.
-MicroProfile Fault Tolerance provides a simple and flexible solution to buile a resilient microservice.
+Building a resilient microservice is key when designing microservices.
+Apart from the infrastructure resilience, sometimes more fine-grained application level resilience is required.
 
-- https://github.com/eclipse/microprofile-fault-tolerance/[MicroProfile Fault Tolerance^]
-  It offers `Timeout`, `Retry`, `Bulkhead`, `CircuitBreaker` and `Fallback` capabilities, detailed below.
-  - Timeout
-  For Timeout, `@Timeout` annotation is used to specify the timeout period.
-  [source, java]
-  ----
-  @Timeout(400) // timeout is 400ms
-  public void callService() {
-      //calling ratings
-  }
-  ----
-  - Retry
-  `@Retry` is to specify the retry.
-  [source, java]
-   ----
-   /**
-   * The configured the max retries is 90 but the max duration is 1000ms.
-   * Once the duration is reached, no more retries should be performed,
-   * even through it has not reached the max retries.
-   */
-   @Retry(maxRetries = 90, maxDuration= 1000)
-   public void callService() {
-       //calling rating;
-   }
-   ----
-   - Bulkhead
-   MicroProfile Fault Tolerance offers two type of Bulkhead: Thread isoltation and Semaphore Isolation.
-   [source, java]
-   ----
-   // Thread Islation
-   //maximum 5 concurrent requests allowed, maximum 8 requests allowed in the waiting queue
-   @Asynchronous
-   @Bulkhead(value = 5, waitingTaskQueue = 8)
-   public Future <Connection> serviceA() {
-   Connection conn = null;
-   conn = connectionService();
-   return CompletableFuture.completedFuture(conn);
-   }
-   //Semaphore isolation
-   @Bulkhead(5) // maximum 5 concurrent requests allowed
-   public Connection serviceA() {
-          Connection conn = null;
-          conn = connectionService();
-          return conn;
-   }
-   ----
+https://github.com/eclipse/microprofile-fault-tolerance/[MicroProfile Fault Tolerance^] provides a simple yet flexible solution to build a resilient microservice at the application-level.
+It offers capabilities for timeouts, retries, bulkheads, circuit breakers and fallback, as we will see below.
 
+==== Timeout
 
+We can use the `@Timeout` annotation to configure timeouts and their period on methods.
 
+[source, java]
+----
+@Timeout(400) // timeout is 400ms
+public void callService() {
+    // ...
+}
+----
 
+==== Retries
 
-   - CircuitBreaker
-   Using @CircuitBreaker controls the client calls.
+The `@Retry` annotation specifies that methods will be retried on failure.
 
-   [source, java]
-   ----
-   @CircuitBreaker(successThreshold = 10, requestVolumeThreshold = 4, failureRatio=0.75, delay = 1000)
-   public Connection serviceA() {
-          Connection conn = null;
-          conn = connectionService();
-          return conn;
-   }
+[source, java]
+----
+@Retry(maxRetries = 90, maxDuration= 1000)
+public void callService() {
+   // ...
+}
+----
 
+The configured number of retries in that example is 90 and the overall maximum duration is 1000 ms.
+That is, once the maximum duration is reached, no more retries should be performed, even when the number of execution has not reached the maximum number of retries.
 
+==== Bulkheads
 
-   ----
+MicroProfile Fault Tolerance offers two types of the bulkhead patterns: thread isolation and semaphore isolation.
+The `@Bulkhead` annotation is used to limit the number of concurrent executions.
+See the code snippets for the difference in isolation by threads or semaphores:
 
-   - Fallback
-   The above capabilities cannot guarantee 100% success rate. This capability is particular important. When there is the final contingency and infrastructure cannot offer as it needs
-   business knowledge to achieve the backup. In the following example, the `emptyOrders()` method will be invoked if `getOrders()` returns exceptionally.
-   [source, java]
-   ----
-   @GET
-       @Fallback(fallbackMethod = "emptyOrders")
-       @Retry
-       public JsonArray getOrders() {
-           return coffeeShop.getOrders().stream()
-                   .map(this::buildOrder)
-                   .collect(JsonCollectors.toJsonArray());
-   }
+[source, java]
+----
+// thread isolation, max 5 concurrent requests allowed, max 8 requests in the waiting queue
+@Asynchronous
+@Bulkhead(value = 5, waitingTaskQueue = 8)
+public Future<Connection> serviceA() {
+    // ...
+    return CompletableFuture.completedFuture(conn);
+}
 
-   public JsonArray emptyOrders() {
-           return Json.createArrayBuilder().build();
-   }
+// semaphore isolation
+@Bulkhead(5) // maximum 5 concurrent requests allowed
+public Connection serviceA() {
+    // ...
+    return conn;
+}
+----
 
-   ----
+==== Circuit Breakers
 
-- Differences b/w MicroProfile & Istio
-  MicroProfile Fault Tolerance is fine-grained while Istio is coarse-grained. The best practise is to use MicroProfile Fallback together with Istio's fault handling.
-  For more details on MicroProfile Fault Tolerance and Istio comparison, read Emily Jiang's https://www.eclipse.org/community/eclipse_newsletter/2018/september/MicroProfile_istio.php[blog^]
+The `@CircuitBreaker` annotation defines circuit breaker behavior on our methods.
+Once the execution of a method fails too many times, subsequent executions will be prevented for a certain period of time.
 
+[source, java]
+----
+@CircuitBreaker(successThreshold = 10, requestVolumeThreshold = 4,
+    failureRatio = 0.75, delay = 1000)
+public Connection serviceA() {
+    // ...
+}
+----
 
+==== Fallback
+
+Many provided functionality cannot guarantee a 100% success rate.
+Thus, in many cases we need to provide backups in case executions fail for some reason.
+This is, of course, dependent on the actual business uses case, which fallback behavior should be executed.
+
+In the following example, the `emptyOrders()` method will be invoked if `getOrders()` returns exceptionally.
+
+This is now what we will add to our coffee shop application.
+We enhance the `OrdersResource` class as follows:
+
+[source, java]
+----
+@GET
+@Fallback(fallbackMethod = "emptyOrders")
+@Retry
+public JsonArray getOrders() {
+    return coffeeShop.getOrders().stream()
+        .map(this::buildOrder)
+        .collect(JsonCollectors.toJsonArray());
+}
+
+// ...
+
+public JsonArray emptyOrders() {
+    return Json.createArrayBuilder().build();
+}
+----
+
+This will output an empty list of orders in case of an error, assuming that this is what we want in our example application.
+
+This is one resiliency example which can only be achieved on an application-level, since we define how our application reacts to the exceptional situation.
+In general, MicroProfile Fault Tolerance's resiliency is more fine-grained while Istio's behavior is more coarse-grained.
+As a recommendation, we can use MicroProfile together with Istio's fault handling.
+For more details on MicroProfile, Istio, and their relationship, read Emily Jiang's https://www.eclipse.org/community/eclipse_newsletter/2018/september/MicroProfile_istio.php[blog post^].

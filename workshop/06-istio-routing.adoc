@@ -40,14 +40,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
-        env:
-        - name: location
-          valueFrom:
-            configMapKeyRef:
-              name: coffee-config
-              key: location
-        - name: MP_Fault_Tolerance_NonFallback_Enabled
-          value: "true"
         livenessProbe:
           exec:
             command: ["sh", "-c", "curl -f http://localhost:9080/"]
@@ -57,15 +49,6 @@ spec:
             command: ["sh", "-c", "curl -s http://localhost:9080/health | grep -q coffee-shop"]
           initialDelaySeconds: 40
     restartPolicy: Always
----
-
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: coffee-config
-data:
-  location: JFokus
-
 ----
 
 Pods managed by this deployment will receive the labels `app: coffee-shop` and `version: v2`.

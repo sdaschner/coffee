@@ -224,7 +224,7 @@ coffee-shop   NodePort   172.21.23.149   <none>        9080:30995/TCP   2m
 With the example details, we can access our coffee-shop application using the URL `159.122.186.7:30995`, by combining the public IP address and the node port of the service:
 
 ----
-curl <ip-address>:<node-port>/coffee-shop/resources/health -i
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i
 ----
 
 NOTE: If you have created a standard cluster, you can use a Kubernetes ingress resources.
@@ -233,24 +233,45 @@ However, in this workshop, we'll focus on Istio networking and thus will demonst
 
 === Configuration
 
-Now, we want to configure coffee-shop to specify where the orders are from. We can do using Kubernetes configmap and MicroProfile Config.
+Now, we want to configure the coffee-shop to specify where the orders are from.
+We can do that using Kubernetes config maps and MicroProfile Config.
 
-- show MicroProfile Config
+
+==== MicroProfile Config
+
+MicroProfile Config can be used to conveniently inject configured values into our classes.
+There are default configuration sources, such as environment variables, that are available out of the box.
+
+We simply inject a configured value into our `CoffeeShop` class.
+The class previously used the default `HOME` location for our orders.
+This should now be configurable.
+
 [source, java]
 ----
-    @Inject
-    @ConfigProperty(name = "location", defaultValue = "HOME")
-    private BrewLocation location;
+@Inject
+@ConfigProperty(name = "location", defaultValue = "HOME")
+private BrewLocation location;
 ----
 
-The `@Inject` is CDI api while `@ConfigProperty` is an API in MicroProfile Config. This above will search `location` property from pre-defined config sources. If found, that value
-will be injected to the variable location. Otherwise, the default value of HOME will be injected to location.
+The `@Inject` is shipped with the CDI API while `@ConfigProperty` is an annotation from MicroProfile Config.
+The snippet above will search for a `location` property from the pre-defined config sources.
+If the value is found, it is injected into the variable location.
+Otherwise, the default value of `HOME` will be taken.
 
-- Kubernetes configmap
-  Kubernetes configmap is defined to store config properties. It can be mapped to environment variables.
+We change the `CoffeeShop` to set the default location for our orders from that injected value: `order.setLocation(location);`
 
-// todo: draw diagram
+In our example, we will use environment variables to inject the values.
+This means that the running container needs to define a variable `location`.
+As soon as this variable exists, the application will automatically make the value accessible.
 
+
+==== Kubernetes Config Maps
+
+We can define environment variables directly in Kubernetes deployment definitions, or configure them in so called config maps.
+A config map is a Kubernetes resources that stores configuration properties in the cluster.
+It can be mapped to files or, as in our example, environment variables.
+
+We create the following Kubernetes YAML definition:
 
 [source,yaml]
 ----
@@ -259,27 +280,41 @@ apiVersion: v1
 metadata:
   name: coffee-config
 data:
-location: JFokus
+  location: JFokus
 ----
-The above example defines the config map coffee-config, which contains config property `location` with the value of `JFokus`
-env:
-- name: location
-  valueFrom:
-    configMapKeyRef:
-      name: coffee-config
-      key: location
-The above example maps the configmap to environment variable. As environment variables are default config sources for MicroProfile Config. All config defined here will be available
-to MicroProfile Config lookup. Therefore, with this configuration, the injected value for the `location` will be `JFokus`.
 
-- define multiple sub-directories for each environment
-- today, we only define a single one
+This defines the config map `coffee-config`, which contains the property `location` with the value `JFokus`.
+
+In order to make that property available to the running pods later on, we include the value in our Kubernetes deployment definition:
+
+[source,yaml]
+----
+# ...
+containers:
+- name: coffee-shop
+  image: registry.eu-gb.bluemix.net/istio-workshop/coffee-shop:1
+  ports:
+  - containerPort: 9080
+  env:
+  - name: location
+    valueFrom:
+      configMapKeyRef:
+        name: coffee-config
+        key: location
+  livenessProbe:
+# ...
+----
+
+The above example maps the config map values to environment variables in the pods.
+As MicroProfile Config ships with a default config source for environment variables, this property will automatically be available to our application.
+Thus, the injected value for the `location` will be the enum value `JFOKUS`.
 
 
 === 12 factors
 
 The https://12factor.net/[12 factors^] of modern software-as-a-service applications describe what aspects developers should take into account.
 Have a look at the described factors and contemplate, where we've already covered these aspects by using Enterprise Java with cloud-native technologies.
-With MicroProfile programming model together with Kubernetes, we can build 12-factor microservices easily.
+With MicroProfile and its programming model, combined with Docker and Kubernetes, we can easily build 12-factor microservices.
 We'll discuss the impact of the 12 factors together.
 
 Now, we've setup a Kubernetes environment that orchestrates our microservices.
