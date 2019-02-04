@@ -226,6 +226,7 @@ We can use the IBM Container Registry which can be accessed right away from our 
 We log into the Container Registry service via the `ibmcloud` CLI and obtain the information about our registry:
 
 ----
+ibmcloud plugin install container-registry
 ibmcloud cr login
 ibmcloud cr region-set eu-gb
 ibmcloud cr region
