@@ -1,6 +1,6 @@
 == Enterprise Coffee
 
-This is the coffee shop example project coffee shop of the workshop.
+This is the coffee shop example project for the hands-on-lab: _Cloud-native Java with MicroProfile, Kubernetes and Istio_
 
 It comprises two applications, _coffee-shop_ and _barista_, built by Java EE and MicroProfile, which are deployed to a Kubernetes and Istio cluster.
 

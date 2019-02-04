@@ -217,3 +217,5 @@ This is one resiliency example which can only be achieved on an application-leve
 In general, MicroProfile Fault Tolerance's resiliency is more fine-grained while Istio's behavior is more coarse-grained.
 As a recommendation, we can use MicroProfile together with Istio's fault handling.
 For more details on MicroProfile, Istio, and their relationship, read Emily Jiang's https://www.eclipse.org/community/eclipse_newsletter/2018/september/MicroProfile_istio.php[blog post^].
+
+Looks like we've finished the last section! link:08-conclusion.adoc[Conclusion^].

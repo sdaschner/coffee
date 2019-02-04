@@ -12,5 +12,12 @@ You have access to all code examples and infrastructure-as-code snippets.
 Now, take your learnings further and go build something cool!
 
 
-// Similarly, as an outlook, you could perform the steps of introducing a new subset, gradually switching the traffic in the routing rules until all traffic is routed to the new version as automated steps that are part of a deployment pipeline.
-// TODO refer to some example or documentation
+=== Further resources
+
+- https://www.eclipse.org/community/eclipse_newsletter/2018/september/MicroProfile_istio.php[MicroProfile on Istio^]
+- https://blog.sebastian-daschner.com/entries/istio-networking-api-explained[Istio Networking API explained^]
+- https://blog.sebastian-daschner.com/entries/zero-downtime-updates-kubernetes[Zero-downtime deployments with Kubernetes^]
+- https://blog.sebastian-daschner.com/entries/zero-downtime-updates-istio[Zero-downtime deployments with Istio^]
+- https://docs.docker.com/engine/reference/builder/[Dockerfile reference^]
+- https://kubernetes.io/docs/home/[Kubernetes documentation^]
+- https://istio.io/docs/[Istio docs^]
