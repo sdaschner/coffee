@@ -22,3 +22,10 @@ Now, take your learnings further and go build something cool!
 - https://kubernetes.io/docs/home/[Kubernetes documentation^]
 - https://istio.io/docs/[Istio docs^]
 - https://medium.com/kialiproject/different-mesh-visualizations-in-kiali-82a3428ae155[Visualizations in Kiali^]
+
+
+=== Feedback
+
+We love to share knowledge and also to continuously improve.
+Therefore, we really appreciate your constructive feedback on our workshop.
+You can provided that anonymously in the https://sebastiandaschner.typeform.com/to/sJk568[feedback form^].
