@@ -21,3 +21,4 @@ Now, take your learnings further and go build something cool!
 - https://docs.docker.com/engine/reference/builder/[Dockerfile reference^]
 - https://kubernetes.io/docs/home/[Kubernetes documentation^]
 - https://istio.io/docs/[Istio docs^]
+- https://medium.com/kialiproject/different-mesh-visualizations-in-kiali-82a3428ae155[Visualizations in Kiali^]
