@@ -233,10 +233,10 @@ ibmcloud cr region
 You are targeting region 'uk-south', the registry is 'registry.eu-gb.bluemix.net'.
 ----
 
-We use the CLI to create a namespace in the Container Registry service (`cr`) for our workshop:
+We use the CLI to create a unique namespace in the Container Registry service (`cr`) for our workshop:
 
 ----
-ibmcloud cr namespace-add istio-workshop
+ibmcloud cr namespace-add jfokus-<your-name>-workshop
 ibmcloud cr namespaces
 ----
 
@@ -244,8 +244,8 @@ In order to test our new registry namespace, we pull a public image, re-tag it f
 
 ----
 docker pull sdaschner/open-liberty:javaee8-tracing-b1
-docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-gb.bluemix.net/istio-workshop/open-liberty:1
-docker push registry.eu-gb.bluemix.net/istio-workshop/open-liberty:1
+docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-gb.bluemix.net/jfokus-<your-name>-workshop/open-liberty:1
+docker push registry.eu-gb.bluemix.net/jfokus-<your-name>-workshop/open-liberty:1
 ----
 
 Let's see whether our image is now in the private registry:
@@ -254,7 +254,7 @@ Let's see whether our image is now in the private registry:
 ibmcloud cr images
 ----
 
-NOTE: In all following examples, you will need to adapt the image / registry name, if your assigned region differs from the example (`eu-de`).
+NOTE: In all following examples, you will need to adapt the image / namespace name!
 This is important to take into consideration, otherwise the examples won't work since the images won't exist in your account.
 
 === Local Docker setup
