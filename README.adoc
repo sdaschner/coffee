@@ -1,19 +1,5 @@
 == Enterprise Coffee
 
-This is the coffee shop example project for the hands-on-lab: _Cloud-native Java with MicroProfile, Kubernetes and Istio_
+This is the coffee shop example project for TODO
 
-It comprises two applications, _coffee-shop_ and _barista_, built by Java EE and MicroProfile, which are deployed to a Kubernetes and Istio cluster.
-
-The contents of the workshop start with the link:workshop/00-prerequisites.adoc[prerequisites].
-
-
-=== Feedback
-
-We love to share knowledge and also to continuously improve.
-Therefore, we really appreciate your constructive feedback on our workshop.
-You can provided that anonymously in the https://sebastiandaschner.typeform.com/to/sJk568[feedback form^].
-
-
-=== Finish
-
-After you've finished the walk-through you can compare your result with the https://github.com/sdaschner/coffee/tree/istio-workshop-finish[finished version^].
+It comprises two applications, _coffee-shop_ and _barista_, built by Java EE and MicroProfile, which can be deployed to a Kubernetes and Istio cluster.

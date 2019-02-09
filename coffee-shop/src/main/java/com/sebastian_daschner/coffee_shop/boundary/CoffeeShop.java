@@ -3,8 +3,8 @@ package com.sebastian_daschner.coffee_shop.boundary;
 import com.sebastian_daschner.coffee_shop.control.Barista;
 import com.sebastian_daschner.coffee_shop.control.OrderProcessor;
 import com.sebastian_daschner.coffee_shop.control.Orders;
-import com.sebastian_daschner.coffee_shop.entity.BrewLocation;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import com.sebastian_daschner.coffee_shop.entity.CoffeeType;
 import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -26,8 +26,8 @@ public class CoffeeShop {
     OrderProcessor orderProcessor;
 
     @Inject
-    @ConfigProperty(name = "location", defaultValue = "HOME")
-    private BrewLocation location;
+    @ConfigProperty(name = "coffeeShop.order.defaultCoffeeType", defaultValue = "ESPRESSO")
+    private CoffeeType defaultCoffeeType;
 
     public List<CoffeeOrder> getOrders() {
         return orders.retrieveAll();
@@ -38,7 +38,7 @@ public class CoffeeShop {
     }
 
     public CoffeeOrder orderCoffee(CoffeeOrder order) {
-        setDefaultLocation(order);
+        setDefaultType(order);
         OrderStatus status = barista.brewCoffee(order);
         order.setStatus(status);
 
@@ -46,9 +46,9 @@ public class CoffeeShop {
         return order;
     }
 
-    private void setDefaultLocation(CoffeeOrder order) {
-        if (order.getLocation() == null)
-            order.setLocation(location);
+    private void setDefaultType(CoffeeOrder order) {
+        if (order.getType() == null)
+            order.setType(defaultCoffeeType);
     }
 
     public void processUnfinishedOrders() {
