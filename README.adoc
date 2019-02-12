@@ -1,15 +1,340 @@
-= Enterprise Coffee
+= Quick Lab: Java EE and MicroProfile combined on Liberty
 
-The example project of my _Java EE, Jakarta EE, MicroProfile, or maybe all of them?_ presentation.
+It seems that more and more enterprise technology is emerging that is based on Java EE.
+There are a lot of options to choose from, between Java EE, what is now Jakarta EE, MicroProfile, and combinations of their APIs.
+If we look at available application containers the number of possibilities are even higher.
+Which platforms, particular standards and runtimes should enterprise developers base their applications on in year 2019?
 
-Comprises two applications, _coffee-shop_ and _barista_, which can be deployed locally, or to a Kubernetes and Istio cluster.
+In 15 minutes you will learn the difference between Java EE, Jakarta EE, MicroProfile and their individual specifications.
+We’ll see how their APIs complement each other and enable us to develop applications with focus on high productivity.
+We will enhance an existing Java Enterprise application with a few additional technical concerns, such as telemetry and resiliency by MicroProfile.
+We will also see how Open Liberty supports this approach.
 
-== Local Docker
+Please read through the content, and get your hands down with modern Enterprise Java.
 
-In order to run the Docker containers locally, execute `./docker-run-local.sh`.
-As a prerequisite, you need to create a Docker network first: + 
-`docker network create --subnet=192.168.42.0/24 dkrnet`
 
-== Istio
+== Enterprise Coffee
 
-Uses the Istio v1alpha3 networking API and requires Istio version ≥ `1.0`.
+This example project comprises two applications, _coffee-shop_ and _barista_, which are based on Java EE 8, and will be deployed to Open Liberty, running in Docker containers.
+
+=== Java EE
+
+For now, our both applications are solely built with Java EE.
+This technology covers most of the required functionality to build modern applications.
+However, plain Java EE does have some gaps when it comes to building cloud native microservices.
+
+For example, what Java EE / Jakarta EE doesn't cover in their standards is resiliency, monitoring, injectable configuration, or distributed tracing.
+If we built our apps with plain Java EE, we'd need to implement these concerns ourselves, or use third-party libraries.
+Luckily, MicroProfile got us covered on this one.
+
+=== MicroProfile
+
+MicroProfile, an initiative started by multiple vendors of Java EE application servers, aimed to advance the development of Enterprise Java forward, without being restricted by standard bodies or processes.
+It is based on a few selected Java EE standards, namely CDI, JAX-RS, JSON-P, JSON-B, and also comes with quite a few own projects that aim to close the gaps that are in Java EE today.
+MicroProfile thus defines projects such as Config, Fault Tolerance, Metrics, OpenTracing, and some others.
+The developer experience and way of programming is very similar to what we know from Java EE.
+
+However, developing our applications with plain MicroProfile is also not quite sufficient, since MicroProfile doesn't yet include functionality such as persistence, transactions, or complex concurrency.
+
+We therefore combine the two technologies, Java EE / Jakarta EE and MicroProfile, to get the best of both worlds.
+Since MicroProfile is based on Java EE standards, we can simply base our applications on Java EE, and add selected MicroProfile projects where we need them.
+
+== Hands-On: Building
+
+. Have a look at the two projects, _coffee-shop_ and _barista_ in the IDE, especially the Maven POM setup in the `pom.xml` files.
+We can see that we use the `javax:javaee-api:8.0` dependency as the only dependency.
+It's included as _provided_, that is it won't end up in our deployment artifact.
+
+. Build the _coffee-shop_ application with Maven:
++
+----
+cd coffee-shop/
+mvn package
+----
+
+. Have a look at the provided `Dockerfile` and build the Docker image for the _coffee-shop_ application:
++
+----
+docker build -t coffee-shop:1 .
+----
+
+. Do the same for the _barista_ application:
++
+----
+cd ../barista/
+mvn package
+docker build -t barista:1 .
+----
+
+== Hands-On: Running
+
+Now we've created deployment artifacts for our two applications and packaged them as Docker containers.
+We can now run these containers locally.
+
+. Run the _barista_ application in a Docker container:
++
+----
+docker run --rm -d \
+  --name barista \
+  --network dkrnet \
+  barista:1
+----
+
+. Now, run the _coffee-shop_ application in a Docker container:
++
+----
+docker run --rm -d \
+  --name coffee-shop \
+  --network dkrnet \
+  -p 9080:9080 \
+  -p 9443:9443 \
+  coffee-shop:1
+----
++
+This will run both our two applications in a dedicated Docker network, so they can resolve each other via the logical container names.
+The _coffee-shop_ application exposes the port `9080` locally, so once the applications are started, we can connect to them via HTTP.
+
+. Access the _coffee-shop_ application via curl:
++
+----
+curl localhost:9080/coffee-shop/resources/health -i
+----
+
+. Now, access the orders REST resources of our _coffee-shop_ application, ask for the current coffee orders in the system, and create new ones:
++
+----
+curl localhost:9080/coffee-shop/resources/orders
+curl localhost:9080/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}'
+curl localhost:9080/coffee-shop/resources/orders
+----
++
+We now can see that an order has been created successfully.
+Congratulations!
+
+
+== Hands-On: MicroProfile Config
+
+We now want to enhance our application with configuration that is easily injectable in our code.
+Following the principles of cloud native, https://12factor.net/[12-factor^] applications, we want to build the binaries (i.e. Docker images) of our applications only once, and change the configuration from outside the containers, at runtime.
+In practice, this usually means to inject environment variables or files into the running instances.
+
+MicroProfile Config enables us to inject configured values into our code with minimal effort.
+It ships with multiple default configuration sources, for example for environment variables, that are usable out of the box.
+
+As an example, we want to emit the application server version in the healthcheck resource.
+
+. Add the MicroProfile Config 1.3 as _provided_ dependency to the _coffee-shop_ `pom.xml`:
++
+[source,xml]
+----
+<dependencies>
+    ...
+    <dependency>
+        <groupId>org.eclipse.microprofile.config</groupId>
+        <artifactId>microprofile-config-api</artifactId>
+        <version>1.3</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+----
+
+. Add the following code snippet into the `HealthResource` class in our _coffee-shop_ application:
++
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "version")
+String appServerVersion;
+----
+
+. Make use of the variable and change the body of the `health()` method to the following:
++
+[source,java]
+----
+@GET
+public Response health() {
+    return Response.ok("OK")
+            .header("Open-Liberty", appServerVersion)
+            .build();
+}
+----
+
+. That's it! Now rebuild our application and its Docker image:
++
+----
+cd ../coffee-shop/
+mvn package
+docker build -t coffee-shop:2 .
+----
+
+. Now, run the new version of our _coffee-shop_ app:
++
+----
+docker stop coffee-shop
+docker run --rm -d \
+  --name coffee-shop \
+  --network dkrnet \
+  -p 9080:9080 \
+  -p 9443:9443 \
+  coffee-shop:2
+----
+
+. Access the healthcheck resource of the _coffee-shop_ application and see the changes in the HTTP headers:
++
+----
+curl localhost:9080/coffee-shop/resources/health -i
+----
+
+. Stop the application and re-start it with an injected environment variable:
++
+----
+docker stop coffee-shop
+docker run --rm -d \
+  --name coffee-shop \
+  --network dkrnet \
+  -e VERSION=18.0.0.4-think2019
+  -p 9080:9080 \
+  -p 9443:9443 \
+  coffee-shop:2
+----
+
+. After the application has started, access the healthcheck resource of the _coffee-shop_ application and see the changes in the HTTP headers:
++
+----
+curl localhost:9080/coffee-shop/resources/health -i
+----
+
+
+== Hands-On: MicroProfile Metrics
+
+MicroProfile Metrics is a project that adds technical or business metrics to our applications.
+It ships with an API that can be used to collect and emit metrics in our application.
+Besides that, it MicroProfile Metrics specifies that the runtime must emit basic information about the running application via a metrics endpoint.
+
+In order to use MicroProfile Metrics, developers don't have to change anything in their application's code.
+They only have to configure the runtime to use MicroProfile Metrics.
+
+. Have a look at the `server.xml` files under `coffee-shop/liberty/`.
+The `mpMetrics-1.1` feature enables MicroProfile Metrics in our runtime.
+The Open Liberty-specific `monitor-1.0` feature emits further technical metrics through the metrics endpoint.
+
+. Access the _coffee-shop_ metrics endpoint and examine the provided metrics in the Prometheus format:
++
+----
+curl -k https://admin:adminadmin@localhost:9443/metrics/
+----
++
+These metrics can be used further, for example in monitoring dashboards.
+
+. Run the monitoring containers (Prometheus and Grafana):
++
+----
+../docker-run-monitoring.sh
+----
++ This will run both a Prometheus and a Grafana instance.
+
+. Use the browser to access the Grafana instance under http://localhost:3000 and log in with user `admin` and password `admin`.
+
+. Import a new dashboard (TODO) navigate and use 9595.
+This is a provided dashboard that uses the metrics provided by MicroProfile Metrics and the Open Liberty monitor feature.
+Examine the graphs of the dashboard.
+
+
+== Hands-On: MicroProfile Fault Tolerance
+
+MicroProfile Fault Tolerance adds resiliency to our Enterprise Java applications.
+It comes with timeout, circuit breaker, retry, and bulkhead functionalities.
+
+Our _coffee-shop_ applications connects to the _barista_ backend.
+We want to enhance the HTTP client with a circuit breaker that trips after a few attemps if, for example, the _barista_ backend is not available.
+
+. Add the MicroProfile Fault Tolerance 1.1 as _provided_ dependency to the _coffee-shop_ `pom.xml`:
++
+[source,xml]
+----
+<dependencies>
+    ...
+    <dependency>
+        <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
+        <artifactId>microprofile-fault-tolerance-api</artifactId>
+        <version>1.1</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+----
+
+. Add the `@CircuitBreaker` annotation to the ``Barista``'s `startCoffeeBrew` method, as follows:
++
+[source,java]
+----
+@CircuitBreaker(requestVolumeThreshold = 5)
+public void startCoffeeBrew(CoffeeType type) {
+    // ...
+}
+----
++
+This enables a circuit breaker functionality for the annotated method.
+Have a look at the available `@CircuitBreaker` parameters such as `requestVolumeThreshold` and their semantics.
+They're used to further configure the circuit breaker behavior.
+
+. Rebuild our application and its Docker image:
++
+----
+mvn package
+docker build -t coffee-shop:3 .
+----
+
+. Now, run the new version of our _coffee-shop_ app:
++
+----
+docker stop coffee-shop
+docker run --rm -d \
+  --name coffee-shop \
+  --network dkrnet \
+  -p 9080:9080 \
+  -p 9443:9443 \
+  coffee-shop:3
+----
+
+. After the application has started, access the orders resource and create new coffee orders:
++
+----
+curl localhost:9080/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}'
+----
+
+. Now, stop the _barista_ application and, again, try to order new coffee.
+----
+docker stop barista
+curl localhost:9080/coffee-shop/resources/orders -i -XPOST \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"Espresso"}'
+----
++
+Try to execute the `curl` command multiple times.
+After 5 failed attempts, the shown error will change (and return immediately) TODO
+
+
+== Hands-On: Clean-up
+
+For other attendees, please be nice and clean-up after yourself:
+
+----
+docker stop $(docker ps -q) 
+mvn clean
+cd ../barista/
+mvn clean
+cd ../
+git checkout -- .
+----
+
+
+== Further resources
+
+- https://developer.ibm.com/videos/jakarta-ee-plus-microprofile-on-open-liberty/[Jakarta EE plus MicroProfile on Open Liberty (Video)^]
+- https://jakarta.ee[Jakarta EE^]
+- https://microprofile.io[MicroProfile^]
+- https://openliberty.io[Open Liberty^]

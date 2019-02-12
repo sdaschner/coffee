@@ -9,10 +9,11 @@ docker run --rm -d \
   --name prometheus \
   --network dkrnet \
   -v $(pwd)/coffee-shop/deployment/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
-  prom/prometheus:v2.4.0
+  prom/prometheus:v2.7.0
 
 docker run --rm -d \
   -p 3000:3000 \
   --name grafana \
   --network dkrnet \
-  grafana/grafana:5.2.4
+  -v $(pwd)/deployment/monitoring/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml \
+  grafana/grafana:5.4.3
