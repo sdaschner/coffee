@@ -15,5 +15,5 @@ docker run --rm -d \
   -p 3000:3000 \
   --name grafana \
   --network dkrnet \
-  -v $(pwd)/deployment/monitoring/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml \
+  -v $(pwd)/monitoring/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml \
   grafana/grafana:5.4.3
