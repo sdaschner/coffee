@@ -307,6 +307,7 @@ curl localhost:9080/coffee-shop/resources/orders -i -XPOST \
 ----
 
 . Now, stop the _barista_ application and, again, try to order new coffee.
++
 ----
 docker stop barista
 curl localhost:9080/coffee-shop/resources/orders -i -XPOST \
