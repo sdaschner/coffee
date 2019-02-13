@@ -239,7 +239,8 @@ These metrics can be used further, for example in monitoring dashboards.
 ----
 ../docker-run-monitoring.sh
 ----
-+ This will run both a Prometheus and a Grafana instance.
++
+This will run both a Prometheus and a Grafana instance.
 
 . Use the browser to access the Grafana instance under http://localhost:3000 and log in with user `admin` and password `admin`; you don't have to change the credentials.
 
