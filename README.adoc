@@ -250,7 +250,7 @@ It comes with timeout, circuit breaker, retry, and bulkhead functionalities.
 Our _coffee-shop_ applications connects to the _barista_ backend.
 We want to enhance the HTTP client with a circuit breaker that trips after a few attemps if, for example, the _barista_ backend is not available.
 
-. Add the MicroProfile Fault Tolerance 1.1 as _provided_ dependency to the _coffee-shop_ `pom.xml`:
+. Add the MicroProfile Fault Tolerance 2.0 as _provided_ dependency to the _coffee-shop_ `pom.xml`:
 +
 [source,xml]
 ----
@@ -259,7 +259,7 @@ We want to enhance the HTTP client with a circuit breaker that trips after a few
     <dependency>
         <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
         <artifactId>microprofile-fault-tolerance-api</artifactId>
-        <version>1.1</version>
+        <version>2.0</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
