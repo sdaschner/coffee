@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import jdk.tools.jlink.internal.plugins.OrderResourcesPlugin;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -11,10 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.UUID;
 
@@ -60,11 +58,7 @@ public class OrdersResource {
     }
 
     private URI buildUri(CoffeeOrder order) {
-        return uriInfo.getBaseUriBuilder()
-                .host(request.getServerName())
-                .port(request.getServerPort())
-                .path(OrdersResource.class)
-                .path(OrdersResource.class, "getOrder")
+        return UriBuilder.fromUri("http://localhost:9080/coffee-shop/resources/orders/{id}")
                 .build(order.getId());
     }
 
