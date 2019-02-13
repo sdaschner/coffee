@@ -200,7 +200,7 @@ docker stop coffee-shop
 docker run --rm -d \
   --name coffee-shop \
   --network dkrnet \
-  -e VERSION=18.0.0.4-think2019 \
+  -e VERSION=19.0.0.2-think2019 \
   -p 9080:9080 \
   -p 9443:9443 \
   coffee-shop:2
