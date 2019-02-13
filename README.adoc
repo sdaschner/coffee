@@ -41,6 +41,12 @@ Since MicroProfile is based on Java EE standards, we can simply base our applica
 
 == Hands-On: Building
 
+. Clone this project so that you have access to the files locally:
+----
+git clone https://github.com/sdaschner/coffee --branch=jakarta-ee-microprofile-quicklab
+cd coffee/
+----
+
 . Have a look at the two projects, _coffee-shop_ and _barista_ in the IDE, especially the Maven POM setup in the `pom.xml` files.
 We can see that we use the `javax:javaee-api:8.0` dependency as the only dependency.
 It's included as _provided_, that is it won't end up in our deployment artifact.
@@ -319,18 +325,12 @@ Try to execute the `curl` command multiple times.
 After a few failed attempts, the shown error will change to display a `CircuitBreakerOpenException` and respond immediately without connecting to the backend.
 
 
-== Hands-On: Clean-up
+== Conclusion
 
-For other attendees, please be nice and clean-up after yourself:
-
-----
-docker stop $(docker ps -q) 
-mvn clean
-cd ../barista/
-mvn clean
-cd ../
-git checkout -- .
-----
+Congratulations!
+You've successfully finished this Quick-Lab.
+We've enhanced existing Java EE applications with injectable configuration and resiliency using MicroProfile.
+For this approach we deployed our applications to a runtime that supports both Java EE and MicroProfile, here Open Liberty.
 
 
 == Further resources
