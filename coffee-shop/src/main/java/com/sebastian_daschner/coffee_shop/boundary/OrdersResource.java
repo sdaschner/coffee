@@ -1,7 +1,6 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
-import jdk.tools.jlink.internal.plugins.OrderResourcesPlugin;
 
 import javax.inject.Inject;
 import javax.json.Json;
