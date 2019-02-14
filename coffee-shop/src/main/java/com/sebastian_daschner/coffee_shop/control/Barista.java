@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee_shop.control;
 
-import com.sebastian_daschner.coffee_shop.entity.CoffeeType;
+import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -24,34 +25,54 @@ public class Barista {
     private void initClient() {
         client = ClientBuilder.newBuilder()
                 .connectTimeout(1, TimeUnit.SECONDS)
-                .readTimeout(1, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
                 .build();
-        target = client.target("http://barista:9080/barista/resources/brews");
+        target = client.target("http://barista:9080/barista/resources/brews/{id}");
     }
 
-    public void startCoffeeBrew(CoffeeType type) {
-        JsonObject requestBody = createRequestBody(type);
-        Response response = sendRequest(requestBody);
-        validateResponse(response);
+    public OrderStatus brewCoffee(CoffeeOrder order) {
+        JsonObject requestBody = createRequestBody(order);
+        Response response = sendBrewRequest(requestBody, order.getId().toString());
+        return readStatus(response);
     }
 
-    private JsonObject createRequestBody(CoffeeType type) {
+    private JsonObject createRequestBody(CoffeeOrder order) {
         return Json.createObjectBuilder()
-                .add("type", type.name().toLowerCase())
+                .add("type", order.getType().name().toLowerCase())
                 .build();
     }
 
-    private Response sendRequest(JsonObject requestBody) {
+    private Response sendBrewRequest(JsonObject requestBody, String id) {
         try {
-            return target.request().post(Entity.json(requestBody));
+            return target.resolveTemplate("id", id)
+                    .request()
+                    .put(Entity.json(requestBody));
         } catch (Exception e) {
-            throw new IllegalStateException("Could not start coffee brew, reason: " + e.getMessage(), e);
+            throw new IllegalStateException("Could not retrieve brew status, reason: " + e.getMessage(), e);
         }
     }
 
-    private void validateResponse(Response response) {
+    public OrderStatus retrieveBrewStatus(CoffeeOrder order) {
+        Response response = getBrewStatus(order.getId().toString());
+        return readStatus(response);
+    }
+
+    private Response getBrewStatus(String id) {
+        return target.resolveTemplate("id", id)
+                .request().get();
+    }
+
+    private OrderStatus readStatus(Response response) {
         if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL)
-            throw new IllegalStateException("Could not start coffee brew, status: " + response.getStatus());
+            throw new IllegalStateException("Could not retrieve brew status, response: " + response.getStatus());
+
+        JsonObject entity = response.readEntity(JsonObject.class);
+        final OrderStatus status = OrderStatus.fromString(entity.getString("status", null));
+
+        if (status == null)
+            throw new RuntimeException("Could not read known status from response: " + entity);
+
+        return status;
     }
 
     @PreDestroy

@@ -1,0 +1,321 @@
+== Kubernetes
+
+In order to run our applications on a Kubernetes cluster, we will need to create a few resources.
+Ultimately, we define our environment declaratively, using Infrastructure-as-Code, similar to what we did using the `Dockerfile` files, but this time for the whole environment.
+Thus, we want to define how many replicas of our individual application images we want to run, how they are connected and configured, etc.
+All of that as code which should reside in our project.
+
+Let's examine the resources we need to create.
+
+=== Pods
+
+A pod is the atomic workload inside Kubernetes clusters.
+It is an abstraction over our application instance and contains _usually_ a single container.
+That is, that the Docker containers we had in the last part will now run inside Kubernetes pods, one pod per container instance.
+If we want to have multiple replicas of our applications, we create multiple pods.
+
+For your information, the following shows a snippet of a YAML pod definition.
+This is not something that we create yet, but make sure that you can follow along the semantics of the definitions.
+
+[source,yaml]
+----
+# ...
+metadata:
+  labels:
+    app: coffee-shop
+spec:
+  containers:
+  - name: coffee-shop
+    image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+    ports:
+    - containerPort: 9080
+  restartPolicy: Always
+# ...
+----
+
+The snippet defines the specification of one pod that should contain a single container which is created from our coffee-shop Docker image.
+
+Kubernetes pods are mortal and once they terminate, they are usually not re-started, but recreated.
+To make sure that we don't have to recreate the pod resources manually, we use controllers that manage a desired number of pod replicas for us, here Kubernetes deployments.
+
+=== Deployments
+
+We create a Kubernetes deployment that manages one or more replicas of our microservices for us.
+Have a look at the following Kubernetes deployment definition:
+
+[source,yaml]
+----
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: coffee-shop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: coffee-shop
+    spec:
+      containers:
+      - name: coffee-shop
+        image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+        ports:
+        - containerPort: 9080
+      restartPolicy: Always
+----
+
+This definition looks similar to the pod snippet before, but it encapsulates the pod as a template, from which it'll create the pod replicas.
+The deployment will ensure that the desired number of replicas will be met.
+If a pod is terminated, whether deliberately or not, the deployment will automatically create a replacement, that is a new pod.
+
+If we want to scale our application, change the deployment definition in another way, or deploy a different version (that is Docker image), we simply change the YAML definition and update it against the cluster.
+Kubernetes will try to make sure that the new changes will be reflected, while keeping the disruption minimal.
+It ships with zero-downtime deployment support out of the box.
+
+
+==== Life cycle &amp; probes
+
+A pod that contains a Java application will need a few moments to be fully up-and-running.
+Since Kubernetes has no knowledge of the contents of the running container it could only assume that running pods are immediately able to handle traffic.
+However, that is not the case and therefore we need to signal once a container is ready to do some meaningful work.
+
+For that reason, we include liveness and readiness probes into our deployment definition.
+
+A liveness probe tells Kubernetes whether the whole pod (for us the application server) is still running.
+If that is not the case, Kubernetes will immediately terminate and replace it.
+A readiness probe indicates whether the pod is ready to do some work, that is, handle traffic.
+
+There are multiple types of https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes[container probes^].
+We use an exec action which can execute an arbitrary binary inside the container.
+The `curl` commands will connect to the application servers, and the health check resources, respectively.
+
+Now, have a look at the resulting deployment definition:
+
+[source,yaml]
+----
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: coffee-shop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: coffee-shop
+    spec:
+      containers:
+      - name: coffee-shop
+        image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+        ports:
+        - containerPort: 9080
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "curl -f http://localhost:9080/"]
+          initialDelaySeconds: 20
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "curl -s http://localhost:9080/health | grep -q coffee-shop"]
+          initialDelaySeconds: 40
+      restartPolicy: Always
+----
+
+We create YAML files with this content under the `deployment/` folders of both microservice projects.
+One deployment will be called `coffee-shop`, like the one displayed, and the other one `barista`.
+Make sure that all names, labels, image, and URL declarations are correct.
+
+Now, we finally want to create these resources in our Kubernetes cluster.
+We simply apply the files with the `kubectl apply` command:
+
+----
+kubectl apply -f coffee-shop/deployments/
+kubectl apply -f barista/deployments/
+----
+
+The command will apply, that is create or update, all resources that resides under the corresponding directory.
+
+You can check whether the resources have been created successfully, by querying the current deployments and pods:
+
+----
+kubectl get pods 
+kubectl get deployments 
+----
+
+After a short startup phase, you should see two pods, one for coffee-shop and one for barista, that are ready, i.e. `READY: ... 1/1`.
+
+Now our two applications apparently are running in the cloud, but how to connect to them?
+
+
+=== Services
+
+A Kubernetes service is a logical abstraction over "`applications`" (whatever these are) and the replicas of these.
+Services are single points of entry when we want to connect to our microservices.
+They act like load balancers and transparently distribute the requests to the individual pods.
+
+Inside clusters, services are resolvable via a cluster-internal virtual IP address and via DNS by their name.
+The latter enables us to simply connect to host names such as `barista`, if a service `barista` exists within the cluster.
+
+Let's have a look at the coffee-shop service definition:
+
+----
+kind: Service
+apiVersion: v1
+metadata:
+  name: coffee-shop
+  labels:
+    app: coffee-shop
+spec:
+  selector:
+    app: coffee-shop
+  ports:
+    - port: 9080
+      name: http
+  type: NodePort
+----
+
+The service resource only defines a name, some meta data labels, and where to route traffic to: all pods that match the given selector.
+If you have a look at our deployment definitions again, you will see that all pods define an identical `app` label.
+This is the connection how the services know, which pods to distribute the requests to.
+This service will connect to all pods with label `app: coffee-shop` via port `9080`.
+Furthermore, services only connect to pods which are ready.
+
+Now, we create YAML definitions for the coffee-shop and barista services, also under the `deployment/` directories.
+You can either create a new file alongside the deployment definition, or put all Kubernetes resources in a single YAML file, with the resources (that is, YAML objects) being separated by a line of three dashes (`---`).
+Again, make sure that the name, label, and selector definition match either the coffee-shop or barista application.
+
+We create these resources on the cluster as well, by issuing the same commands like before:
+
+----
+kubectl apply -f coffee-shop/deployments/
+kubectl apply -f barista/deployments/
+----
+
+This is the nice story about declarative Infrastructure-as-Code files: we specify the desired state, and let Kubernetes _apply_ the definitions against the cluster.
+Our directories now contain the service definitions, as well.
+
+You can now verify whether the services have been created correctly:
+
+----
+kubectl get services
+----
+
+
+=== Accessing our applications
+
+Now, we will connect to our coffee-shop application from outside the cluster.
+
+If we have created a lite cluster we have to connect to our application via the IP address of the (only) node and the node port of the service.
+Therefore, we retrieve the public IP address of our cluster:
+
+----
+ibmcloud cs workers <cluster-name>
+ID         Public IP       Private IP      Machine Type   State    Status   Zone    Version   
+kube-xxx   159.122.186.7   10.144.188.64   free           normal   Ready    mil01   1.10.12_1541   
+----
+
+And the node port of our coffee-shop application:
+
+----
+kubectl get service coffee-shop
+NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+coffee-shop   NodePort   172.21.23.149   <none>        9080:30995/TCP   2m
+----
+
+With the example details, we can access our coffee-shop application using the URL `159.122.186.7:30995`, by combining the public IP address and the node port of the service:
+
+----
+curl <ip-address>:<node-port>/coffee-shop/resources/orders -i
+----
+
+NOTE: If you have created a standard cluster, you can use a Kubernetes ingress resources.
+However, in this workshop, we'll focus on Istio networking and thus will demonstrate Istio gateway resources instead (part of the next section).
+
+
+=== Configuration
+
+Now, we want to configure the coffee-shop to specify where the orders are from.
+We can do that using Kubernetes config maps and MicroProfile Config.
+
+
+==== MicroProfile Config
+
+MicroProfile Config can be used to conveniently inject configured values into our classes.
+There are default configuration sources, such as environment variables, that are available out of the box.
+
+We simply inject a configured value into our `CoffeeShop` class.
+The class previously used the default `HOME` location for our orders.
+This should now be configurable.
+
+[source, java]
+----
+@Inject
+@ConfigProperty(name = "location", defaultValue = "HOME")
+private BrewLocation location;
+----
+
+The `@Inject` is shipped with the CDI API while `@ConfigProperty` is an annotation from MicroProfile Config.
+The snippet above will search for a `location` property from the pre-defined config sources.
+If the value is found, it is injected into the variable location.
+Otherwise, the default value of `HOME` will be taken.
+
+We change the `CoffeeShop` to set the default location for our orders from that injected value: `order.setLocation(location);`
+
+In our example, we will use environment variables to inject the values.
+This means that the running container needs to define a variable `location`.
+As soon as this variable exists, the application will automatically make the value accessible.
+
+
+==== Kubernetes Config Maps
+
+We can define environment variables directly in Kubernetes deployment definitions, or configure them in so called config maps.
+A config map is a Kubernetes resources that stores configuration properties in the cluster.
+It can be mapped to files or, as in our example, environment variables.
+
+We create the following Kubernetes YAML definition:
+
+[source,yaml]
+----
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: coffee-config
+data:
+  location: Think
+----
+
+This defines the config map `coffee-config`, which contains the property `location` with the value `Think`.
+
+In order to make that property available to the running pods later on, we include the value in our Kubernetes deployment definition:
+
+[source,yaml]
+----
+# ...
+containers:
+- name: coffee-shop
+  image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+  ports:
+  - containerPort: 9080
+  env:
+  - name: location
+    valueFrom:
+      configMapKeyRef:
+        name: coffee-config
+        key: location
+  livenessProbe:
+# ...
+----
+
+The above example maps the config map values to environment variables in the pods.
+As MicroProfile Config ships with a default config source for environment variables, this property will automatically be available to our application.
+Thus, the injected value for the `location` will be the enum value `THINK`.
+
+
+=== 12 factors
+
+The https://12factor.net/[12 factors^] of modern software-as-a-service applications describe what aspects developers should take into account.
+Have a look at the described factors and contemplate, where we've already covered these aspects by using Enterprise Java with cloud-native technologies.
+With MicroProfile and its programming model, combined with Docker and Kubernetes, we can easily build 12-factor microservices.
+We'll discuss the impact of the 12 factors together.
+
+Now, we've setup a Kubernetes environment that orchestrates our microservices.
+Let's see how we can integrate Istio in the link:04-istio.adoc[next section].

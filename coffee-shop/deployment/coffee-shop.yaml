@@ -10,6 +10,7 @@ spec:
   ports:
     - port: 9080
       name: http
+  type: NodePort
 ---
 
 kind: Deployment
@@ -26,24 +27,30 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: sdaschner/coffee-shop:service-mesh-build-1
-        imagePullPolicy: Always
+        image: registry.eu-gb.bluemix.net/daschner-think/coffee-shop:1
         ports:
         - containerPort: 9080
+        env:
+        - name: location
+          valueFrom:
+            configMapKeyRef:
+              name: coffee-config
+              key: location
         livenessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -f localhost:9080/
-          initialDelaySeconds: 40
+            command: ["sh", "-c", "curl -f http://localhost:9080/"]
+          initialDelaySeconds: 20
         readinessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -f localhost:9080/coffee-shop/resources/health
-          initialDelaySeconds: 60
+            command: ["sh", "-c", "curl -s http://localhost:9080/health | grep -q coffee-shop"]
+          initialDelaySeconds: 40
       restartPolicy: Always
 ---
 
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: coffee-config
+data:
+  location: Think
+---

@@ -2,23 +2,11 @@
 
 
 
-                   
-            ┌─────────────────┐           ┌─────────────────┐
-            │ coffee-shop     │           │ barista         │
-            │┌───────────────┐│           │┌───────────────┐│
-            ││ POD           ││           ││ POD           ││
-            ││┌─────┐  ┌────┐││           ││┌─────┐  ┌────┐││
-            │││proxy│  │main│││           │││proxy│  │main│││
-            ││└─────┘  └────┘││           ││└─────┘  └────┘││
-            │└───^───────────┘│           │└───^───────────┘│
-            └────|────────────┘           └────|────────────┘
-                 └----------------┐  ┌---------┘
-                                  |  |          
-                    Configuration |  |
-                    Routing Rules |  |  
-                    Policy checks |  |
-                        Telemetry |  |
-                                  v  v            
-                               ┌─────────┐    
-                               │  Pilot  │   
-                               └─────────┘
+
+            Container Orchestration: Key Takeaways
+
+            • Service discovery
+            • Distribution & load balancing
+            • Networking & configuration
+            • Deployment & scalability
+

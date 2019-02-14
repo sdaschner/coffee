@@ -5,7 +5,6 @@
 
             Service Meshes: Key Takeaways
 
-
             • Transparently add technical cross-cutting concerns to microservices
             • Think “AOP for applications”
             • Routing, load-balancing, resiliency, telemetry, auth

@@ -1,6 +1,7 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import org.eclipse.microprofile.faulttolerance.Retry;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -18,7 +19,7 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.UUID;
 
-@Path("orders")
+@Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class OrdersResource {
@@ -33,6 +34,7 @@ public class OrdersResource {
     HttpServletRequest request;
 
     @GET
+    @Retry
     public JsonArray getOrders() {
         return coffeeShop.getOrders().stream()
                 .map(this::buildOrder)
@@ -41,7 +43,7 @@ public class OrdersResource {
 
     private JsonObject buildOrder(CoffeeOrder order) {
         return Json.createObjectBuilder()
-                .add("type", order.getType().name())
+                .add("type", order.getType().name().toLowerCase())
                 .add("status", order.getStatus().name())
                 .add("_self", buildUri(order).toString())
                 .build();
@@ -62,10 +64,9 @@ public class OrdersResource {
     private URI buildUri(CoffeeOrder order) {
         return uriInfo.getBaseUriBuilder()
                 .host(request.getServerName())
-                .port(-1)
+                .port(request.getServerPort())
                 .path(OrdersResource.class)
                 .path(OrdersResource.class, "getOrder")
                 .build(order.getId());
     }
-
 }

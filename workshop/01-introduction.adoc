@@ -1,0 +1,54 @@
+== Introduction
+
+As part of this workshop, we will see how to develop cloud-native microservices using Jakarta EE and MicroProfile, that are deployed using Docker, Kubernetes, and Istio.
+We'll examine the basics of modern Enterprise Java services, as well as scalability, resiliency, observability, traffic routing, configuration.
+
+
+=== Example application
+
+Our microservices example consists of two services, _coffee-shop_ and _barista_ which are both developed as enterprise applications using Jakarta EE and MicroProfile.
+Both services are developed and deployed individually; they communicate via HTTP (REST) and are not further coupled, logically nor technologically.
+
+The applications are deployed to Open Liberty, an open-source application server that supports a huge variety of Enterprise Java technologies, including Jakarta EE and MicroProfile.
+
+
+=== Getting started
+
+To get started, clone the Git repository and use the projects that are provided inside:
+
+----
+git clone https://github.com/sdaschner/coffee --branch=think-2019
+cd coffee/
+----
+
+
+=== Building
+
+In order to build our applications, we issue the following Maven command
+
+Our applications are built using Maven.
+Both microservice projects contains a `pom.xml` file, which defines the project build configuration and dependencies.
+
+To begin, we build both microservice applications by navigating to the corresponding directories and issuing the Maven build command:
+
+----
+cd coffee-shop/
+mvn package
+
+cd ../barista/
+mvn package
+----
+
+These commands will build both applications using Maven's `package` phase which creates the deployment artifacts, the WAR files containing our applications, under the corresponding `target` directories.
+Take a moment to have a look at the `pom.xml` files and the resulting WAR files, `coffee-shop.war` and `barista.war`.
+These WAR files will be deployed to our application containers.
+
+
+=== Running
+
+In order to run our applications, we could deploy them to (locally) running application containers.
+However, since we aim to run in a cloud-native setting, we will deploy the applications as Linux containers, here using Docker.
+
+In order to run Docker containers, we need to create corresponding Docker images, which contain everything that our applications need to just start-up and run.
+
+Let's see how we can achieve that in the link:02-docker.adoc[next section].

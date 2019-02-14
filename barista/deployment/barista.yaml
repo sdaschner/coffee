@@ -10,6 +10,7 @@ spec:
   ports:
     - port: 9080
       name: http
+  type: NodePort
 ---
 
 kind: Deployment
@@ -26,23 +27,16 @@ spec:
     spec:
       containers:
       - name: barista
-        image: sdaschner/barista:service-mesh-build-1
-        imagePullPolicy: Always
+        image: registry.eu-gb.bluemix.net/daschner-think/barista:1
         ports:
         - containerPort: 9080
         livenessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -f localhost:9080/
-          initialDelaySeconds: 40
+            command: ["sh", "-c", "curl -s http://localhost:9080/"]
+          initialDelaySeconds: 20
         readinessProbe:
           exec:
-            command:
-            - /bin/sh
-            - -c
-            - curl -f localhost:9080/barista/resources/health
-          initialDelaySeconds: 60
+            command: ["sh", "-c", "curl -s http://localhost:9080/health | grep -q barista"]
+          initialDelaySeconds: 40
       restartPolicy: Always
 ---

@@ -1,8 +1,12 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
 import com.sebastian_daschner.coffee_shop.control.Barista;
+import com.sebastian_daschner.coffee_shop.control.OrderProcessor;
 import com.sebastian_daschner.coffee_shop.control.Orders;
+import com.sebastian_daschner.coffee_shop.entity.BrewLocation;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,6 +22,13 @@ public class CoffeeShop {
     @Inject
     Barista barista;
 
+    @Inject
+    OrderProcessor orderProcessor;
+
+    @Inject
+    @ConfigProperty(name = "location", defaultValue = "HOME")
+    private BrewLocation location;
+
     public List<CoffeeOrder> getOrders() {
         return orders.retrieveAll();
     }
@@ -27,12 +38,21 @@ public class CoffeeShop {
     }
 
     public CoffeeOrder orderCoffee(CoffeeOrder order) {
+        setDefaultLocation(order);
+        OrderStatus status = barista.brewCoffee(order);
+        order.setStatus(status);
 
-        barista.startCoffeeBrew(order.getType());
-
-        order.setId(UUID.randomUUID());
         orders.store(order.getId(), order);
         return order;
+    }
+
+    private void setDefaultLocation(CoffeeOrder order) {
+        if (order.getLocation() == null)
+            order.setLocation(location);
+    }
+
+    public void processUnfinishedOrders() {
+        orders.getUnfinishedOrders().forEach(orderProcessor::processOrder);
     }
 
 }
