@@ -6,7 +6,6 @@ import com.sebastian_daschner.coffee_shop.control.Orders;
 import com.sebastian_daschner.coffee_shop.entity.BrewLocation;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
 import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -24,10 +23,6 @@ public class CoffeeShop {
 
     @Inject
     OrderProcessor orderProcessor;
-
-    @Inject
-    @ConfigProperty(name = "location", defaultValue = "HOME")
-    private BrewLocation location;
 
     public List<CoffeeOrder> getOrders() {
         return orders.retrieveAll();
@@ -48,7 +43,7 @@ public class CoffeeShop {
 
     private void setDefaultLocation(CoffeeOrder order) {
         if (order.getLocation() == null)
-            order.setLocation(location);
+            order.setLocation(BrewLocation.HOME);
     }
 
     public void processUnfinishedOrders() {
