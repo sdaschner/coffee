@@ -39,6 +39,24 @@ However, developing our applications with plain MicroProfile is also not quite s
 We therefore combine the two technologies, Java EE / Jakarta EE and MicroProfile, to get the best of both worlds.
 Since MicroProfile is based on Java EE standards, we can simply base our applications on Java EE, and add selected MicroProfile projects where we need them.
 
+
+== Hands-On: Preparation
+
+In order to run and perform the quicklab you need the following installed on your machine:
+
+- JDK 1.8 or newer
+- Maven 3
+- Docker
+- IDE or Editor of choice
+- Unix (emulated) shell
+
+We will run the Docker containers in a network that we need to create upfront:
+
+----
+docker network create --subnet=192.168.42.0/24 dkrnet
+----
+
+
 == Hands-On: Building
 
 . Clone this project so that you have access to the files locally:
@@ -340,3 +358,14 @@ For this approach we deployed our applications to a runtime that supports both J
 - https://jakarta.ee[Jakarta EE^]
 - https://microprofile.io[MicroProfile^]
 - https://openliberty.io[Open Liberty^]
+
+
+== Hands-On: Clean-up
+
+To clean-up everything that this lab has created, execute the following:
+
+----
+docker stop coffee-shop barista grafana prometheus
+docker network rm dkrnet
+docker rmi coffee-shop:1 coffee-shop:2 coffee-shop:3 barista:1
+----
