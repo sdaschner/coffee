@@ -1,7 +1,6 @@
 package com.sebastian_daschner.coffee_shop.boundary;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
-import org.eclipse.microprofile.faulttolerance.Retry;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -34,7 +33,6 @@ public class OrdersResource {
     HttpServletRequest request;
 
     @GET
-    @Retry
     public JsonArray getOrders() {
         return coffeeShop.getOrders().stream()
                 .map(this::buildOrder)
