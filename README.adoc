@@ -351,6 +351,8 @@ You've successfully finished this Quick-Lab.
 We've enhanced existing Java EE applications with injectable configuration and resiliency using MicroProfile.
 For this approach we deployed our applications to a runtime that supports both Java EE and MicroProfile, here Open Liberty.
 
+You can compare your results with the https://github.com/sdaschner/coffee/tree/jakarta-ee-microprofile-quicklab-finish[finished^] quicklab.
+
 
 == Further resources
 
