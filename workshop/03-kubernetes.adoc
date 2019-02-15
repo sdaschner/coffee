@@ -309,6 +309,14 @@ The above example maps the config map values to environment variables in the pod
 As MicroProfile Config ships with a default config source for environment variables, this property will automatically be available to our application.
 Thus, the injected value for the `location` will be the enum value `JFOKUS`.
 
+You can have a look at the coffee order locations under the resource for single coffee orders.
+You retrieve the URL of a single coffee order from the response of all orders:
+
+----
+curl <ip-address>:<node-port>/coffee-shop/resources/orders
+curl <ip-address>:<node-port>/coffee-shop/resources/orders/<order-uuid>
+----
+
 
 === 12 factors
 
