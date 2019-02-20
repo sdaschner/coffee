@@ -26,7 +26,7 @@ metadata:
 spec:
   containers:
   - name: coffee-shop
-    image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+    image: registry.eu-gb.bluemix.net/<your-name>-workshop/coffee-shop:1
     ports:
     - containerPort: 9080
   restartPolicy: Always
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+        image: registry.eu-gb.bluemix.net/<your-name>-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
       restartPolicy: Always
@@ -106,7 +106,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+        image: registry.eu-gb.bluemix.net/<your-name>-workshop/coffee-shop:1
         ports:
         - containerPort: 9080
         livenessProbe:
@@ -280,10 +280,10 @@ apiVersion: v1
 metadata:
   name: coffee-config
 data:
-  location: Think
+  location: Java
 ----
 
-This defines the config map `coffee-config`, which contains the property `location` with the value `Think`.
+This defines the config map `coffee-config`, which contains the property `location` with the value `Java`.
 
 In order to make that property available to the running pods later on, we include the value in our Kubernetes deployment definition:
 
@@ -292,7 +292,7 @@ In order to make that property available to the running pods later on, we includ
 # ...
 containers:
 - name: coffee-shop
-  image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:1
+  image: registry.eu-gb.bluemix.net/<your-name>-workshop/coffee-shop:1
   ports:
   - containerPort: 9080
   env:
@@ -307,7 +307,7 @@ containers:
 
 The above example maps the config map values to environment variables in the pods.
 As MicroProfile Config ships with a default config source for environment variables, this property will automatically be available to our application.
-Thus, the injected value for the `location` will be the enum value `THINK`.
+Thus, the injected value for the `location` will be the enum value `JAVA`.
 
 
 === 12 factors

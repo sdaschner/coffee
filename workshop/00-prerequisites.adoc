@@ -228,7 +228,7 @@ You are targeting region 'uk-south', the registry is 'registry.eu-gb.bluemix.net
 We use the CLI to create a unique namespace in the Container Registry service (`cr`) for our workshop:
 
 ----
-ibmcloud cr namespace-add think-<your-name>-workshop
+ibmcloud cr namespace-add <your-name>-workshop
 ibmcloud cr namespaces
 ----
 
@@ -236,8 +236,8 @@ In order to test our new registry namespace, we pull a public image, re-tag it f
 
 ----
 docker pull sdaschner/open-liberty:javaee8-tracing-b1
-docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-gb.bluemix.net/think-<your-name>-workshop/open-liberty:1
-docker push registry.eu-gb.bluemix.net/think-<your-name>-workshop/open-liberty:1
+docker tag sdaschner/open-liberty:javaee8-tracing-b1 registry.eu-gb.bluemix.net/<your-name>-workshop/open-liberty:1
+docker push registry.eu-gb.bluemix.net/<your-name>-workshop/open-liberty:1
 ----
 
 Let's see whether our image is now in the private registry:

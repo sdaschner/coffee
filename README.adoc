@@ -9,4 +9,4 @@ The contents of the workshop start with the link:workshop/00-prerequisites.adoc[
 
 === Finish
 
-After you've finished the walk-through you can compare your result with the https://github.com/sdaschner/coffee/tree/think-2019-finish[finished version^].
+After you've finished the walk-through you can compare your result with the https://github.com/sdaschner/coffee/tree/service-meshed-ee-finish[finished version^].

@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 public enum BrewLocation {
     HOME,
     OFFICE,
-    THINK;
+    JAVA;
 
     public static BrewLocation of(String string) {
         return Stream.of(BrewLocation.values())

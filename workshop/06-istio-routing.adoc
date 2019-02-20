@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-gb.bluemix.net/think-<your-name>-workshop/coffee-shop:2
+        image: registry.eu-gb.bluemix.net/<your-name>-workshop/coffee-shop:2
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
