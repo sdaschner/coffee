@@ -7,6 +7,5 @@
 
             • Threads must be managed by container
             • Thread pool & queue sizes
-            • Rejected execution handlers
             • Handling rejected executions
             • (HTTP) request thread pools

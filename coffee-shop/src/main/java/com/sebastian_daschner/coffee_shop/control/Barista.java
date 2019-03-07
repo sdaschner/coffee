@@ -1,6 +1,10 @@
 package com.sebastian_daschner.coffee_shop.control;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeType;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,6 +16,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
 public class Barista {
@@ -21,7 +26,11 @@ public class Barista {
 
     @PostConstruct
     private void initClient() {
-        client = ClientBuilder.newClient();
+        client = ClientBuilder
+                .newBuilder()
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(3, TimeUnit.SECONDS)
+                .build();
         target = client.target("http://barista:9080/barista/resources/brews");
     }
 
