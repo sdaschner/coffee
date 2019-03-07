@@ -5,6 +5,6 @@
 
             Backpressure
 
-            • Notifying clients about heavy load or failures
-            • Eagerly failing
+            • “Notifying” clients about heavy load or failures
+            • Eagerly failing -> being predictable
             • Meeting response times (SLAs) vs. progress

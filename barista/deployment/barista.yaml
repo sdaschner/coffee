@@ -26,25 +26,23 @@ spec:
     spec:
       containers:
       - name: barista
-        image: docker.sebastian-daschner.com/barista:1
+        image: sdaschner/barista:bulletproof-ee-1
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
         livenessProbe:
           exec:
             command:
-            - /bin/bash
+            - /bin/sh
             - -c
             - curl -f localhost:9080/
           initialDelaySeconds: 40
         readinessProbe:
           exec:
             command:
-            - /bin/bash
+            - /bin/sh
             - -c
             - curl -f localhost:9080/barista/resources/health
           initialDelaySeconds: 60
-      imagePullSecrets:
-      - name: regsecret
       restartPolicy: Always
 ---

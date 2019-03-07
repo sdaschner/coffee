@@ -26,25 +26,23 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: docker.sebastian-daschner.com/coffee-shop:bulletproof-build-1
+        image: sdaschner/coffee-shop:bulletproof-ee-1
         imagePullPolicy: Always
         ports:
         - containerPort: 9080
         livenessProbe:
           exec:
             command:
-            - /bin/bash
+            - /bin/sh
             - -c
             - curl -f localhost:9080/
           initialDelaySeconds: 40
         readinessProbe:
           exec:
             command:
-            - /bin/bash
+            - /bin/sh
             - -c
             - curl -f localhost:9080/coffee-shop/resources/health
           initialDelaySeconds: 60
-      imagePullSecrets:
-      - name: regsecret
       restartPolicy: Always
 ---

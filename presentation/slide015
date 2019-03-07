@@ -6,7 +6,7 @@
             Bulletproof Enterprise Java: Key Takeaways
 
             • Consider timeouts, circuit breakers, retries, bulkheads
-            • Mind the application server (request) thread pools
+            • Mind the container's (request) thread pools
             • Know your implementation
             • Always test worst case scenarios
             • There's no substitute for observability

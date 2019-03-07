@@ -1,7 +1,6 @@
 package com.sebastian_daschner.coffee_shop.control;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeType;
-import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -13,7 +12,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
 public class Barista {
@@ -23,14 +21,10 @@ public class Barista {
 
     @PostConstruct
     private void initClient() {
-        client = ClientBuilder.newBuilder()
-                .connectTimeout(1, TimeUnit.SECONDS)
-                .readTimeout(3, TimeUnit.SECONDS)
-                .build();
+        client = ClientBuilder.newClient();
         target = client.target("http://barista:9080/barista/resources/brews");
     }
 
-    @CircuitBreaker
     public void startCoffeeBrew(CoffeeType type) {
         JsonObject requestBody = createRequestBody(type);
         Response response = sendRequest(requestBody);
