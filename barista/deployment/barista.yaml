@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: barista
-        image: registry.eu-gb.bluemix.net/daschner/barista:1
+        image: sdaschner/barista:istio-ee-1
         ports:
         - containerPort: 9080
         livenessProbe:

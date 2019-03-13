@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-gb.bluemix.net/daschner/coffee-shop:2
+        image: sdaschner/coffee-shop:istio-ee-2
         ports:
         - containerPort: 9080
         livenessProbe:

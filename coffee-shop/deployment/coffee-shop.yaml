@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: registry.eu-gb.bluemix.net/daschner/coffee-shop:1
+        image: sdaschner/coffee-shop:istio-ee-1
         ports:
         - containerPort: 9080
         env:
