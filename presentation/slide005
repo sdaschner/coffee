@@ -3,8 +3,34 @@
 
 
 
-            Retries
 
-            • Ironing-out temporary failures by immediately* retrying
-            • Avoiding unnecessary error responses
-            • Retries need to be a concious business decision
+
+
+
+                             ____       __       _          
+                            / __ \___  / /______(_)__  _____
+                           / /_/ / _ \/ __/ ___/ / _ \/ ___/
+                          / _, _/  __/ /_/ /  / /  __(__  ) 
+                         /_/ |_|\___/\__/_/  /_/\___/____/  
+                                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+
+- Ironing-out temporary failures by immediately* retrying
+- Avoiding unnecessary error responses
+- Retries need to be a concious business decision

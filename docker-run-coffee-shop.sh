@@ -8,4 +8,4 @@ docker run --rm -d \
   -p 9443:9443 \
   --name coffee-shop \
   --network dkrnet \
-  sdaschner/coffee-shop:bulletproof-ee-2
+  sdaschner/coffee-shop:bulletproof-ee-1

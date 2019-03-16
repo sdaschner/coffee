@@ -27,12 +27,12 @@ public class OrdersResource {
     CoffeeShop coffeeShop;
 
     @Inject
-    @Dedicated("coffees-read")
-    ExecutorService readExecutor;
+    @Dedicated("orders-write")
+    ExecutorService writeExecutor;
 
     @Inject
-    @Dedicated("coffees-write")
-    ExecutorService writeExecutor;
+    @Dedicated("orders-read")
+    ExecutorService readExecutor;
 
     @GET
     public CompletionStage<JsonArray> getOrders() {
@@ -52,13 +52,13 @@ public class OrdersResource {
     @GET
     @Path("{id}")
     public CompletionStage<CoffeeOrder> getOrder(@PathParam("id") UUID id) {
-        return CompletableFuture.supplyAsync(() -> coffeeShop.getOrder(id), readExecutor);
+        return CompletableFuture.supplyAsync(() -> coffeeShop.getOrder(id));
     }
 
     @POST
     public CompletionStage<Response> orderCoffee(@Valid @NotNull CoffeeOrder order) {
         return CompletableFuture.supplyAsync(() -> coffeeShop.orderCoffee(order), writeExecutor)
-                .thenApply(a -> Response.noContent().build())
+                .thenApply(c -> Response.noContent().build())
                 .exceptionally(e -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .header("X-Error", e.getMessage())
                         .build());

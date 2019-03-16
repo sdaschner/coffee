@@ -3,9 +3,9 @@
 
 
 
-                          ┌───────────┐               ┌──────────────┐
-                          │Istio Pilot│ <--watches--> │Kubernetes API│
-                          └───────────┘               └──────────────┘
+                          ┌───────────┐
+                          │Istio Pilot│
+                          └───────────┘
                                  |
                                  |
                                  |
@@ -19,17 +19,6 @@
                       │└────┘ └─────┘│   outlier detection,     └───────────┘
                       └──────────────┘   timeouts, retries,      
                                           health checking
-
-
-
-
-
-
-
-
-
-
-
 
 
 

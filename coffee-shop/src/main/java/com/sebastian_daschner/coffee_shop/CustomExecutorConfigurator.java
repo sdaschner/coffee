@@ -11,9 +11,9 @@ public class CustomExecutorConfigurator extends ExecutorConfigurator {
     @Override
     public ExecutorConfiguration defaultConfigurator() {
         return new ExecutorConfiguration.Builder()
-                .queueCapacity(4)
-                .maxPoolSize(4)
                 .abortPolicy()
+                .maxPoolSize(4)
+                .queueCapacity(4)
                 .build();
     }
 }

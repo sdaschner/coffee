@@ -10,4 +10,5 @@
             • Know your implementation
             • Always test worst case scenarios
             • There's no substitute for observability
+            • Automate processes for analysis & failure mitigation
             • Service mesh resiliency can act as fallback

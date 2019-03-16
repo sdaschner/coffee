@@ -1,10 +1,6 @@
 package com.sebastian_daschner.coffee_shop.control;
 
 import com.sebastian_daschner.coffee_shop.entity.CoffeeType;
-import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
-import org.eclipse.microprofile.faulttolerance.Fallback;
-import org.eclipse.microprofile.faulttolerance.Retry;
-import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -26,8 +22,7 @@ public class Barista {
 
     @PostConstruct
     private void initClient() {
-        client = ClientBuilder
-                .newBuilder()
+        client = ClientBuilder.newBuilder()
                 .connectTimeout(3, TimeUnit.SECONDS)
                 .readTimeout(3, TimeUnit.SECONDS)
                 .build();
