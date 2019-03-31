@@ -3,13 +3,17 @@ package com.sebastian_daschner.coffee_shop.boundary;
 import com.sebastian_daschner.coffee_shop.control.Barista;
 import com.sebastian_daschner.coffee_shop.control.Orders;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import org.eclipse.microprofile.faulttolerance.Asynchronous;
+import org.eclipse.microprofile.faulttolerance.Bulkhead;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
-@Stateless
+@ApplicationScoped
 public class CoffeeShop {
 
     @Inject
@@ -18,26 +22,32 @@ public class CoffeeShop {
     @Inject
     Barista barista;
 
-    public List<CoffeeOrder> getOrders() {
+    @Bulkhead(value = 4, waitingTaskQueue = 4)
+    @Asynchronous
+    public CompletionStage<List<CoffeeOrder>> getOrders() {
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return orders.retrieveAll();
+        return CompletableFuture.completedFuture(orders.retrieveAll());
     }
 
-    public CoffeeOrder getOrder(UUID id) {
-        return orders.retrieve(id);
+    @Bulkhead(value = 4, waitingTaskQueue = 4)
+    @Asynchronous
+    public CompletionStage<CoffeeOrder> getOrder(UUID id) {
+        return CompletableFuture.completedFuture(orders.retrieve(id));
     }
 
-    public CoffeeOrder orderCoffee(CoffeeOrder order) {
+    @Bulkhead(value = 4, waitingTaskQueue = 8)
+    @Asynchronous
+    public CompletionStage<CoffeeOrder> orderCoffee(CoffeeOrder order) {
 
         barista.startCoffeeBrew(order.getType());
 
         order.setId(UUID.randomUUID());
         orders.store(order.getId(), order);
-        return order;
+        return CompletableFuture.completedFuture(order);
     }
 
 }

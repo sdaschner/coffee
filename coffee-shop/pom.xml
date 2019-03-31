@@ -19,16 +19,6 @@
             <version>2.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.airhacks</groupId>
-            <artifactId>porcupine</artifactId>
-            <version>0.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sebastian-daschner</groupId>
-            <artifactId>porcupine-metrics</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 
     <build>
