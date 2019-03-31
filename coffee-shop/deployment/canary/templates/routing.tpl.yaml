@@ -1,0 +1,54 @@
+{{ $destinations := splitList "," .destinations }}
+{{ $subsets := splitList "," .subsets }}
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: coffee-shop
+spec:
+  host: coffee-shop
+  subsets:
+  {{- range $subsets }}
+  - name: {{ . }}
+    labels:
+      version: {{ . }}
+  {{- end }}
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: coffee-shop-gateway
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - coffee-shop-gateway
+  http:
+  - route:
+  {{- range $destinations }}{{ $parts := splitList ":" . }}
+    - destination:
+        host: coffee-shop
+        subset: {{ index $parts 0 }}
+        port:
+          number: 9080
+      weight: {{ index $parts 1 }}
+  {{- end }}
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: coffee-shop
+spec:
+  hosts:
+  - coffee-shop
+  http:
+  - route:
+  {{- range $destinations }}{{ $parts := splitList ":" . }}
+    - destination:
+        host: coffee-shop
+        subset: {{ index $parts 0 }}
+      weight: {{ index $parts 1 }}
+  {{- end }}
+---
