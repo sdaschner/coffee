@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-
+cd ${0%/*}
 trap cleanup EXIT
 
 function cleanup() {
@@ -8,6 +8,8 @@ function cleanup() {
   rm -Rf /tmp/wad-dropins/*
 }
 
+
+cd coffee-shop/
 
 docker build -t coffee-shop:tmp .
 docker stop coffee-shop || true
