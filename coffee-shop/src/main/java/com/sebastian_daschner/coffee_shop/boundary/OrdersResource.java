@@ -48,7 +48,7 @@ public class OrdersResource {
     @POST
     public CompletionStage<Response> orderCoffee(@Valid @NotNull CoffeeOrder order) {
         return coffeeShop.orderCoffee(order)
-                .thenApply(c -> Response.noContent().build())
+                .thenApply(o -> Response.noContent().build())
                 .exceptionally(e -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                         .header("X-Error", e.getMessage())
                         .build());

@@ -30,7 +30,7 @@ public class Barista {
         target = client.target("http://barista:9080/barista/resources/brews");
     }
 
-    @CircuitBreaker(delay = 3000, requestVolumeThreshold = 20, failureRatio = 0.3)
+    @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.3, delay = 3000)
     public void startCoffeeBrew(CoffeeType type) {
         JsonObject requestBody = createRequestBody(type);
         Response response = sendRequest(requestBody);
