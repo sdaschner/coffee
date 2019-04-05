@@ -3,10 +3,10 @@
 
 
 
-            Bulletproof Java Enterprise: Whatelse
+          Bulletproof Java Enterprise: Whatelse
 
-            • Build & refine test harness
-            • Test DB connection pooling behavior
-            • Test data marshalling behavior (e.g. JSON-B, JSON-P)
-            • Avoid (extensive) logging
+          • Build & refine test harness
+          • Test DB connection pooling behavior
+          • Test data marshalling behavior (e.g. JSON-B, JSON-P)
+          • Avoid (extensive) logging
 

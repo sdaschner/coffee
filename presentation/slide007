@@ -3,8 +3,8 @@
 
 
 
-            Calculating queue sizes
+          Calculating queue sizes
 
-            • Little's Law
-            • Starting from maximum latency (SLA)
-            • queue_length = maximum_latency / (transaction_time / number_threads)
+          • Little's Law
+          • Starting from maximum latency (SLA)
+          • queue_length = maximum_latency / (transaction_time / num_threads)

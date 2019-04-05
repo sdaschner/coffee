@@ -3,12 +3,12 @@
 
 
 
-            Bulletproof Enterprise Java: Key Takeaways
+          Bulletproof Enterprise Java: Key Takeaways
 
-            • Consider timeouts, circuit breakers, bulkheads, retries
-            • Mind the container's (request) thread pools
-            • Know your implementation
-            • Always test worst case scenarios
-            • Automate processes for analysis & failure mitigation
-            • Define automated release scenarios
-            • Service mesh resiliency can act as fallback
+          • Consider timeouts, circuit breakers, bulkheads, retries
+          • Mind the container's (request) thread pools
+          • Know your implementation
+          • Always test worst case scenarios
+          • Automate processes for analysis & failure mitigation
+          • Define automated release scenarios
+          • Service mesh resiliency can act as fallback

@@ -2,22 +2,22 @@
 
 
 
-                      ┌───────────┐
-                      │Istio Pilot│
-                      └───────────┘
-                             |
-                             |
-                             |
-                         configures
-                             |
-                             |
-                   Pod       |
-                  ┌──────────v───┐   connection-based        Pod
-                  │┌────┐ ┌─────┐│      resiliency          ┌───────────┐
-                  ││main│ │proxy│-------------------------> │coffee-shop│
-                  │└────┘ └─────┘│   outlier detection,     └───────────┘
-                  └──────────────┘   timeouts, retries,      
-                                      health checking
+                    ┌───────────┐
+                    │Istio Pilot│
+                    └───────────┘
+                           |
+                           |
+                           |
+                       configures
+                           |
+                           |
+                 Pod       |
+                ┌──────────v───┐   connection-based        Pod
+                │┌────┐ ┌─────┐│      resiliency          ┌───────────┐
+                ││main│ │proxy│-------------------------> │coffee-shop│
+                │└────┘ └─────┘│   outlier detection,     └───────────┘
+                └──────────────┘   timeouts, retries,      
+                                    health checking
 
 
 

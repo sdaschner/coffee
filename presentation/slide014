@@ -3,9 +3,9 @@
 
 
 
-            Service Meshes
+          Service Meshes
 
-            • Transparently add technical cross-cutting concerns to microservices
-            • Think “AOP for applications”
-            • Routing, load-balancing, resiliency, telemetry, auth
-            • Useful for testing resiliency
+          • Transparently add cross-cutting concerns to microservices
+          • Think “AOP for applications”
+          • Routing, load-balancing, resiliency, telemetry, auth
+          • Useful for testing resiliency
