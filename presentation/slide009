@@ -3,8 +3,34 @@
 
 
 
-            Backpressure
 
-            • “Notifying” clients about heavy load or failures
-            • Eagerly failing -> being predictable
-            • Meeting response times (SLAs) vs. progress
+
+
+
+                  ______              _ __    ___               __             
+                 / ___(_)_________ __(_) /_  / _ )_______ ___ _/ /_____ _______
+                / /__/ / __/ __/ // / / __/ / _  / __/ -_) _ `/  '_/ -_) __(_-<
+                \___/_/_/  \__/\_,_/_/\__/ /____/_/  \__/\_,_/_/\_\\__/_/ /___/
+                                                                               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+
+- Detect failure or slow responses
+- Prevents actions that are doomed to fail
+- Deliberately interrupt execution to avoid further damage
+- Might specify fallback behavior

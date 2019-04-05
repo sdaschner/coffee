@@ -3,8 +3,10 @@
 
 
 
-            Calculating queue sizes
+            Bulletproof Java Enterprise: Whatelse
 
-            • Little's Law
-            • Starting from maximum latency (SLA)
-            • queue_length = maximum_latency / (transaction_time / number_threads)
+            • Build & refine test harness
+            • Test DB connection pooling behavior
+            • Test data marshalling behavior (e.g. JSON-B, JSON-P)
+            • Avoid (extensive) logging
+

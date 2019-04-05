@@ -3,34 +3,8 @@
 
 
 
+            Calculating queue sizes
 
-
-
-
-                         ____        ____   __                   __    
-                        / __ )__  __/ / /__/ /_  ___  ____ _____/ /____
-                       / __  / / / / / //_/ __ \/ _ \/ __ `/ __  / ___/
-                      / /_/ / /_/ / / ,< / / / /  __/ /_/ / /_/ (__  ) 
-                     /_____/\__,_/_/_/|_/_/ /_/\___/\__,_/\__,_/____/  
-                                                                       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-
-- Partition functionality in sections that will fail individually
-- Prevent cascading errors
-- Rest of the application stays functional
+            • Little's Law
+            • Starting from maximum latency (SLA)
+            • queue_length = maximum_latency / (transaction_time / number_threads)
