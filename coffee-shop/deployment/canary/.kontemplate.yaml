@@ -1,0 +1,12 @@
+context: coffee-shop-k8s.example.com
+global:
+  subsets: v1
+  newVersion: v1
+  image: 1
+  destinations: v1:100
+include:
+  - name: deployment
+    path: templates/deployment.tpl.yaml
+  - name: routing
+    path: templates/routing.tpl.yaml
+---
