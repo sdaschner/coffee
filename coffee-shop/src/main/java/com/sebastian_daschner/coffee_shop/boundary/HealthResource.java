@@ -16,7 +16,9 @@ public class HealthResource {
 
     @GET
     public Response health() {
-        return Response.ok("OK").header("Open-Liberty", appServerVersion).build();
+        return Response.ok("OK")
+                .header("X-App-Server", appServerVersion)
+                .build();
     }
 
 }

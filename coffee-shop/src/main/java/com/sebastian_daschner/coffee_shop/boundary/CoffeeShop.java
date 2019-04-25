@@ -4,12 +4,12 @@ import com.sebastian_daschner.coffee_shop.control.Barista;
 import com.sebastian_daschner.coffee_shop.control.Orders;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
-@Stateless
+@ApplicationScoped
 public class CoffeeShop {
 
     @Inject
