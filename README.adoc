@@ -4,9 +4,14 @@ The coffee shop hands-on example project of my _Cloud native, service-meshed Jav
 
 It comprises two applications, _coffee-shop_ and _barista_, built by Java EE and MicroProfile, which are deployed to a Kubernetes and Istio cluster.
 
+=== Debugging
+
+You can use https://wad.sh[WAD^] to debug a local Docker container.
+Furthermore, https://telepresence.io[telepresence^] can be used to connect a local process to a Kubernetes cluster.
+Have a look at the `wad-telepresence-coffee-shop.sh` script.
+
+=== Workshop
+
 The contents of the workshop start with the link:workshop/00-prerequisites.adoc[prerequisites].
-
-
-=== Finish
 
 After you've finished the walk-through you can compare your result with the https://github.com/sdaschner/coffee/tree/service-meshed-ee-finish[finished version^].

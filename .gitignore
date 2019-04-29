@@ -7,3 +7,5 @@ release.properties
 
 *.iml
 .idea/
+
+*.log

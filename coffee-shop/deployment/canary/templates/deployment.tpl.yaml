@@ -20,14 +20,12 @@ spec:
             - "/bin/sh"
             - "-c"
             - "curl -f localhost:9080/"
-          initialDelaySeconds: 20
         readinessProbe:
           exec:
             command:
             - "/bin/sh"
             - "-c"
             - "curl -s http://localhost:9080/health | grep -q coffee-shop"
-          initialDelaySeconds: 30
         ports:
         - containerPort: 9080
       restartPolicy: Always

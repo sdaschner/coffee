@@ -2,7 +2,7 @@
 
 As prerequisites to perform the workshop, you need to have the following tools installed on your laptop:
 
-- JDK 8+
+- JDK 11+
 - Maven 3
 - Docker
 - `kubectl`
