@@ -2,7 +2,7 @@
 set -euo pipefail
 cd ${0%/*}
 
-docker stop grafana prometheus || true
+docker stop grafana prometheus &> /dev/null || true
 
 docker run --rm -d \
   -p 9090:9090 \

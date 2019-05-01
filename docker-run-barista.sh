@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-docker stop barista || true
+docker stop barista &> /dev/null || true
 
 docker run --rm -d \
   --name barista \

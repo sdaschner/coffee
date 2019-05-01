@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-docker stop coffee-shop || true
+docker stop coffee-shop &> /dev/null || true
 
 docker run --rm -d \
   -p 9080:9080 \

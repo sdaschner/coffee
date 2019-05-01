@@ -1,19 +1,20 @@
 #!/bin/bash
 set -euo pipefail
-cd ${0%/*}
+cd ${0%/*}/coffee-shop
+
 trap cleanup EXIT
 
 function cleanup() {
-  docker stop coffee-shop || true
+  echo stopping Docker container...
+  docker stop coffee-shop &> /dev/null || true
   rm -Rf /tmp/wad-dropins/*
 }
 
-
-cd coffee-shop/
-
+echo building project...
 docker build -t coffee-shop:tmp .
-docker stop coffee-shop || true
+docker stop coffee-shop &> /dev/null || true
 
+echo starting container...
 docker run --rm -d \
   --name coffee-shop \
   -p 9080:9080 \

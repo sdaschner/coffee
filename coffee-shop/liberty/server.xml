@@ -1,26 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <server description="OpenLiberty Server">
 
     <featureManager>
-        <feature>javaee-8.0</feature>
+        <!--<feature>javaee-8.0</feature>-->
+        <!--<feature>microProfile-2.1</feature>-->
+        <!--<feature>usr:opentracingZipkin-0.31</feature>-->
+        <feature>beanValidation-2.0</feature>
+        <feature>cdi-2.0</feature>
+        <feature>ejbLite-3.2</feature>
+        <feature>jaxb-2.2</feature>
+        <feature>jaxrs-2.1</feature>
+        <feature>jaxrsClient-2.1</feature>
+        <feature>jsonb-1.0</feature>
+        <feature>jsonp-1.1</feature>
+        <feature>mpConfig-1.3</feature>
+        <feature>mpHealth-1.0</feature>
         <feature>mpMetrics-1.1</feature>
         <feature>mpFaultTolerance-2.0</feature>
-        <feature>mpOpenTracing-1.0</feature>
-        <feature>usr:opentracingZipkin-0.30</feature>
+        <feature>mpOpenTracing-1.2</feature>
         <feature>monitor-1.0</feature>
+        <feature>usr:opentracingZipkin-0.31</feature>
     </featureManager>
-
-    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443"/>
-
-    <keyStore id="defaultKeyStore" password="Liberty"/>
-
-    <basicRegistry id="basic" realm="MicroProfileMetrics">
-        <user name="admin" password="adminadmin"/>
-        <user name="nonadmin" password="guest"/>
-    </basicRegistry>
-
-    <administrator-role>
-        <user>admin</user>
-    </administrator-role>
 
 </server>

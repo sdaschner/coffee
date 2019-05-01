@@ -10,7 +10,7 @@ public class HealthResource {
     @GET
     public Response health() {
         return Response.ok("OK")
-                .header("App-Version", "1")
+                .header("App-Version", "2")
                 .build();
     }
 
