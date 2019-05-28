@@ -30,12 +30,6 @@ spec:
         image: sdaschner/coffee-shop:istio-ee-1
         ports:
         - containerPort: 9080
-        env:
-        - name: location
-          valueFrom:
-            configMapKeyRef:
-              name: coffee-config
-              key: location
         livenessProbe:
           exec:
             command: ["sh", "-c", "curl -f http://localhost:9080/"]
@@ -43,12 +37,4 @@ spec:
           exec:
             command: ["sh", "-c", "curl -s http://localhost:9080/health | grep -q coffee-shop"]
       restartPolicy: Always
----
-
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: coffee-config
-data:
-  location: Java
 ---

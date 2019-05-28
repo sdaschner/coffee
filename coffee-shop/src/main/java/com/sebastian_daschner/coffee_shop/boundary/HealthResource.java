@@ -12,6 +12,6 @@ public class HealthResource implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        return HealthCheckResponse.named("coffee-shop").withData("coffee-shop", "ok").up().build();
+        return HealthCheckResponse.named("coffee-shop").withData("app-version", "2").up().build();
     }
 }
