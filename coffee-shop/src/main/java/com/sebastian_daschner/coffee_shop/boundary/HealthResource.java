@@ -17,7 +17,7 @@ public class HealthResource {
     @GET
     public Response health() {
         return Response.ok("OK")
-                .header("X-App-Server", appServerVersion)
+                .header("App-Server", appServerVersion)
                 .build();
     }
 

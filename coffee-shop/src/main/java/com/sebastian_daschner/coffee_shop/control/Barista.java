@@ -13,7 +13,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @ApplicationScoped
@@ -31,7 +30,7 @@ public class Barista {
         target = client.target("http://barista:9080/barista/resources/brews");
     }
 
-    @CircuitBreaker
+    @CircuitBreaker(requestVolumeThreshold = 10, failureRatio = 0.3, delay = 3000)
     public void startCoffeeBrew(CoffeeType type) {
         JsonObject requestBody = createRequestBody(type);
         Response response = sendRequest(requestBody);

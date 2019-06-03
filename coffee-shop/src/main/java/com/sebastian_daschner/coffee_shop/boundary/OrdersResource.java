@@ -61,8 +61,6 @@ public class OrdersResource {
 
     private URI buildUri(CoffeeOrder order) {
         return uriInfo.getBaseUriBuilder()
-                .host(request.getServerName())
-                .port(-1)
                 .path(OrdersResource.class)
                 .path(OrdersResource.class, "getOrder")
                 .build(order.getId());
