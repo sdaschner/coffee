@@ -3,16 +3,16 @@
 
 
 
-            Java EE: The Good Parts *
+        Java EE: The Good Parts *
 
-            • CDI
-            • JAX-RS
-            • JSON-P / JSON-B
-            • JPA / JTA
-            • EJB (version 3.x!)
-            • Bean Validation
-            • Interceptors, Common Annotations, Concurrency Utilities
-            • Security API
+        • CDI
+        • JAX-RS
+        • JSON-P / JSON-B
+        • JPA / JTA
+        • EJB (version 3.x!)
+        • Bean Validation
+        • Interceptors, Common Annotations, Concurrency Utilities
+        • Security API
 
 
-            * according to Sebastian Daschner
+        * according to Sebastian Daschner

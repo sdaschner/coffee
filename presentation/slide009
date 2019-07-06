@@ -3,9 +3,9 @@
 
 
 
-            Development option: Java EE 8 / Jakarta EE plus MicroProfile additions
+        Development option: MicroProfile 2.2 alone
 
-            • Proven technology, known APIs
-            • MicroProfile projects fills the gaps
-            • E.g. Java EE plus MP Config, Fault Tolerance, Metrics, OpenTracing
+        • Slim, lightweight, only modern APIs
+        • Hardly enough for production
+        • E.g. lacking JPA, JTA, Concurrency Utils, EJB (Timers, Asynchronous)
 

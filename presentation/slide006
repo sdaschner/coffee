@@ -1,18 +1,26 @@
 
 
 
+          Java EE             MicroProfile
+          -------             ------------
+          JAX-RS              JAX-RS    
+          CDI                 CDI
+          JPA                 MicroProfile Config
+          EJB                 ...
+          ...
+
+           |
+           |
+           v
+
+          Jakarta EE
+          ----------
 
 
-            MicroProfile: The Good Parts *
-
-            • CDI
-            • JAX-RS
-            • JSON-P / JSON-B
-            • Config
-            • Fault Tolerance
-            • Metrics
-            • Health Check
-            • Open Tracing
 
 
-            * according to Sebastian Daschner
+
+
+
+
+

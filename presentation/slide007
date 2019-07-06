@@ -3,9 +3,16 @@
 
 
 
-            Development option: Java EE 8 / Jakarta EE only
+        MicroProfile: The Good Parts *
 
-            • Proven technology, includes a lot of required things
-            • Known standards & APIs
-            • Missing parts
+        • CDI
+        • JAX-RS
+        • JSON-P / JSON-B
+        • Config
+        • Fault Tolerance
+        • Metrics
+        • Health Check
+        • Open Tracing
 
+
+        * according to Sebastian Daschner

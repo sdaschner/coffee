@@ -3,9 +3,10 @@
 
 
 
-            Possible future direction: MicroProfile as Incubator
+        Key Takeaways
 
-            • Crafting vendor-independent soon-to-be standards
-            • Providing what's missing from future Jakarta EE
-            • Sharing design principles with Jakarta EE
-            • Defining a reasonable process
+        • Use known APIs
+        • Think of MicroProfile as extensions for Java EE
+        • Development model that fits your need on application side
+        • Optimize deployment artifacts before runtime
+

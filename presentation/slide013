@@ -3,10 +3,9 @@
 
 
 
-            Key Takeaways
+        Server runtimes supporting MicroProfile
 
-            • Use known APIs
-            • Think of MicroProfile as extensions for Java EE
-            • Development model that fits your need on application side
-            • Optimize deployment artifacts before runtime
-
+        • Open Liberty 19.0.0.5
+        • Payara 5.191
+        • Tom EE 8.0
+        • Wildfly 16.0.0.Final

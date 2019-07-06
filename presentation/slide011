@@ -3,9 +3,10 @@
 
 
 
-            Customizing The Runtime
+        Other EE Additions
 
-            • Only including the required standards & runtime features
-            • Required?
-            • Trade-off between time & material spent on either development or runtime
-            • Optimize the moving parts (deployment artifacts) first
+        • Standards that not-quite-made-it-into umbrella Java EE
+          • JSR 371, MVC
+          • JSR 107, JCache
+        • New projects that might go into Jakarta EE
+          • JNoSQL
