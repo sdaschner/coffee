@@ -3,6 +3,7 @@ package com.sebastian_daschner.coffee_shop.boundary;
 import com.sebastian_daschner.coffee_shop.control.Barista;
 import com.sebastian_daschner.coffee_shop.control.Orders;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ public class CoffeeShop {
         return orders.retrieve(id);
     }
 
+    @Counted(monotonic = true)
     public CoffeeOrder orderCoffee(CoffeeOrder order) {
 
         barista.startCoffeeBrew(order.getType());
