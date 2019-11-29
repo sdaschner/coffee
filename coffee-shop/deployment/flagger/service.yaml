@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: coffee-shop
+  labels:
+    app: coffee-shop
+spec:
+  selector:
+    app: coffee-shop
+  ports:
+    - port: 9080
+      name: http
+  type: NodePort
+---

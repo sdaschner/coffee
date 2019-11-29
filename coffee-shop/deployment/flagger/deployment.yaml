@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1beta1
+metadata:
+  name: coffee-shop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: coffee-shop
+        version: v1
+    spec:
+      containers:
+      - name: coffee-shop
+        image: sdaschner/coffee-shop:istio-ee-1
+        ports:
+        - containerPort: 9080
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "curl -f http://localhost:9080/"]
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "curl -s http://localhost:9080/health | grep -q coffee-shop"]
+      restartPolicy: Always
+---
