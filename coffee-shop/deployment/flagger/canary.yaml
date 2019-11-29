@@ -9,7 +9,7 @@ spec:
     name: coffee-shop
   progressDeadlineSeconds: 60
   service:
-    port: 9080
+    port: 8080
     gateways:
     - coffee-shop-gateway
     hosts:

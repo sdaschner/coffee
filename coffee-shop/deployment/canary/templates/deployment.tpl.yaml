@@ -12,21 +12,21 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: sdaschner/coffee-shop:istio-ee-{{ .image }}
+        image: sdaschner/coffee-shop:quarkus-istio-ee-{{ .image }}
         imagePullPolicy: Always
         livenessProbe:
           exec:
             command:
             - "/bin/sh"
             - "-c"
-            - "curl -f localhost:9080/"
+            - "curl -f localhost:8080/"
         readinessProbe:
           exec:
             command:
             - "/bin/sh"
             - "-c"
-            - "curl -s http://localhost:9080/health | grep -q coffee-shop"
+            - "curl -s http://localhost:8080/health | grep -q coffee-shop"
         ports:
-        - containerPort: 9080
+        - containerPort: 8080
       restartPolicy: Always
 ---

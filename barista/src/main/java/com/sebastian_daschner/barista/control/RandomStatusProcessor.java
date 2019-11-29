@@ -2,8 +2,10 @@ package com.sebastian_daschner.barista.control;
 
 import com.sebastian_daschner.barista.entity.CoffeeBrew;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Random;
 
+@ApplicationScoped
 public class RandomStatusProcessor {
 
     private static final double PERCENTAGE = 0.4;

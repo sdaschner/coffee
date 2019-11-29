@@ -31,7 +31,7 @@ spec:
         host: coffee-shop
         subset: {{ index $parts 0 }}
         port:
-          number: 9080
+          number: 8080
       weight: {{ index $parts 1 }}
   {{- end }}
 ---

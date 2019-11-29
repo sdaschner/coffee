@@ -28,8 +28,15 @@ spec:
     - destination:
         host: coffee-shop
         port:
-          number: 9080
+          number: 8080
         subset: v1
+      weight: 50
+    - destination:
+        host: coffee-shop
+        port:
+          number: 8080
+        subset: v2
+      weight: 50
 ---
 
 apiVersion: networking.istio.io/v1alpha3
@@ -42,4 +49,7 @@ spec:
   - name: v1
     labels:
       version: v1
+  - name: v2
+    labels:
+      version: v2
 ---

@@ -8,7 +8,7 @@ spec:
   selector:
     app: coffee-shop
   ports:
-    - port: 9080
+    - port: 8080
       name: http
   type: NodePort
 ---

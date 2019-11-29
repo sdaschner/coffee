@@ -6,14 +6,15 @@ import com.sebastian_daschner.coffee_shop.control.Orders;
 import com.sebastian_daschner.coffee_shop.entity.BrewLocation;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
 import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
+import io.quarkus.scheduler.Scheduled;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
-@Stateless
+@ApplicationScoped
 public class CoffeeShop {
 
     @Inject
@@ -27,7 +28,7 @@ public class CoffeeShop {
 
     @Inject
     @ConfigProperty(name = "location", defaultValue = "HOME")
-    private BrewLocation location;
+    BrewLocation location;
 
     public List<CoffeeOrder> getOrders() {
         return orders.retrieveAll();
@@ -51,6 +52,7 @@ public class CoffeeShop {
             order.setLocation(location);
     }
 
+    @Scheduled(every = "10s")
     public void processUnfinishedOrders() {
         orders.getUnfinishedOrders().forEach(orderProcessor::processOrder);
     }

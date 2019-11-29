@@ -3,17 +3,14 @@ package com.sebastian_daschner.coffee_shop.control;
 import com.sebastian_daschner.coffee_shop.entity.CoffeeOrder;
 import com.sebastian_daschner.coffee_shop.entity.OrderStatus;
 
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-@Singleton
-@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
+@ApplicationScoped
 public class Orders {
 
     private final ConcurrentHashMap<UUID, CoffeeOrder> orders = new ConcurrentHashMap<>();

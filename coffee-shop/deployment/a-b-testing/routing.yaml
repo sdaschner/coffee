@@ -16,13 +16,13 @@ spec:
     - destination:
         host: coffee-shop
         port:
-          number: 9080
+          number: 8080
         subset: v2
   - route:
     - destination:
         host: coffee-shop
         port:
-          number: 9080
+          number: 8080
         subset: v1
 ---
 
