@@ -6,7 +6,7 @@
         Key Takeaways
 
         • Use known APIs
-        • Think of MicroProfile as extensions for Java EE
+        • Think of MicroProfile as extensions for Jakarta EE
         • Development model that fits your need on application side
         • Optimize deployment artifacts before runtime
 
